@@ -1,0 +1,49 @@
+workorder has
+
+id                          ==
+workorder_status            ==
+priority                    ==
+work_category               ==
+created_by                  ==
+job_hazard                  ==
+equipment                   ==
+location                    ==
+department                  ==
+report                      ==
+requested_by                ==
+assigned_to                 ==
+tasks
+name                        ==
+due_date                    ==
+description                 ==
+document                    ==
+image                       ==
+over_due                    ==
+started                     ==
+started_date                ==
+closed                      ==
+closed_date                 ==
+workorder_type              ==
+estimated_cost              ==              
+total_man_hour_cost
+total_inoice_cost
+total_inoice_cost
+created                     ==
+updated                     ==
+maintenance_company
+
+
+// note 
+fix nav for regular users   ==
+
+change open/close to workorder status   ==
+fix description "null" value            ==
+fix workorder status make initail setting of status when created. (possibly make it not nullable)
+
+
+for today 
+
+complete workdone frontend                              xx
+complete workdone backend
+show detail workdones from workorder detail popup
+show workdones of equipment, from equipment detail popup

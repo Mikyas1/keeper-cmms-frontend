@@ -1,0 +1,143 @@
+<template>
+  <v-app id="inspire">
+    <v-navigation-drawer v-model="drawerRight" app clipped right>
+     
+      <!-- Right side injection -->
+      <RightSide/>
+
+    </v-navigation-drawer>
+
+    <v-app-bar app clipped-right color="blue-grey" dark>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      <v-toolbar-title>Keeper</v-toolbar-title>
+      
+      <div class="ml-5 mt-1" v-if="open_reports_from_store && $vuetify.breakpoint.smAndUp">
+        <v-icon class="mr-1">fa-bell-o</v-icon><span>{{open_reports_from_store.length}}</span>
+      </div>
+
+      <div class="ml-5 mt-1" v-if="open_workorders && $vuetify.breakpoint.smAndUp">
+        <v-icon class="mr-1">fa-wrench</v-icon><span>{{open_workorders.length}}</span>
+      </div>
+
+      <v-spacer />
+
+      <router-link v-if="$vuetify.breakpoint.smAndUp" class="mr-3 user-info" router v-bind:to="{'name': 'account_detail'}">
+          <v-icon class="mr-1" small>fa-user</v-icon>{{user.first_name}} 
+          <v-icon class="mx-1" small>fa-id-card</v-icon><span class="employee-id">{{user.employee_id}}</span>
+      </router-link>      
+
+      <!-- Theme -->
+      <v-btn 
+        @click="changeTheme" 
+        depressed 
+        color="blue-grey text-capitalize"
+        dark>
+          <v-icon small>fa-paint-brush</v-icon>
+          <span class="ml-1">Theme</span>
+      </v-btn>
+
+      <v-app-bar-nav-icon @click.stop="drawerRight = !drawerRight" />
+    </v-app-bar>
+
+    <v-navigation-drawer v-model="drawer" app>
+      <h4 class="pt-5 pb-4 pl-3 c-logo-title">KEEPER ENTERPRISE CMMS</h4>
+
+      <!-- Left side injection -->
+      <LeftSide/>
+            
+    </v-navigation-drawer>
+
+    <!-- LEFT SIDE POPUP -->
+    <!-- <v-navigation-drawer v-model="left" fixed temporary /> -->
+
+    <v-content>
+      <v-container fluid>
+        <v-row justify="center" align="center">
+          <v-col>
+            
+            <!-- Center content injection -->
+            <Center/>
+
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-content>
+
+    <!-- RIGHT SIDE POPUP -->
+    <!-- <v-navigation-drawer v-model="right" fixed right temporary /> -->
+
+    <v-footer app color="blue-grey" class="white--text">
+      <span>KEEPER CMMS</span>
+      <v-spacer />
+      TRIAL VERSION
+      <span class="mx-3">&copy; 2020</span>
+    </v-footer>
+  </v-app>
+</template>
+
+<script>
+import LeftSide from "./LeftSide";
+import RightSide from "./RightSide";
+import Center from "./Center";
+
+import { mapGetters } from "vuex";
+
+export default {
+  name: "Layout",
+  components: { LeftSide, RightSide, Center },
+  props: {
+    source: String
+  },
+  data: () => ({
+    drawer: null,
+    drawerRight: null,
+    right: false,
+    left: false,
+    theme: false
+  }),
+  computed: {
+      ...mapGetters({
+        user: "auth/user",
+        isAdministrator: "auth/isAdministrator",
+        open_reports_from_store: "reports/open_reports",
+        open_workorders: "workorder/open_workorders",
+      })
+  },
+  methods: {
+    changeTheme() {
+      this.theme = !this.theme;
+      this.$vuetify.theme.dark = this.theme;
+    }
+  },
+};
+</script>
+
+<style scoped>
+.c-logo-title {
+  border-bottom: 1px solid #607d8a;
+  color: #607d8a;
+  font-weight: bolder !important;
+  font-size: 1.1em;
+}
+
+.user-info {
+  font-size: .92em;
+  color: white;
+  text-decoration: none;
+}
+
+.user-info:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.employee-id {
+  font-size: .92em;
+}
+
+.theme:hover {
+  cursor: pointer;
+  text-decoration: underline;  
+}
+
+</style>
