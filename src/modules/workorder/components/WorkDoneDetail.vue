@@ -24,38 +24,44 @@
                         cols="12"
                         xs="12"
                         sm="4"
+                        class="mr-2"
                     >
-                        <v-img
-                            class="mb-2"
-                            v-if="work_done.work_done.image"
-                            :src="media_url + work_done.work_done.image"
-                            crossorigin="anonymous"
-                            :lazy-src="require('@/assets/loading.png')"
-                            max-height="150"
-                            aspect-ratio="1.7"
-                            contain
-                            width="255"
-                            position
-                        ></v-img>
+                        <a target="_blank" v-if="work_done.work_done.image" :href="media_url + work_done.work_done.image">
+                            <v-img
+                                class="mb-2"
+                                :src="media_url + work_done.work_done.image"
+                                crossorigin="anonymous"
+                                :lazy-src="require('@/assets/loading.png')"
+                                max-height="150"
+                                aspect-ratio="1.7"
+                                contain
+                                width="255"
+                                position
+                            ></v-img>
+                        </a>
                         
                     </v-col>
                     <v-col
                         cols="12"
                         xs="12"
                         sm="4"
+                        class="ml-2"
                     >
-                        <v-img
-                            class="mb-2"
-                            v-if="work_done.work_done.image_two"
-                            :src="media_url + work_done.work_done.image_two"
-                            crossorigin="anonymous"
-                            :lazy-src="require('@/assets/loading.png')"
-                            max-height="150"
-                            aspect-ratio="1.7"
-                            contain
-                            width="255"
-                            position
-                        ></v-img>
+
+                        <a target="_blank" v-if="work_done.work_done.image_two" :href="media_url + work_done.work_done.image_two">
+                            <v-img
+                                class="mb-2"
+                                :src="media_url + work_done.work_done.image_two"
+                                crossorigin="anonymous"
+                                :lazy-src="require('@/assets/loading.png')"
+                                max-height="150"
+                                aspect-ratio="1.7"
+                                contain
+                                width="255"
+                                position
+                            ></v-img>
+                        </a>
+                        
                     </v-col>
                 </v-row>
 
@@ -139,8 +145,9 @@
                         :headers="resource_headers"
                         :items="work_done.man_hours"
                         no-data-text="No RESOURCE"
-                        hide-default-footer
+                        :hide-default-footer="work_done.man_hours.length <= 10"
                         dark
+                        :mobile-breakpoint="0"
                     >
 
                         <!-- employee -->
@@ -160,8 +167,9 @@
                     :headers="invoice_headers"
                     :items="work_done.invoices"
                     no-data-text="No INVOICE"
-                    hide-default-footer
+                    :hide-default-footer="work_done.invoices.length <= 10"
                     dark
+                    :mobile-breakpoint="0"
                 >
                 </v-data-table>
 
@@ -175,8 +183,9 @@
                     :headers="part_headers"
                     :items="work_done.parts_used"
                     no-data-text="No PARTS"
-                    hide-default-footer
+                    :hide-default-footer="work_done.parts_used.length <= 10"
                     dark
+                    :mobile-breakpoint="0"
                 >
 
                 </v-data-table>

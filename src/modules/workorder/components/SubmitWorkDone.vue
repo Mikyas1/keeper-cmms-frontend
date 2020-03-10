@@ -91,7 +91,9 @@
                         :items="resources"
                         no-data-text="No RESOURCE added"
                         hide-default-footer
+                        :items-per-page="100"
                         dark
+                        :mobile-breakpoint="0"
                     >
 
                         <!-- employee -->
@@ -136,7 +138,9 @@
                     :items="invoices"
                     no-data-text="No INVOICE added"
                     hide-default-footer
+                    :items-per-page="100"
                     dark
+                    :mobile-breakpoint="0"
                 >
 
                     <!-- action -->
@@ -177,7 +181,9 @@
                     :items="parts"
                     no-data-text="No PARTS added"
                     hide-default-footer
+                    :items-per-page="100"
                     dark
+                    :mobile-breakpoint="0"
                 >
 
                         <!-- action -->
@@ -436,12 +442,20 @@ export default {
                     })
                 .catch(error => {
                     this.loading = false;
-                    for (var key in error.response.data) {
+                    for (var key in error.response.data.work_done) {
                         if (key !== "non_field_errors") {
-                            this[key + "_errors"] = error.response.data[key];
+                            this[key + "_errors"] = error.response.data.work_done[key];
                         } else {
                             this[key] = error.response.data[key];
                         }
+                    }
+                    
+                    if (error.response.status === 400) {
+                        this.$store.commit("SET_SNACKBAR", {
+                            message: "Please Fill the form properly",
+                            value: true,
+                            status: "error"
+                        });
                     }
                 })
             

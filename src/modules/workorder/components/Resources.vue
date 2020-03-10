@@ -179,7 +179,7 @@ export default {
                 this.close();
             } else {
                 this.$store.commit("SET_SNACKBAR", {
-                  message: "Fill the form properly",
+                  message: "Please Fill the form properly",
                   value: true,
                   status: "error"
                 });

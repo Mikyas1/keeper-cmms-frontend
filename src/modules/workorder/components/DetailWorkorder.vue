@@ -31,18 +31,20 @@
                             xs="12"
                             sm="4"
                         >
-                            <v-img
-                                class="mb-2"
-                                v-if="workorder.image"
-                                :src="workorder.image"
-                                crossorigin="anonymous"
-                                :lazy-src="require('@/assets/loading.png')"
-                                max-height="150"
-                                aspect-ratio="1.7"
-                                contain
-                                width="255"
-                                position
-                            ></v-img>
+                            <a v-if="workorder.image" target="_blank" :href="workorder.image">
+                                <v-img
+                                    class="mb-2"
+                                    :src="workorder.image"
+                                    crossorigin="anonymous"
+                                    :lazy-src="require('@/assets/loading.png')"
+                                    max-height="150"
+                                    aspect-ratio="1.7"
+                                    contain
+                                    width="255"
+                                    position
+                                ></v-img>
+                            </a>
+                            
                         </v-col>
                     </v-row>
 
@@ -116,7 +118,7 @@
                             <div class="small-divider"></div>
                             <v-row no-gutters>
                                 <v-col>Estimated Cost:</v-col>
-                                <v-col ><strong>{{ workorder.estimated_cost }}</strong></v-col>
+                                <v-col ><strong v-if="workorder.estimated_cost">{{ workorder.estimated_cost }} ETB</strong></v-col>
                             </v-row>
                             
                             
@@ -359,6 +361,7 @@
                         item-key="id"
                         hide-default-footer
                         dark
+                        :mobile-breakpoint="0"
                     >
 
                         <!-- man hour cost -->
@@ -391,9 +394,10 @@
                         :headers="work_done_headers"
                         :items="workdone"
                         item-key="id"
-                        hide-default-footer
+                        :hide-default-footer="workdone.length <= 10"
                         v-if="workdone.length > 0"
                         @click:row="openDetailWorkDone"
+                        :mobile-breakpoint="0"
                     >
 
                         <!-- created_by -->
@@ -431,7 +435,7 @@
                     </v-flex>
                     <v-flex>
                         <v-btn 
-                            v-if="!workorder.closed"
+                            v-if="!workorder.closed && myWorkorder"
                             v-on:click="OpenSubmitWorkDoneDialog"
                             color="green white--text text-capitalize mb-4 mr-4 mt-4">
                                 <v-icon small>fa-wrench</v-icon>
@@ -491,6 +495,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 var moment = require('moment');
 
 import SubmitWorkDone from "./SubmitWorkDone";
@@ -533,6 +539,7 @@ export default {
                 { text: "WORKORDER STATUS", value: "workorder_status.name" },
                 { text: "EQUIPMENT STATUS", value: "equipment_status.name" },
                 { text: "CREATED DATE", value: "created" },
+                { text: "COST", value: "total_cost" },
             ],
 
             submitWorkDoneDialog: false,
@@ -546,10 +553,24 @@ export default {
     },
 
     computed: {
+        
+        ...mapGetters({
+            user: "auth/user",
+        }),
+
         workorderAsArray() {
             var x = [];
             x.push(this.workorder);
             return x;
+        },
+
+        myWorkorder() {
+            var index = this.workorder.assigned_to.findIndex(x => x.id == this.user.id);
+            if (index != -1) {
+                return true;
+            } else {
+                return false;
+            }
         }
     },
 
@@ -621,6 +642,7 @@ export default {
 
         reloadWorkOrder(id) {
             this.setWorkorder(id);
+            this.$emit("updatedWorkorder");
         },
 
         submit_workdone_init(fun) {

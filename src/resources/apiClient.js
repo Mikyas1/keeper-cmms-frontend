@@ -139,6 +139,22 @@ export default {
 
         get_workdone_detail(id) {
             return http.get(urls.work_done_detail + id);
+        },
+
+        current_work_orders(id) {
+            return http.get(urls.current_work_orders + id);
+        },
+
+        work_orders_history(id) {
+            return http.get(urls.work_orders_history + id);
+        },
+
+        equipment_downtime(id) {
+            return http.get(urls.equipment_downtime + id);
+        },
+
+        calendar_events() {
+            return http.get(urls.calendar_events);
         }
 
     }

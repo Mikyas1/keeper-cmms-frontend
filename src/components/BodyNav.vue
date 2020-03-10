@@ -2,13 +2,13 @@
 
   <div class="mb-3 c-breadcrumb">
     <v-layout>
-      <v-flex xs6 md9>
+      <v-flex xs7 md9>
         Home 
         <v-icon small class="page-title">
           fa fa-arrow-right
         </v-icon> <span class="page-title">{{page_title}}</span>
       </v-flex>
-      <v-flex xs6 md3 v-if="right">
+      <v-flex xs5 md3 v-if="right">
         <router-link class="right" router v-bind:to="right.url">
           <v-icon small class="pb-1 mr-1">fa-{{right.icon}}</v-icon>
           {{right.name}}

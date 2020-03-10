@@ -8,6 +8,8 @@ export default {
         workorder_choice: null,
         open_workorders: null,
         companies: null,
+        open_workorders_reload_fun: null,
+        workorder_list_reload_fun: null,
     },
     getters,
     actions,

@@ -6,6 +6,8 @@ export default {
         state.workorder_choice = null;
         state.open_workorders = null;
         state.companies = null;
+        state.open_workorders_reload_fun = null;
+        state.workorder_list_reload_fun = null;
     },
     SET_OPEN_WORKORDERS: (state, data) => {
         state.open_workorders = data;
@@ -18,5 +20,11 @@ export default {
     },
     SET_COMPANIES: (state, data) => {
         state.companies = data;
+    },
+    SET_OPEN_WORKORDER_RELOAD_FUN: (state, fun) => {
+        state.open_workorders_reload_fun = fun;
+    },
+    SET_WORKORDER_LIST_RELOAD_FUN: (state, fun) => {
+        state.workorder_list_reload_fun = fun;
     }
 };

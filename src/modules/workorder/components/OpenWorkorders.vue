@@ -115,6 +115,8 @@
 </template>
 
 <script>
+import { set_open_workorder_reload } from "../store/functions";
+
 var moment = require("moment");
 
 import DetailWorkorder from "./DetailWorkorder";
@@ -204,18 +206,25 @@ export default {
 
         workorderCreated(fun) {
             this.setWorkorderId = fun;
+        },
+
+        init_open_workorder() {
+            this.pageLoad = false;
+            this.$store
+                .dispatch("workorder/get_open_Workorders")
+                .then(() => {
+                    this.pageLoad = true;
+                })
+                .catch(() => {
+                    this.pageLoad = false;
+                });
         }
 
     },
     created() {
-        this.$store
-            .dispatch("workorder/get_open_Workorders")
-            .then(() => {
-                this.pageLoad = true;
-            })
-            .catch(() => {
-                this.pageLoad = false;
-            });
+        var open_workorder_reload_fun = this.init_open_workorder;
+        open_workorder_reload_fun();
+        set_open_workorder_reload(open_workorder_reload_fun);
     }
 }
 </script>

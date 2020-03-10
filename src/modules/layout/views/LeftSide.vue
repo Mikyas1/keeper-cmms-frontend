@@ -24,6 +24,15 @@
         </v-list-item-content>
       </v-list-item>
 
+      <v-list-item router v-bind:to="{'name': 'equipments'}">
+        <v-list-item-action>
+          <v-icon>fa-cogs</v-icon>
+        </v-list-item-action>
+        <v-list-item-content>
+          <v-list-item-title>Scheduled Work Orders</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+
       <v-list-item router v-bind:to="{'name': 'reports'}">
         <v-list-item-action>
           <v-icon>fa-bell-o</v-icon>
@@ -101,7 +110,6 @@ export default {
         this.$router.push({ name: name });
       } catch (error) {
         console.log(error);
-        console.log("error");
       }
     }
   },

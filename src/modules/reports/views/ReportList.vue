@@ -123,6 +123,7 @@
         no-data-text="No Reports found."
         :items-per-page="load_per_page"
         @click:row="openDetail"
+        :mobile-breakpoint="0"
       >
 
         <!-- stat -->
@@ -188,14 +189,14 @@
 
       <v-layout row wrap class="c-table-footer pt-3">
         <v-flex xs12 md9>
-          <p class="body-2 pl-3">
+          <p class="body-2 pl-3 ml-3">
             Total
             <strong>{{reports.count}}</strong>
             Items, Showing maximum of
             <strong>{{ load_per_page }}</strong> Items per page.
           </p>
         </v-flex>
-        <v-flex xs12 md3>
+        <v-flex xs12 md3 class="mb-3" :class="{'ml-5': $vuetify.breakpoint.smAndDown}">
           <v-spacer></v-spacer>
           <v-btn
             small

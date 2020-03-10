@@ -203,6 +203,7 @@
                     no-data-text="No Workorders found."
                     :items-per-page="load_per_page"
                     @click:row="openDetail"
+                    :mobile-breakpoint="0"
                 >
 
                     <!-- over due stat -->
@@ -265,6 +266,13 @@
                         </div>
                     </template>
 
+                    <!-- closed_date -->
+                    <template v-slot:item.closed_date="{ item }">
+                        <div class="c-td-date-time">
+                            <span v-if="item.closed_date">{{ moment(item.closed_date).format('MM/DD/YYYY') }}</span>
+                        </div>
+                    </template>
+
                     <!-- due_date -->
                     <template v-slot:item.due_date="{ item }">
                         <div class="c-td-date-time">
@@ -287,14 +295,14 @@
 
                 <v-layout row wrap class="c-table-footer pt-3">
                     <v-flex xs12 md9>
-                        <p class="body-2 pl-3">
+                        <p class="body-2 pl-3 ml-3">
                             Total
                             <strong>{{workorders.count}}</strong>
                             Items, Showing maximum of
                             <strong>{{ load_per_page }}</strong> Items per page.
                         </p>
                         </v-flex>
-                        <v-flex xs12 md3>
+                        <v-flex xs12 md3 class="mb-3" :class="{'ml-5': $vuetify.breakpoint.smAndDown}">
                         <v-spacer></v-spacer>
                         <v-btn
                             small
@@ -349,6 +357,7 @@
 </template>
 
 <script>
+import { set_workorder_list_reload_fun } from "../store/functions";
 import { get_filter_query } from "@/resources/helper";
 import { get_complex_options } from "@/resources/helper";
 
@@ -381,6 +390,7 @@ export default {
                 { text: "Associations", value: "equipment.equipment_name"},
                 { text: "Created", value: "created"},
                 { text: "Start", value: "started_date"},
+                { text: "Closed", value: "closed_date"},
                 { text: "Due", value: "due_date"},
                 { text: "Resources", value: "assigned_to"},
                 { text: "St.", align: "right", value: "over_due" },
@@ -615,7 +625,7 @@ export default {
         },
 
         get_workorder_init() {
-            
+            this.pageLoad = false;
             this.$store
             .dispatch("workorder/get_workorders")
             .then(response => {
@@ -637,11 +647,12 @@ export default {
                 this.pageLoad = false;
             });
 
-        }
+        },
 
     },
     created() {
         this.get_workorder_init();
+        set_workorder_list_reload_fun(this.get_workorder_init);
     },
 
 }

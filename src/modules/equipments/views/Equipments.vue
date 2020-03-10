@@ -121,6 +121,7 @@
         hide-default-footer
         no-data-text="No Equipment found."
         :items-per-page="load_per_page"
+        :mobile-breakpoint="0"
         @click:row="openDetail"
       >
         <!-- stat color -->
@@ -215,14 +216,14 @@
 
       <v-layout row wrap class="c-table-footer pt-3">
         <v-flex xs12 md9>
-          <p class="body-2 pl-3">
+          <p class="body-2 pl-3 ml-3">
             Total
             <strong>{{equipments.count}}</strong>
             Items, Showing maximum of
             <strong>{{ load_per_page }}</strong> Items per page.
           </p>
         </v-flex>
-        <v-flex xs12 md3>
+        <v-flex xs12 md3 class="mb-3" :class="{'ml-5': $vuetify.breakpoint.smAndDown}">
           <v-spacer></v-spacer>
           <v-btn
             small
@@ -264,7 +265,11 @@
     <v-dialog v-model="detailDialog" width="750">
       <template v-slot:activator="{}"></template>
       <v-card>
-        <EquipmentDetailPopUp :item="detailEquipment" @closeDialog="detailDialog=!detailDialog"></EquipmentDetailPopUp>
+        <EquipmentDetailPopUp 
+          :item="detailEquipment" 
+          @closeDialog="detailDialog=!detailDialog"
+          @created="equipmentDetailPopupInit"
+        ></EquipmentDetailPopUp>
       </v-card>
     </v-dialog>
   </div>
@@ -326,7 +331,9 @@ export default {
       equipment_filters: null,
       filter_status: "",
       filter_department: "",
-      filter_location: ""
+      filter_location: "",
+
+      init_equipment_detail: null,
     };
   },
   methods: {
@@ -347,6 +354,9 @@ export default {
         });
     },
     openDetail(item) {
+      if(this.init_equipment_detail) {
+        this.init_equipment_detail();
+      }
       this.detailDialog = true;
       this.detailEquipment = item;
     },
@@ -450,6 +460,10 @@ export default {
     get_options_here(filter_data, filter_field) {
         return get_complex_options(filter_data, filter_field);
     },
+
+    equipmentDetailPopupInit(fun) {
+      this.init_equipment_detail = fun;
+    }
 
   },
   computed: {

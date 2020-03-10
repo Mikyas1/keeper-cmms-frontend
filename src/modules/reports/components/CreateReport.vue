@@ -191,6 +191,7 @@ export default {
                 this.loading = false;
                 this.$emit("closeBothDialog");
                 this.description = null;
+                this.priority = null;
                 this.equipment_status = null;
                 this.$store.commit("SET_SNACKBAR", {
                     message: "Successfully reported an equipment.",

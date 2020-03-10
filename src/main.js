@@ -5,7 +5,15 @@ import store from "./resources/store";
 import http from "./resources/http";
 import vuetify from './plugins/vuetify';
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
+
+
+// eliminate the error rasid by vuetify.
+const ignoreWarnMessage = 'The .native modifier for v-on is only valid on components but it was used on <div>.';
+Vue.config.warnHandler = function (msg, vm, trace) {
+  // `trace` is the component hierarchy trace
+  { if (msg !== ignoreWarnMessage) { console.error("[Vue warn]: " + msg + trace); } }
+};
 
 new Vue({
   router,

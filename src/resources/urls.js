@@ -34,6 +34,10 @@ const urls = {
     submit_workdone: 'workorder/create-wrokdone',
     get_companies: 'workorder/campany/',
     work_done_detail: 'workorder/work-done-detail/',
+    current_work_orders: 'workorder/current-work-orders/',
+    work_orders_history: 'workorder/work-orders-history/',
+    equipment_downtime: 'workorder/equipment-downtime/',
+    calendar_events: 'workorder/calendar-events',
 
 };
 

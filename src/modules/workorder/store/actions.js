@@ -1,4 +1,6 @@
 import apiClient from "@/resources/apiClient";
+import { funs } from "../store/functions";
+
 
 export default {
 
@@ -31,6 +33,14 @@ export default {
                 if (add) {
                     context.commit("ADD_OPEN_WORKORDERS", response.data);
                 }
+
+                if (funs.workorder_list_reload_fun) {
+                    funs.workorder_list_reload_fun();
+                }
+                if(funs.calander_reload_fun) {
+                    funs.calander_reload_fun();
+                }
+
                 resolve(response); 
             })
             .catch(e => {
@@ -122,7 +132,19 @@ export default {
             apiClient.workorder.create_work_done(data)
             .then(response => {
                 commit("account/GODARK", null, { root: true });
-                resolve(response.data); 
+                if (funs.open_workorder_reload_fun) {
+                    funs.open_workorder_reload_fun();
+                }
+                if (funs.workorder_list_reload_fun) {
+                    funs.workorder_list_reload_fun();
+                }
+                if(funs.workorder_equipment_detail) {
+                    funs.workorder_equipment_detail();
+                }
+                if(funs.calander_reload_fun) {
+                    funs.calander_reload_fun();
+                }
+                resolve(response.data);
             })
             .catch(e => {
                 reject(e);
@@ -161,6 +183,58 @@ export default {
             apiClient.workorder.get_workdone_detail(id)
             .then(response => {
                 commit("account/GODARK", null, { root: true });
+                resolve( response.data );
+            })
+            .catch(e => {
+                reject(e);
+            })
+        });
+    },
+
+    getCurrentWorkOrders: ({ commit }, id) => {
+        return new Promise((resolve, reject) => {
+            apiClient.workorder.current_work_orders(id)
+            .then(response => {
+                commit("account/GODARK", null, { root: true });
+                resolve( response.data );
+            })
+            .catch(e => {
+                reject(e);
+            })
+        });
+    },
+
+    getWorkOrdersHistory: ({ commit }, id) => {
+        return new Promise((resolve, reject) => {
+            apiClient.workorder.work_orders_history(id)
+            .then(response => {
+                commit("account/GODARK", null, { root: true });
+                resolve( response.data );
+            })
+            .catch(e => {
+                reject(e);
+            })
+        });
+    },
+
+    getDownTimeHistory: ({ commit }, id) => {
+        return new Promise((resolve, reject) => {
+            apiClient.workorder.equipment_downtime(id)
+            .then(response => {
+                commit("account/GODARK", null, { root: true });
+                resolve( response.data );
+            })
+            .catch(e => {
+                reject(e);
+            })
+        });
+    },
+
+    calendar_events: ({ commit }) => {
+        return new Promise((resolve, reject) => {
+            apiClient.workorder.calendar_events()
+            .then(response => {
+                commit("SET_COMPANIES", response.data );
                 resolve( response.data );
             })
             .catch(e => {

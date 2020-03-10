@@ -22,37 +22,43 @@
                     cols="12"
                     xs="12"
                     sm="4"
+                    class="mr-2"
                 >
-                    <v-img
-                        class="mb-2"
-                        v-if="item.image"
-                        :src="item.image"
-                        crossorigin="anonymous"
-                        :lazy-src="require('@/assets/loading.png')"
-                        max-height="150"
-                        aspect-ratio="1.7"
-                        contain
-                        width="255"
-                        position
-                    ></v-img>
+                    <a v-if="item.image" target="_blank" :href="item.image">
+                        <v-img
+                            class="mb-2"
+                            :src="item.image"
+                            crossorigin="anonymous"
+                            :lazy-src="require('@/assets/loading.png')"
+                            max-height="150"
+                            aspect-ratio="1.7"
+                            contain
+                            width="255"
+                            position
+                        ></v-img>
+                    </a>
+                    
                 </v-col>
                 <v-col
                     cols="12"
                     xs="12"
                     sm="4"
+                    class="ml-2"
                 >
-                    <v-img
-                        class="mb-2"
-                        v-if="item.image_two"
-                        :src="item.image_two"
-                        crossorigin="anonymous"
-                        :lazy-src="require('@/assets/loading.png')"
-                        max-height="150"
-                        aspect-ratio="1.7"
-                        contain
-                        width="255"
-                        position
-                    ></v-img>
+                    <a target="_blank" v-if="item.image_two" :href="item.image_two">
+                        <v-img
+                            class="mb-2"
+                            :src="item.image_two"
+                            crossorigin="anonymous"
+                            :lazy-src="require('@/assets/loading.png')"
+                            max-height="150"
+                            aspect-ratio="1.7"
+                            contain
+                            width="255"
+                            position
+                        ></v-img>
+                    </a>
+                    
                 </v-col>
             </v-row>
 
@@ -131,6 +137,32 @@
                         <v-col>Name</v-col>
                         <v-col v-if="item.equipment_model"><strong>{{ item.equipment_name }}</strong></v-col>
                     </v-row>
+                    <div v-if="item.equipment_model.manual" class="small-divider"></div>
+                    <v-row v-if="item.equipment_model.manual" no-gutters>
+                        <v-col>Manual</v-col>
+                        <v-col><strong>
+                                <a target="_blank" :href="item.equipment_model.manual">
+                                    manual
+                                </a></strong></v-col>
+                    </v-row>
+                    <div v-if="item.equipment_model.manual_two" class="small-divider"></div>
+                    <v-row v-if="item.equipment_model.manual_two" no-gutters>
+                        <v-col>Manual Two</v-col>
+                        <v-col><strong>
+                                <a target="_blank" :href="item.equipment_model.manual_two">
+                                    manual two
+                                </a>
+                            </strong></v-col>
+                    </v-row>
+                    <div v-if="item.equipment_model.manual_three" class="small-divider"></div>
+                    <v-row v-if="item.equipment_model.manual_three" no-gutters>
+                        <v-col>Manual Three</v-col>
+                        <v-col><strong>
+                                <a target="_blank" :href="item.equipment_model.manual_three">
+                                    manual three
+                                </a>
+                            </strong></v-col>
+                    </v-row>
                 </v-col>
             </v-row>
 
@@ -197,37 +229,125 @@
                 </v-col>
             </v-row>
 
+            <template v-if="!isRegular">
+                <v-expansion-panels  v-model="panel" focusable multiple>
+                    <v-expansion-panel class="c-expansion-header">
+
+                        <v-expansion-panel-header v-on:click="getCurrentWorkOrders">CURRENT WORK ORDERS</v-expansion-panel-header>
+                        <v-expansion-panel-content>
+
+                            <div v-if="!currentWorkOrders">
+                                <v-content>
+                                    <v-container class="fill-height" fluid>
+                                    <v-row justify="center" align="center">
+                                        <v-progress-circular :size="50" color="blue-grey" indeterminate></v-progress-circular>
+                                    </v-row>
+                                    </v-container>
+                                </v-content>
+                            </div>
+                            <div v-else>
+                                <Workorder :workorders="currentWorkOrders"></Workorder>
+                            </div>
+
+                        </v-expansion-panel-content>
+                    </v-expansion-panel>
+
+                    <v-expansion-panel class="c-expansion-header">
+                        <v-expansion-panel-header v-on:click="getWorkOrdersHistory">WORK ORDER HISTORY</v-expansion-panel-header>
+                        <v-expansion-panel-content>
+                            
+                            <div v-if="!workOrdersHistory">
+                                <v-content>
+                                    <v-container class="fill-height" fluid>
+                                    <v-row justify="center" align="center">
+                                        <v-progress-circular :size="50" color="blue-grey" indeterminate></v-progress-circular>
+                                    </v-row>
+                                    </v-container>
+                                </v-content>
+                            </div>
+                            <div v-else>
+                                <Workorder :workorders="workOrdersHistory"></Workorder>
+                            </div>
+
+                        </v-expansion-panel-content>
+                    </v-expansion-panel>
+
+
+                    <v-expansion-panel class="c-expansion-header">
+                        <v-expansion-panel-header>SCHEDULED WORK ORDERS</v-expansion-panel-header>
+                        <v-expansion-panel-content>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                        </v-expansion-panel-content>
+                    </v-expansion-panel>
+
+                    <v-expansion-panel class="c-expansion-header">
+                        <v-expansion-panel-header v-on:click="getDownTimeHistory">EQUIPMENT DOWNTIME HISTORY</v-expansion-panel-header>
+                        <v-expansion-panel-content>
+                            
+                            <div v-if="!downTimeHistory">
+                                <v-content>
+                                    <v-container class="fill-height" fluid>
+                                    <v-row justify="center" align="center">
+                                        <v-progress-circular :size="50" color="blue-grey" indeterminate></v-progress-circular>
+                                    </v-row>
+                                    </v-container>
+                                </v-content>
+                            </div>
+                            <div v-else>
+                                <DownTime :downtime="downTimeHistory"></DownTime>
+                            </div>
+
+                        </v-expansion-panel-content>
+
+                    </v-expansion-panel>
+
+                    <v-expansion-panel class="c-expansion-header">
+                        <v-expansion-panel-header v-on:click="getDownTimeHistory">TOTAL MAINTENANCE COST</v-expansion-panel-header>
+                        <v-expansion-panel-content>
+                            
+                            <h3 class="mt-5 ml-3 blue-grey--text">TOTAL MAINTENANCE COST</h3>
+                            <p class="mt-3 ml-3">
+                                Total Cost: <strong>{{item.maintenance_cost}}</strong> ETB
+                            </p>
+
+                        </v-expansion-panel-content>
+
+                    </v-expansion-panel>
+
+
+                </v-expansion-panels>
+            </template>
+
             <!-- <div class="divider"></div> -->
             <div class="height"></div>
 
         </v-container>
 
       </v-card-text>
-      <!-- buttons -->
-      <div class="btns">
-        <v-card>
-            <v-layout>
-                <v-spacer></v-spacer>
-                <v-flex >
-                    <v-btn
-                        color="red white--text text-capitalize mb-4 mr-4 mt-4"
-                        v-on:click="report"
-                        >
-                        <v-icon small>fa-bell</v-icon>
-                        <span class="ml-2">Report</span>
-                    </v-btn>
-                    <v-btn color="blue-grey white--text text-capitalize mb-4 mr-4 mt-4">
-                        <v-icon small>fa-close</v-icon>
-                        <span class="ml-2">Detail</span>
-                    </v-btn>
-                    <v-btn color="blue-grey white--text text-capitalize mb-4 mr-4 mt-4" v-on:click="closeDetail">
-                        <v-icon small>fa-close</v-icon>
-                        <span class="ml-2">Close</span>
-                    </v-btn>
-                </v-flex>
-            </v-layout>
-        </v-card>
-      </div>
+
+        <!-- buttons -->
+            <div class="btns">
+                <v-layout>
+                    <v-flex md8>
+                    </v-flex>
+                    <v-flex>
+                        <v-btn
+                            color="red white--text text-capitalize mb-4 mr-4 mt-4"
+                            v-on:click="report"
+                            >
+                            <v-icon small>fa-bell</v-icon>
+                            <span class="ml-2">Report</span>
+                        </v-btn>
+                    </v-flex>
+                    <v-flex>
+                        <v-btn color="blue-grey white--text text-capitalize mb-4 mr-4 mt-4" v-on:click="closeDetail">
+                            <v-icon small>fa-close</v-icon>
+                            <span class="ml-2">Close</span>
+                        </v-btn>
+                    </v-flex>
+                </v-layout>
+            </div>
+
     </v-card>
 
     <!-- Dynamic dialog -->
@@ -246,9 +366,14 @@
 </template>
 
 <script>
+import { set_workorder_equipment_detail } from "../../workorder/store/functions";
 import { getColor } from "@/resources/helper";
 
 import CreateReport from "../../reports/components/CreateReport";
+
+import { mapGetters } from "vuex";
+import Workorder from "./Workorder";
+import DownTime from "./DownTime";
 
 export default {
   name: "EquipmentDetailPopUp",
@@ -259,13 +384,25 @@ export default {
     }
   },
   components: {
-      CreateReport
+      CreateReport,
+      Workorder,
+      DownTime,
   },
   data() {
     return {
-        reportDialog: false
+        reportDialog: false,
+        panel: [],
+        currentWorkOrders: null,
+        workOrdersHistory: null,
+        downTimeHistory: null,
     };
   },
+  computed: {
+
+        ...mapGetters({
+            isRegular: "auth/isRegular",
+        }),
+    },
   methods: {
     closeDialog() {
         this.reportDialog = !this.reportDialog;
@@ -286,8 +423,51 @@ export default {
         this.closeDialog();
         this.$emit("closeDialog");
     },
+    reset() {
+        this.panel = [];
+        this.currentWorkOrders = null;
+        this.workOrdersHistory = null;
+        this.downTimeHistory = null;
+    },
+
+    getCurrentWorkOrders() {
+        if (this.currentWorkOrders === null) {
+            this.$store
+                .dispatch("workorder/getCurrentWorkOrders", this.item.inventory_number)
+                .then(response => {
+                    this.currentWorkOrders = response;
+                })
+                .catch(() => {})
+        }
+    },
+
+    getWorkOrdersHistory() {
+        if (this.workOrdersHistory === null) {
+            this.$store
+                .dispatch("workorder/getWorkOrdersHistory", this.item.inventory_number)
+                .then(response => {
+                    this.workOrdersHistory = response;
+                })
+                .catch(() => {})
+        }
+    },
+
+    getDownTimeHistory() {
+        if (this.downTimeHistory === null) {
+            this.$store
+                .dispatch("workorder/getDownTimeHistory", this.item.inventory_number)
+                .then(response => {
+                    this.downTimeHistory = response;
+                })
+                .catch(() => {})
+        }
+    },
+
   },
-  created() {}
+  created() {
+      this.$emit('created', this.reset);
+      set_workorder_equipment_detail(this.reset);
+  }
 };
 </script>
 
@@ -310,12 +490,8 @@ strong {
     margin-right: 15px;
 }
 .btns {
-    /* position: fixed;
-    top: 570px;
-    width: 85%; */
-    width: 100%;
-    padding-left: 50%;
-    border-top: 1px solid #607D8A;
+  width: 100%;
+  border-top: 1px solid #607d8a;
 }
 .height {
     height: 60px;
@@ -328,6 +504,10 @@ strong {
   width: 20px;
   cursor: pointer;
   position: absolute;
+}
+
+.c-expansion-header {
+    border: 1px solid #607D8A;
 }
 
 @media (min-width: 1440px) {

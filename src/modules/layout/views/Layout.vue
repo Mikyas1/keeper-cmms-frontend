@@ -2,8 +2,8 @@
   <v-app id="inspire">
     <v-navigation-drawer v-model="drawerRight" app clipped right>
      
-      <!-- Right side injection -->
-      <RightSide/>
+    <!-- Right side injection -->
+    <RightSide/>
 
     </v-navigation-drawer>
 
@@ -17,6 +17,10 @@
 
       <div class="ml-5 mt-1" v-if="open_workorders && $vuetify.breakpoint.smAndUp">
         <v-icon class="mr-1">fa-wrench</v-icon><span>{{open_workorders.length}}</span>
+      </div>
+
+      <div class="ml-5 mt-1" v-if="open_workorders && $vuetify.breakpoint.smAndUp">
+        <v-icon class="mr-1">fa-cogs</v-icon><span>{{open_workorders.length}}</span>
       </div>
 
       <v-spacer />
