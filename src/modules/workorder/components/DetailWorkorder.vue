@@ -13,7 +13,7 @@
                     PM WORKORDER
                 </span>
                     - 
-                <span> {{reduceText(workorder.name)}} ({{workorder.id}})</span>
+                <span> {{reduceText(workorder.name)}} (id - {{workorder.id}})</span>
                 </v-toolbar-title>
             </v-toolbar>
             
@@ -144,7 +144,7 @@
                             <div class="small-divider"></div>
                             <v-row v-if="workorder.closed" no-gutters>
                                 <v-col>Closed by:</v-col>
-                                <v-col><strong>{{ workorder.closed_by.first_name }} - {{ workorder.closed_by.employee_id }}</strong></v-col>
+                                <v-col><strong v-if="workorder.closed_by">{{ workorder.closed_by.first_name }} - {{ workorder.closed_by.employee_id }}</strong></v-col>
                             </v-row>
                             <div v-if="workorder.closed" class="small-divider"></div>
                             <v-row no-gutters>
@@ -179,7 +179,7 @@
                                         v-for="assigned in workorder.assigned_to"
                                         :key="assigned.employee_id"
                                     >
-                                        <strong>{{ assigned.first_name }} - {{assigned.employee_id}}</strong><br>
+                                        <strong>- {{ assigned.first_name }} - {{assigned.employee_id}}</strong><br>
                                     </span>
                                 </v-col>
                             </v-row>
@@ -266,7 +266,7 @@
                     </v-col>
 
                     <v-col cols="12" xs="12" sm="6">
-                        <div v-if="workorder.report">
+                        <div v-if="workorder.report && workorder.workorder_type === 'DM'">
                             <h1 class="title mb-2">Reporter</h1>
                                 <v-row no-gutters>
                                     <v-col>First Name:</v-col>
@@ -343,6 +343,119 @@
                                     </v-col>
                                 </v-row>
                             </div>
+
+                            <div v-if="workorder.workorder_type === 'PM' && workorder.pm_scheduler != null">
+                            <h1 class="title mb-2">Scheduler</h1>
+                                <v-row no-gutters>
+                                    <v-col>Name:</v-col>
+                                    <v-col v-if="workorder.pm_scheduler.name">
+                                    <strong>{{ workorder.pm_scheduler.name }}</strong>
+                                    </v-col>
+                                </v-row>
+                                <div class="small-divider"></div>
+                                <v-row no-gutters>
+                                    <v-col>Latest Scheduled:</v-col>
+                                    <v-col v-if="workorder.pm_scheduler.last_scheduled_date">
+                                    <strong>{{ workorder.pm_scheduler.last_scheduled_date }}</strong>
+                                    </v-col>
+                                </v-row>
+                                <div class="small-divider"></div>
+                                <v-row no-gutters>
+                                    <v-col>Latest Complited:</v-col>
+                                    <v-col>
+                                    <strong>
+                                        <v-icon :color="getColor_now(workorder.pm_scheduler.last_complited)" v-if="workorder.pm_scheduler.last_complited" small>fa fa-check</v-icon>
+                                        <v-icon :color="getColor_now(workorder.pm_scheduler.last_complited)" v-else small>fa fa-close</v-icon>
+                                    </strong>
+                                    </v-col>
+                                </v-row>
+                                <div class="small-divider"></div>
+                                <v-row no-gutters>
+                                    <v-col>Scheduled so far:</v-col>
+                                    <v-col v-if="workorder.pm_scheduler.scheduled_so_far">
+                                    <strong>{{ workorder.pm_scheduler.scheduled_so_far }}</strong>
+                                    </v-col>
+                                </v-row>
+                                <div class="small-divider"></div>
+                                <v-row no-gutters>
+                                    <v-col>Done so far:</v-col>
+                                    <v-col v-if="workorder.pm_scheduler.done_so_far">
+                                    <strong>{{ workorder.pm_scheduler.done_so_far }}</strong>
+                                    </v-col>
+                                </v-row>
+                                <div class="small-divider"></div>
+                                <v-row no-gutters>
+                                    <v-col>Days to complete:</v-col>
+                                    <v-col ><strong>{{ workorder.pm_scheduler.due_date }} days</strong></v-col>
+                                </v-row>
+                                <div class="small-divider"></div>
+                                <v-row no-gutters>
+                                    <v-col>Scheduler Name:</v-col>
+                                    <v-col><strong>{{ workorder.scheduler.name }}</strong></v-col>
+                                </v-row>
+                                <div class="small-divider"></div>
+                                <v-row no-gutters>
+                                    <v-col>Type:</v-col>
+                                    <v-col ><strong>{{p_sheduler_type[workorder.scheduler.scheduler_type]}}</strong></v-col>
+                                </v-row>
+                                <div class="small-divider"></div>
+
+                                <div v-if="workorder.scheduler.scheduler_type == 'IN'">
+                                    <v-row no-gutters>
+                                        <v-col>Interval:</v-col>
+                                        <v-col ><strong v-if="workorder.scheduler.interval != null">{{ workorder.scheduler.interval }}</strong></v-col>
+                                    </v-row>
+                                    <div class="small-divider"></div>
+                                    <v-row no-gutters>
+                                        <v-col>Starting Date:</v-col>
+                                        <v-col ><strong v-if="workorder.scheduler.interval_start_date != null">{{ workorder.scheduler.interval_start_date }}</strong></v-col>
+                                    </v-row>
+                                    <div class="small-divider"></div>
+                                </div>
+
+                                <div v-if="workorder.scheduler.scheduler_type == 'OT'">
+                                    <v-row no-gutters>
+                                        <v-col>On Date:</v-col>
+                                        <v-col ><strong v-if="workorder.scheduler.one_time_date != null">{{ workorder.scheduler.one_time_date }}</strong></v-col>
+                                    </v-row>
+                                </div>
+
+                                <div v-if="workorder.scheduler.scheduler_type == 'DY'">
+                                    <v-row no-gutters>
+                                        <v-col>On Day:</v-col>
+                                        <v-col ><strong>Every Day</strong></v-col>
+                                    </v-row>
+                                </div>
+
+                                <div v-if="workorder.scheduler.scheduler_type == 'WK'">
+                                    <v-row no-gutters>
+                                        <v-col>Week Day:</v-col>
+                                        <v-col ><strong v-if="workorder.scheduler.week_day != null">{{ get_week_days[workorder.scheduler.week_day].name }}</strong></v-col>
+                                    </v-row>
+                                </div>
+
+                                <div v-if="workorder.scheduler.scheduler_type == 'MN'">
+                                    <v-row no-gutters>
+                                        <v-col>On the:</v-col>
+                                        <v-col ><strong v-if="workorder.scheduler.day_of_the_month != null">{{ get_month_days[workorder.scheduler.day_of_the_month].name }}</strong></v-col>
+                                    </v-row>
+                                    <div class="small-divider"></div>
+                                    <v-row no-gutters>
+                                        <v-col>Months:</v-col>
+                                        <v-col >
+                                            <div v-if="workorder.scheduler.month != null">
+                                                <strong 
+                                                    v-for="month in workorder.scheduler.month"
+                                                    :key="month.id"
+                                                > 
+                                                    - {{ month.name }} <br>
+                                                </strong>
+                                            </div>
+                                        </v-col>
+                                    </v-row>
+                                </div>                           
+                            
+                            </div> 
                         </v-col>
 
                      </v-row>
@@ -352,7 +465,27 @@
                      <v-row no-gutters class="mb-5 mt-5">
                      </v-row>
 
+                    <div v-if="workorder.tasks.length > 0">
+                        <h1 class="title mb-3 mt-5">TASK LIST</h1>
+                        <v-data-table
+                            class="mb-5"
+                            :headers="task_headers"
+                            :items="workorder.tasks"
+                            item-key="id"
+                            hide-default-footer
+                            :mobile-breakpoint="0"
+                            no-data-text="No TASK added"
+                        >
+                        </v-data-table>
 
+                        <div class="divider"></div>
+
+                        <v-row no-gutters class="mb-5 mt-5">
+                        </v-row>
+
+                    </div>
+
+                    
                     <h1 class="title mb-3 mt-5">WORKORDER COST</h1>
                      <v-data-table
                         class="mb-5"
@@ -504,6 +637,10 @@ import WorkDoneDetail from "./WorkDoneDetail";
 
 import { getColor } from "@/resources/helper"; 
 
+import { week_days } from "@/resources/data";
+import { month_days } from "@/resources/data";
+import { scheduler_type } from "@/resources/data";
+
 export default {
     name: 'DetailWorkorder',
 
@@ -542,6 +679,14 @@ export default {
                 { text: "COST", value: "total_cost" },
             ],
 
+            task_headers: [
+                { text: "Task Name", value: "name" },
+                { text: "Order No", value: "no" },
+                { text: "Description", value: "description" },
+                { text: "Estimated Cost", value: "estimated_cost" },
+                { text: "Estimated Hour", value: "estimated_hour" },
+            ],
+
             submitWorkDoneDialog: false,
             set_workdone: null,
 
@@ -549,6 +694,7 @@ export default {
             open_work_done: false,
 
             init_workdone: null,
+            p_sheduler_type: null,
         }
     },
 
@@ -571,7 +717,15 @@ export default {
             } else {
                 return false;
             }
-        }
+        },
+
+        get_week_days() {
+            return week_days;
+        },
+
+        get_month_days() {
+            return month_days;
+        },
     },
 
     methods: {
@@ -585,10 +739,10 @@ export default {
                     this.workdone = response.work_done;
                     this.pageLoad = true;
                     this.extera = true;
-            })
-                .catch(() => {
-                    this.pageLoad = false;
-            });
+                })
+                    .catch(() => {
+                        this.pageLoad = false;
+                });
         },
 
         reduceText(text) {
@@ -659,12 +813,30 @@ export default {
 
         init_workdone_detail(fun) {
             this.init_workdone = fun;
-        }
+        },
+
+        getColor_now(val) {
+            if (val) {
+                return 'green';
+            } else {
+                return 'red';
+            }
+        },
+
+        propers_sheduler_type() {
+            let data = {};
+            let resources = scheduler_type;
+            for (var index in resources) {
+                data[resources[index].id] = resources[index].name;
+            }
+            this.p_sheduler_type = data;
+        },
     },
     
     created() {
         this.$emit('detailWorkorderCreated', this.setWorkorder);
         this.setWorkorder(this.workorder_id);
+        this.propers_sheduler_type();
     }
 }
 </script>

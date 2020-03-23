@@ -40,14 +40,14 @@
 
 
                         <v-card-actions class="justify-end">
-                            <v-btn
+                            <!-- <v-btn
                                 depressed
                                 color="blue-grey text-capitalize"
                                 dark
                             >
                                 <v-icon small class="mr-2">fa-external-link</v-icon>
                                 <span class="mr-2">Detail</span>
-                            </v-btn>
+                            </v-btn> -->
                         </v-card-actions>
                     </v-card>
                 </v-flex>

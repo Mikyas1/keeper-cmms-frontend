@@ -37,8 +37,16 @@ const urls = {
     current_work_orders: 'workorder/current-work-orders/',
     work_orders_history: 'workorder/work-orders-history/',
     equipment_downtime: 'workorder/equipment-downtime/',
+    equipment_pm_workorders: 'workorder/equipment-pm-workorders/',
     calendar_events: 'workorder/calendar-events',
-
+    scheduled_workorder: 'workorder/pm-workorder',
+    search_pm_workorders: 'workorder/pm-workorder?search=',
+    simplified_equipment_list: 'workorder/simplified-equipment-list',
+    create_scheduled_workorder: 'workorder/create-pm-workorder',
+    pm_detail_workorder: 'workorder/pm-workorder-detail/',
+    change_pm_active:  'workorder/enable-disable-pm-workorder/',
+    edit_pm_workorder: 'workorder/edit-pm-workorder/',
+    up_coming_events: 'workorder/up-coming-events',
 };
 
 

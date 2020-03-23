@@ -56,3 +56,54 @@ create a crone job scheduler to create pm
 create a get api to get next 10 schedululed maintenance
 create a get api to get open pm maintenance for open workorders right side
 for calendar add all workorder 
+
+
+create to edit schedulers resource and active
+
+
+create for lists in our table row (x more) for more than 2 lists                            xxx
+create the add edit and remove scheduled work order popup                                   xxx
+create the add edit and remove scheduled work order backend                                 xxx
+fit the scheduler components in a cron job function to start scheduling pm                  xxx
+create a separate open pm in right side for frontend                                        xxx
+create a calander view to map the upcoming 10 or (5) or (more proper) scheduled pms
+create a calander to show (100) or (more proper) done workorders
+
+
+
+
+xx    name                        = models.CharField(max_length=250)
+xx    created_by                  = models.ForeignKey(account_models.Profile, on_delete=models.PROTECT, related_name='created_by_scheduler')
+xx    description                 = models.TextField(null = True, blank = True)
+xx    work_category               = models.ForeignKey(WorkCategory, on_delete = models.PROTECT, blank = True, null = True)
+xx    job_hazard                  = models.ForeignKey(JobHazard, on_delete=models.PROTECT, null=True, blank=True)
+xx    priority                    = models.ForeignKey(report_models.Priority, on_delete=models.SET_NULL, blank = True, null = True)
+xx    estimated_cost              = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0.00)], null=True, blank=True)
+
+xx    multiple                    = models.BooleanField()
+
+xx    equipment                   = models.ManyToManyField(equipment_models.Equipment)
+
+xx    active                      = models.BooleanField(default = True)
+
+x    scheduler                   = models.ManyToManyField(Scheduler)
+
+xx    start_date                  = models.DateField(null = True, blank = True)
+xx    end_date                    = models.DateField(null = True, blank = True)
+xx    due_date                    = models.IntegerField(validators=[MinValueValidator(1)])
+
+xx    workorder_status            = models.ForeignKey(WorkOrderStatus, on_delete=models.PROTECT)
+
+x    tasks                       = models.ManyToManyField(Tasks, related_name = "Pmworkorder_tasks", blank=True)
+xx    assigned_to                 = models.ManyToManyField(account_models.Profile)
+
+xx    document                    = models.FileField(upload_to='PmWorkorder_document/', blank=True, null=True)
+xx    image                       = models.ImageField(upload_to='PmWorkorder/', blank=True)
+
+xx    last_scheduled_date         = models.DateField(null = True, blank = True)
+xx    last_complited              = models.BooleanField(default=False)
+xx    scheduled_so_far            = models.IntegerField(validators=[MinValueValidator(0)], default=0)
+xx    done_so_far                 = models.IntegerField(validators=[MinValueValidator(0)], default=0)
+
+xx    created                     = models.DateTimeField(auto_now_add=True)
+xx    updated                     = models.DateTimeField(auto_now=True)

@@ -87,7 +87,7 @@
                 
                     <v-select
                       label="Work Category"
-                      prepend-icon="fa-gears"
+                      prepend-icon="fa-briefcase"
                       :items="get_options_here(workorder_choice, 'work_categories')"
                       v-model="work_category"
                     ></v-select>
@@ -183,31 +183,31 @@
       </v-card-text>
 
       <!-- buttons -->
-      <div class="btns mt-5">
-          <v-card>
-          <v-layout>
-              <v-flex md8>
-              </v-flex>
-              <v-flex md4>
-                  <v-btn
-                      color="blue-grey white--text text-capitalize mb-4 mr-4 mt-4 ml-5"
-                      v-on:click="closeDialog"
-                  >
-                      <v-icon small>fa-close</v-icon>
-                      <span class="ml-2">Cancel</span>
-                  </v-btn>
-                  <v-btn color="blue white--text text-capitalize mb-4 mr-4 mt-4"
+        <div class="btns">
+            <v-layout>
+                <v-flex md9>
+                </v-flex>
+                <v-flex>
+                    <v-btn color="green white--text text-capitalize mb-4 mr-4 mt-4"
                       :loading="loading"
                       v-on:click="submitWorkorder"
-                  >
-                      <v-icon small>fa-wrench</v-icon>
-                      <span class="ml-2">Submit</span>
-                  </v-btn>
-              </v-flex>
-          </v-layout>
-          </v-card>
-      </div>
-      
+                    >
+                        <v-icon small>fa-wrench</v-icon>
+                        <span class="ml-2">Submit</span>
+                    </v-btn>
+                </v-flex>
+                <v-flex>
+                    <v-btn
+                        color="blue-grey white--text text-capitalize mb-4 mr-4 mt-4"
+                        v-on:click="closeDialog"
+                    >
+                        <v-icon small>fa-close</v-icon>
+                        <span class="ml-2">Cancel</span>
+                    </v-btn>
+                </v-flex>
+            </v-layout>
+        </div>
+
     </v-card>
 
     <div class="loading-card" v-if="!pageLoad">

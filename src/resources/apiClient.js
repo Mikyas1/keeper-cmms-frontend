@@ -153,8 +153,52 @@ export default {
             return http.get(urls.equipment_downtime + id);
         },
 
+        getPmWorkorder(id) {
+            return http.get(urls.equipment_pm_workorders + id);
+        },
+
         calendar_events() {
             return http.get(urls.calendar_events);
+        },
+
+        scheduled_workorder() {
+            return http.get(urls.scheduled_workorder);
+        },
+
+        search_pm_workorders(payload) {
+            return http.get(urls.search_pm_workorders + payload);
+        },
+
+        get_scheduled_workorder_with_url(url) {
+            return http.get(url);
+        },
+
+        filter_pm_workorders(url) {
+            return http.get(urls.scheduled_workorder + url);
+        },
+
+        simplified_equipment_list() {
+            return http.get(urls.simplified_equipment_list);
+        },
+
+        create_scheduled_workorder(payload) {
+            return http.post(urls.create_scheduled_workorder, payload, { headers: { 'Content-Type': 'multipart/form-data' } })
+        },
+
+        pm_detail_workorder(id) {
+            return http.get(urls.pm_detail_workorder + id);
+        },
+
+        change_pm_active(id) {
+            return http.get(urls.change_pm_active + id);
+        },
+
+        edit_pm_workorder(data) {
+            return http.post(urls.edit_pm_workorder + data.id, data.data);
+        },
+
+        up_coming_events() {
+            return http.get(urls.up_coming_events);
         }
 
     }

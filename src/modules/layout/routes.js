@@ -9,6 +9,7 @@ import DepartmentActivities from "../enterprise/views/DepartmentActivities";
 import ReportList from "../reports/views/ReportList";
 import Workorder from "../workorder/views/Workorder";
 import Calendar from "../workorder/views/Calendar";
+import ScheduledWorkorder from "../workorder/views/ScheduledWorkorder";
 
 // import { NonAuthRequired } from '@/resources/auth';
 import { AuthRequired } from '@/resources/auth';
@@ -168,6 +169,20 @@ export default [
                 name: "calendar",
                 components: {
                     default: Calendar,
+                }
+            }
+        ],
+    },
+    {
+        path: "/scheduled-workorders",
+        component: Layout,
+        beforeEnter: AdministratorRequired,
+        children: [
+            {
+                path: "",
+                name: "scheduled_workorder",
+                components: {
+                    default: ScheduledWorkorder,
                 }
             }
         ],

@@ -5,7 +5,7 @@
             :right="{name: 'Calendar View', icon: 'calendar', url: '/workorders/calendar'}">
         </BodyNav>
 
-        <v-card v-if="pageLoad" class="c-card">
+        <v-card raised v-if="pageLoad" class="c-card">
             <v-card-title class="c-title">
                 <v-form v-on:submit.prevent="goSearch" style="width: 100%">
                     <v-layout row wrap>
@@ -283,9 +283,10 @@
                     <!-- assigned_to -->
                     <template v-slot:item.assigned_to="{ item }">
                         <div class="c-td-assigned">
-                            <span v-for="assigned in item.assigned_to" :key="assigned.employee_id">
-                                {{assigned.first_name}} - {{assigned.employee_id}} <br/>
+                            <span v-for="assigned in item.assigned_to.slice(0,1)" :key="assigned.employee_id">
+                                - {{assigned.first_name}} - {{assigned.employee_id}} <br/>
                             </span>
+                            <span class="c-more" v-if="item.assigned_to.length > 1">- <strong>({{item.assigned_to.length - 1}}) more</strong></span>
                         </div>
                     </template>
 
@@ -431,17 +432,17 @@ export default {
     computed: {
 
         ...mapGetters({
-            user: "auth/user",
             workorder_choice: "workorder/workorder_choice",
         }),
 
         getQuery() {
             if (this.query === "") {
-                return "All Reports";
+                return "All Workorders";
             } else {
                 return this.query;
             }
         },
+        
         resources() {
             let data = [{ value: "", text: "---------------" }];
             let resources = this.workorder_choice.assigne_to;

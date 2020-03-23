@@ -5,23 +5,48 @@
       :right="{name: 'Table View', icon: 'window-restore', url: '/workorders'}">
     </BodyNav>
 
-    <v-row v-if="pageLoad" class="fill-height">
+    <v-row :class="{'mt-5': $vuetify.breakpoint.smAndDown}" v-if="pageLoad" class="fill-height">
       <v-col>
         <v-sheet height="64">
           <v-toolbar flat :color="$vuetify.theme.dark ? '#121212': 'white'">
             <v-layout row wrap>
-              <v-flex xs4 md4>
+              
+              <v-flex xs4 md3>
                 <v-btn outlined class="mr-4" :color="$vuetify.theme.dark ? 'white': 'grey darken-2'" @click="setToday">Today</v-btn>
+                
                 <v-btn fab text small color="grey darken-2" @click="prev">
                   <v-icon small :color="$vuetify.theme.dark ? 'white': ''">fa-angle-double-left</v-icon>
                 </v-btn>
-                <v-btn fab text small color="grey darken-2" @click="next" class="mr-4">
+                
+                <v-btn fab text small color="grey darken-2" @click="next" class="mr-0">
                   <v-icon small :color="$vuetify.theme.dark ? 'white': ''">fa-angle-double-right</v-icon>
                 </v-btn>
+
               </v-flex>
-              <v-flex xs4 md6>
+
+              <v-flex xs4 md4>
                 <v-toolbar-title>{{ title }}</v-toolbar-title>
               </v-flex>
+              
+              <v-flex xs4 md3>
+                <v-menu bottom right>
+                  <template v-slot:activator="{ on }">
+                    <v-btn :color="$vuetify.theme.dark ? 'white': 'grey darken-2'" outlined v-on="on">
+                      <span>{{ workorder_type }}</span>
+                      <v-icon small right :color="$vuetify.theme.dark ? 'white': ''">fa-angle-down</v-icon>
+                    </v-btn>
+                  </template>
+                  <v-list>
+                    <v-list-item @click="get_calander_data('active')">
+                      <v-list-item-title>Active</v-list-item-title>
+                    </v-list-item>
+                    <v-list-item @click="get_calander_data('up_coming')">
+                      <v-list-item-title>Up Coming</v-list-item-title>
+                    </v-list-item>
+                  </v-list>
+                </v-menu>
+              </v-flex>
+
               <v-flex xs4 md2>
                 <v-menu bottom right>
                   <template v-slot:activator="{ on }">
@@ -31,12 +56,6 @@
                     </v-btn>
                   </template>
                   <v-list>
-                    <!-- <v-list-item @click="type = 'day'">
-                      <v-list-item-title>Day</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item @click="type = '4day'">
-                      <v-list-item-title>4 days</v-list-item-title>
-                    </v-list-item> -->
                     <v-list-item @click="type = 'week'">
                       <v-list-item-title>Week</v-list-item-title>
                     </v-list-item>
@@ -46,8 +65,8 @@
                   </v-list>
                 </v-menu>
               </v-flex>
+
             </v-layout>
-            <!-- <v-spacer></v-spacer> -->
           </v-toolbar>
         </v-sheet>
         <v-sheet height="600">
@@ -65,11 +84,14 @@
             @change="updateRange"
             :short-months="$vuetify.breakpoint.smAndDown"
             :short-weekdays="$vuetify.breakpoint.smAndDown"
+            :class="{'mt-5': $vuetify.breakpoint.smAndDown}"
           >
           </v-calendar>
         </v-sheet>
       </v-col>
     </v-row>
+
+    <!-- {{events}} -->
 
     <div class="loading-card" v-if="!pageLoad">
       <v-content>
@@ -134,7 +156,8 @@ export default {
     setWorkorderId: null,
 
     events: [],
-    dialog: false
+    dialog: false,
+    workorder_type: 'Active'
   }),
   computed: {
     title() {
@@ -176,6 +199,7 @@ export default {
     test() {
       alert("ok")
     },
+
     get_calendar_events() {
       // this.workorder = null;
       this.pageLoad = false;
@@ -192,6 +216,21 @@ export default {
         });
     },
 
+    up_coming_events() {
+      this.pageLoad = false;
+      this.$store
+          .dispatch("workorder/up_coming_events")
+          .then(response => {
+              this.events = this.prepart_up_coming_events(response);
+              this.today = response.today;
+              this.focus = response.today;
+              this.pageLoad = true;
+          })
+          .catch(() => {
+            this.pageLoad = false;
+          })
+    },
+
     prepart_events(val) {
       var data = [];
       val.forEach(element => {
@@ -204,6 +243,24 @@ export default {
           started: element.started,
           over_due: element.over_due,
           color: this.getEventColor(element)
+        });
+      });
+      return data;
+    },
+
+    prepart_up_coming_events(val) {
+      var data = [];
+      val.forEach(element => {
+        data.push({
+          id: null,
+          name: element.type + ' - ' + element.name,
+          start: element.start,
+          end: element.end,
+          // workorder_status: element.workorder_status,
+          started: false,
+          over_due: false,
+          rejected: false,
+          color: "grey"
         });
       });
       return data;
@@ -229,11 +286,13 @@ export default {
     },
 
     openDetail(val) {
-      this.detailDialog = !this.detailDialog;
-      if(this.setWorkorderId) {
-          this.setWorkorderId(val.event.id);
-      } else {
-          this.detailDialogWorkorder = val.event.id;
+      if (val.event.id != null) {
+        this.detailDialog = !this.detailDialog;
+        if(this.setWorkorderId) {
+            this.setWorkorderId(val.event.id);
+        } else {
+            this.detailDialogWorkorder = val.event.id;
+        }
       }
     },
 
@@ -279,6 +338,15 @@ export default {
     updateRange({ start, end }) {
       this.start = start;
       this.end = end;
+    },
+
+    get_calander_data(val) {
+      this.workorder_type = val;
+      if (val == 'active') {
+        this.get_calendar_events();
+      } else if (val == 'up_coming') {
+        this.up_coming_events();
+      }
     }
   },
 

@@ -53,8 +53,10 @@ const get_filter_query = function(filters) {
     query += filters[index].filter + '=';
     
     if (filters[index].value) {
-      query += filters[index].value.id;
-      if (filters[index].value.name) {
+      if(filters[index].value.id != null) {
+        query += filters[index].value.id;
+      }
+      if (filters[index].value.name != null) {
         key += filters[index].value.name + ', ';
       }
     }

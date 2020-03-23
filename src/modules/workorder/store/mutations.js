@@ -21,10 +21,4 @@ export default {
     SET_COMPANIES: (state, data) => {
         state.companies = data;
     },
-    SET_OPEN_WORKORDER_RELOAD_FUN: (state, fun) => {
-        state.open_workorders_reload_fun = fun;
-    },
-    SET_WORKORDER_LIST_RELOAD_FUN: (state, fun) => {
-        state.workorder_list_reload_fun = fun;
-    }
 };

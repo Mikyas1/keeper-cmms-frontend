@@ -16,11 +16,11 @@
       </div>
 
       <div class="ml-5 mt-1" v-if="open_workorders && $vuetify.breakpoint.smAndUp">
-        <v-icon class="mr-1">fa-wrench</v-icon><span>{{open_workorders.length}}</span>
+        <v-icon class="mr-1">fa-wrench</v-icon><span>{{open_dm_workorders.length}}</span>
       </div>
 
       <div class="ml-5 mt-1" v-if="open_workorders && $vuetify.breakpoint.smAndUp">
-        <v-icon class="mr-1">fa-cogs</v-icon><span>{{open_workorders.length}}</span>
+        <v-icon class="mr-1">fa-cogs</v-icon><span>{{open_pm_workorders.length}}</span>
       </div>
 
       <v-spacer />
@@ -105,6 +105,8 @@ export default {
         isAdministrator: "auth/isAdministrator",
         open_reports_from_store: "reports/open_reports",
         open_workorders: "workorder/open_workorders",
+        open_dm_workorders: "workorder/open_dm_workorders",
+        open_pm_workorders: "workorder/open_pm_workorders",
       })
   },
   methods: {

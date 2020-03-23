@@ -145,10 +145,12 @@ export default {
         let data = [{text: '---------------', value: null}];
         let resources = this.companies;
         for (var index in resources) {
-          data.push({
-            value: resources[index],
-            text: resources[index].name,
-          })
+            if (resources[index].name) {
+                data.push({
+                    value: resources[index],
+                    text: resources[index].name,
+                })
+            }
         }
         return data;
       },

@@ -3,7 +3,7 @@
 
     <BodyNav :page_title="'Equipment'"></BodyNav>
 
-    <v-card v-if="pageLoad" class="c-card">
+    <v-card raised v-if="pageLoad" class="c-card">
       <v-card-title class="c-title">
         <v-form v-on:submit.prevent="goSearch" style="width: 100%">
           <v-layout row wrap>

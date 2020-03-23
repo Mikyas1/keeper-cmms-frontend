@@ -403,7 +403,7 @@ export default {
                                                  'workorder_type',
                                              ], self);
 
-            formData.append("work_done.workorder_type", "DM");
+            formData.append("work_done.workorder_type", self.workorder.workorder_type);
             formData.append("work_done.workorder", self.workorder.id);
             formData.append("work_done.created_by", self.user.id);
 
@@ -504,7 +504,6 @@ export default {
 
         prepareResources(formData, resources, ary) {
             for (var index in resources) {
-                console.log(resources[index]);
                 for (var ary_index in ary) {
                     if (resources[index][ary[ary_index]]) {
                         formData.append("man_hour[" + index + "]" + ary[ary_index],

@@ -144,6 +144,9 @@ export default {
                 if(funs.calander_reload_fun) {
                     funs.calander_reload_fun();
                 }
+                if(funs.pm_workorder_reload_fun) {
+                    funs.pm_workorder_reload_fun();
+                }
                 resolve(response.data);
             })
             .catch(e => {
@@ -230,11 +233,154 @@ export default {
         });
     },
 
+    getPmWorkorder: ({ commit }, id) => {
+        return new Promise((resolve, reject) => {
+            apiClient.workorder.getPmWorkorder(id)
+            .then(response => {
+                commit("account/GODARK", null, { root: true });
+                resolve( response.data );
+            })
+            .catch(e => {
+                reject(e);
+            })
+        });
+    },
+
     calendar_events: ({ commit }) => {
         return new Promise((resolve, reject) => {
             apiClient.workorder.calendar_events()
             .then(response => {
-                commit("SET_COMPANIES", response.data );
+                commit("account/GODARK", null, { root: true });
+                resolve( response.data );
+            })
+            .catch(e => {
+                reject(e);
+            })
+        });
+    },
+
+    get_scheduled_workorder: ({ commit }) => {
+        return new Promise((resolve, reject) => {
+            apiClient.workorder.scheduled_workorder()
+            .then(response => {
+                commit("account/GODARK", null, { root: true });
+                resolve( response.data );
+            })
+            .catch(e => {
+                reject(e);
+            })
+        });
+    },
+
+    search_pm_workorders: ({ commit }, data) => {
+        return new Promise((resolve, reject) => {
+            apiClient.workorder.search_pm_workorders(data)
+            .then(response => {
+                commit("account/GODARK", null, { root: true });
+                resolve( response.data );
+            })
+            .catch(e => {
+                reject(e);
+            })
+        });
+    },
+
+    get_scheduled_workorder_with_url: ({commit}, url) => {
+        return new Promise((resolve, reject) => {
+            apiClient.workorder.get_scheduled_workorder_with_url(url)
+            .then(response => {
+                commit("account/GODARK", null, { root: true });
+                resolve( response.data );
+            })
+            .catch(e => {
+                reject(e);
+            })
+        });
+    },
+
+    filter_pm_workorders: ({commit}, url) => {
+        return new Promise((resolve, reject) => {
+            apiClient.workorder.filter_pm_workorders(url)
+            .then(response => {
+                commit("account/GODARK", null, { root: true });
+                resolve( response.data );
+            })
+            .catch(e => {
+                reject(e);
+            })
+        });
+    },
+
+    simplified_equipment_list: ({ commit }) => {
+        return new Promise((resolve, reject) => {
+            apiClient.workorder.simplified_equipment_list()
+            .then(response => {
+                commit("account/GODARK", null, { root: true });
+                resolve( response.data );
+            })
+            .catch(e => {
+                reject(e);
+            })
+        });
+    },
+
+    create_scheduled_workorder: ({ commit, }, data) => {
+        return new Promise((resolve, reject) => {
+            apiClient.workorder.create_scheduled_workorder(data)
+            .then(response => {
+                commit("account/GODARK", null, { root: true });
+                resolve(response.data);
+            })
+            .catch(e => {
+                reject(e);
+            });
+        });
+    },
+
+    pm_detail_workorder: ({ commit }, id) => {
+        return new Promise((resolve, reject) => {
+            apiClient.workorder.pm_detail_workorder(id)
+            .then(response => {
+                commit("account/GODARK", null, { root: true });
+                resolve( response.data );
+            })
+            .catch(e => {
+                reject(e);
+            })
+        });
+    },
+
+    change_pm_active: ({ commit }, id) => {
+        return new Promise((resolve, reject) => {
+            apiClient.workorder.change_pm_active(id)
+            .then(response => {
+                commit("account/GODARK", null, { root: true });
+                resolve( response.data );
+            })
+            .catch(e => {
+                reject(e);
+            })
+        });
+    },
+
+    edit_pm_workorder: ({ commit }, data) => {
+        return new Promise((resolve, reject) => {
+            apiClient.workorder.edit_pm_workorder(data)
+            .then(response => {
+                commit("account/GODARK", null, { root: true });
+                resolve( response.data );
+            })
+            .catch(e => {
+                reject(e);
+            })
+        });
+    },
+
+    up_coming_events: ({ commit }) => {
+        return new Promise((resolve, reject) => {
+            apiClient.workorder.up_coming_events()
+            .then(response => {
+                commit("account/GODARK", null, { root: true });
                 resolve( response.data );
             })
             .catch(e => {

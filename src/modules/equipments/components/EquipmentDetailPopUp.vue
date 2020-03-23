@@ -274,9 +274,22 @@
 
 
                     <v-expansion-panel class="c-expansion-header">
-                        <v-expansion-panel-header>SCHEDULED WORK ORDERS</v-expansion-panel-header>
+                        <v-expansion-panel-header v-on:click="getPmWorkorders">SCHEDULED WORK ORDERS</v-expansion-panel-header>
                         <v-expansion-panel-content>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                           
+                            <div v-if="!pmWorkorders">
+                                <v-content>
+                                    <v-container class="fill-height" fluid>
+                                    <v-row justify="center" align="center">
+                                        <v-progress-circular :size="50" color="blue-grey" indeterminate></v-progress-circular>
+                                    </v-row>
+                                    </v-container>
+                                </v-content>
+                            </div>
+                            <div v-else>
+                                <PmWorkorder :pm_workorders="pmWorkorders"></PmWorkorder>
+                            </div>
+                           
                         </v-expansion-panel-content>
                     </v-expansion-panel>
 
@@ -373,6 +386,7 @@ import CreateReport from "../../reports/components/CreateReport";
 
 import { mapGetters } from "vuex";
 import Workorder from "./Workorder";
+import PmWorkorder from "./PmWorkorder";
 import DownTime from "./DownTime";
 
 export default {
@@ -387,6 +401,7 @@ export default {
       CreateReport,
       Workorder,
       DownTime,
+      PmWorkorder,
   },
   data() {
     return {
@@ -395,6 +410,7 @@ export default {
         currentWorkOrders: null,
         workOrdersHistory: null,
         downTimeHistory: null,
+        pmWorkorders: null
     };
   },
   computed: {
@@ -428,6 +444,7 @@ export default {
         this.currentWorkOrders = null;
         this.workOrdersHistory = null;
         this.downTimeHistory = null;
+        this.pmWorkorders = null;
     },
 
     getCurrentWorkOrders() {
@@ -458,6 +475,17 @@ export default {
                 .dispatch("workorder/getDownTimeHistory", this.item.inventory_number)
                 .then(response => {
                     this.downTimeHistory = response;
+                })
+                .catch(() => {})
+        }
+    },
+
+    getPmWorkorders() {
+        if (this.pmWorkorders === null) {
+            this.$store
+                .dispatch("workorder/getPmWorkorder", this.item.inventory_number)
+                .then(response => {
+                    this.pmWorkorders = response;
                 })
                 .catch(() => {})
         }
