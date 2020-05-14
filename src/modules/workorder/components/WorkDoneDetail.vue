@@ -1,7 +1,7 @@
 <template>
     <div>
     <v-card v-if="pageLoad">
-        <v-toolbar color="blue-grey" dark flat>
+        <v-toolbar color="primary" dark flat>
             <v-toolbar-title>
             <v-icon class="mx-2">fa-briefcase</v-icon> 
             
@@ -65,7 +65,7 @@
                     </v-col>
                 </v-row>
 
-                <div v-if="work_done.work_done.image || work_done.work_done.image_two" class="divider"></div>
+                <div v-if="work_done.work_done.image || work_done.work_done.image_two" class="divider" :style="'background: ' + getPrimaryHere()"></div>
 
                 <!-- work done info -->
                 <v-row
@@ -80,12 +80,12 @@
                         <h1 class="title mb-2">WORK DONE</h1>
                         <v-row no-gutters>
                             <v-col>Title:</v-col>
-                            <v-col><strong>{{ work_done.work_done.title }}</strong></v-col>
+                            <v-col><strong class="primary--text">{{ work_done.work_done.title }}</strong></v-col>
                         </v-row>
                         <div class="small-divider"></div>
                         <v-row no-gutters>
                             <v-col>Created BY:</v-col>
-                            <v-col ><strong>
+                            <v-col ><strong class="primary--text">
                                 {{ work_done.work_done.created_by.first_name }} - 
                                 {{ work_done.work_done.created_by.employee_id }}
                             </strong></v-col>
@@ -93,22 +93,27 @@
                         <div class="small-divider"></div>
                         <v-row no-gutters>
                             <v-col>Work Order Type:</v-col>
-                            <v-col ><strong>{{ work_done.work_done.workorder_type == 'DM' ? 'Demand' : 'PM' }}</strong></v-col>
+                            <v-col ><strong class="primary--text">{{ work_done.work_done.workorder_type == 'DM' ? 'Demand' : 'PM' }}</strong></v-col>
+                        </v-row>
+                        <div class="small-divider"></div>
+                        <v-row no-gutters>
+                            <v-col>Submition Date:</v-col>
+                            <v-col ><strong class="primary--text">{{ moment(work_done.work_done.created).format('MM/DD/YYYY HH:mm:ss') }}</strong></v-col>
                         </v-row>
                         <div class="small-divider"></div>
                         <v-row no-gutters>
                             <v-col>Description:</v-col>
-                            <v-col ><strong>{{ work_done.work_done.description == 'null' ? '' : work_done.work_done.description }}</strong></v-col>
+                            <v-col ><strong class="primary--text">{{ work_done.work_done.description == 'null' ? '' : work_done.work_done.description }}</strong></v-col>
                         </v-row>
                         <div v-if="work_done.work_done.document" class="small-divider"></div>
                         <v-row v-if="work_done.work_done.document" no-gutters>
                             <v-col>Document:</v-col>
-                            <v-col ><strong><a target="_blank" :href="media_url + work_done.work_done.document">document</a></strong></v-col>
+                            <v-col ><strong class="primary--text"><a target="_blank" :href="media_url + work_done.work_done.document">document</a></strong></v-col>
                         </v-row>
                         <div v-if="work_done.work_done.document_two" class="small-divider"></div>
                         <v-row v-if="work_done.work_done.document_two" no-gutters>
                             <v-col>Document Two:</v-col>
-                            <v-col ><strong><a target="_blank" :href="media_url + work_done.work_done.document">document two</a></strong></v-col>
+                            <v-col ><strong class="primary--text"><a target="_blank" :href="media_url + work_done.work_done.document">document two</a></strong></v-col>
                         </v-row>
                         
                     </v-col>
@@ -121,17 +126,17 @@
                         <h1 class="title mb-2">WorkOrder</h1>
                         <v-row no-gutters>
                             <v-col>WorkOrder Name:</v-col>
-                            <v-col><strong>{{ work_done.work_done.workorder.name }}</strong></v-col>
+                            <v-col><strong class="primary--text">{{ work_done.work_done.workorder.name }}</strong></v-col>
                         </v-row>
                         <div class="small-divider"></div>
                         <v-row no-gutters>
                             <v-col>Workorder status:</v-col>
-                            <v-col><strong>{{ work_done.work_done.workorder_status.name }}</strong></v-col>
+                            <v-col><strong class="primary--text">{{ work_done.work_done.workorder_status.name }}</strong></v-col>
                         </v-row>
                         <div class="small-divider"></div>
                         <v-row no-gutters>
                             <v-col>Equipment status:</v-col>
-                            <v-col><strong>{{ work_done.work_done.equipment_status.name }}</strong></v-col>
+                            <v-col><strong class="primary--text">{{ work_done.work_done.equipment_status.name }}</strong></v-col>
                         </v-row>
                     </v-col>
                 </v-row>
@@ -198,14 +203,14 @@
             </v-card-text>
 
             <!-- buttons -->
-            <div class="btns">
+            <div :style="'border-top: 1px solid ' + getPrimaryHere()">
                 <v-layout>
                     <v-flex md10>
                     </v-flex>
                     <v-flex>
                         <v-btn 
                             v-on:click="closeWorkDoneDetail"
-                            color="blue-grey white--text text-capitalize mb-4 mr-4 mt-4">
+                            color="primary white--text text-capitalize mb-4 mr-4 mt-4">
                                 <v-icon small>fa-close</v-icon>
                                 <span class="ml-2">Close</span>
                         </v-btn>
@@ -219,7 +224,7 @@
             <v-content>
                 <v-container class="fill-height" fluid>
                 <v-row justify="center" align="center">
-                    <v-progress-circular :size="50" color="blue-grey" indeterminate></v-progress-circular>
+                    <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
                 </v-row>
                 </v-container>
             </v-content>
@@ -228,6 +233,10 @@
 </template>
 
 <script>
+var moment = require('moment');
+
+import { getPrimary } from "@/resources/helper";
+
 export default {
     name: "WorkDoneDetail",
     props: ['work_done_id'],
@@ -236,6 +245,9 @@ export default {
             work_done: null,
             pageLoad: false,
             media_url: null,
+
+            // moment
+            moment: moment,
 
             resource_headers: [
                 { text: "Name", value: "employee" },
@@ -282,6 +294,9 @@ export default {
         },
         closeWorkDoneDetail() {
             this.$emit('closeWorkDoneDetail');
+        },
+        getPrimaryHere() {
+            return getPrimary(this);
         }
     },
     created() {
@@ -294,12 +309,8 @@ export default {
 </script>
 
 <style scoped>
-strong {
-    color: #607D8A;
-}
 
 .divider {
-    background: #607D8A;
     height: 1px;
     margin-top: 4px;
     margin-bottom: 10px;
@@ -311,9 +322,7 @@ strong {
     margin-bottom: 5px;
     margin-right: 15px;
 }
-.btns {
-    border-top: 1px solid #607D8A;
-}
+
 .height {
     height: 60px;
 }

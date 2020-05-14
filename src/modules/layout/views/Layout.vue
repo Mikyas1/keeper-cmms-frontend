@@ -7,7 +7,7 @@
 
     </v-navigation-drawer>
 
-    <v-app-bar app clipped-right color="blue-grey" dark>
+    <v-app-bar app clipped-right color="primary" dark>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title>Keeper</v-toolbar-title>
       
@@ -34,7 +34,7 @@
       <v-btn 
         @click="changeTheme" 
         depressed 
-        color="blue-grey text-capitalize"
+        color="primary text-capitalize"
         dark>
           <v-icon small>fa-paint-brush</v-icon>
           <span class="ml-1">Theme</span>
@@ -44,7 +44,10 @@
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" app>
-      <h4 class="pt-5 pb-4 pl-3 c-logo-title">KEEPER ENTERPRISE CMMS</h4>
+      <h4 class="pt-5 pb-4 pl-3 c-logo-title primary--text" 
+            :style="'border-bottom: 1px solid ' + getPrimaryHere()">
+          KEEPER ENTERPRISE CMMS
+        </h4>
 
       <!-- Left side injection -->
       <LeftSide/>
@@ -70,7 +73,7 @@
     <!-- RIGHT SIDE POPUP -->
     <!-- <v-navigation-drawer v-model="right" fixed right temporary /> -->
 
-    <v-footer app color="blue-grey" class="white--text">
+    <v-footer app color="primary" class="white--text">
       <span>KEEPER CMMS</span>
       <v-spacer />
       TRIAL VERSION
@@ -85,6 +88,8 @@ import RightSide from "./RightSide";
 import Center from "./Center";
 
 import { mapGetters } from "vuex";
+
+import { getPrimary } from "@/resources/helper";
 
 export default {
   name: "Layout",
@@ -107,12 +112,16 @@ export default {
         open_workorders: "workorder/open_workorders",
         open_dm_workorders: "workorder/open_dm_workorders",
         open_pm_workorders: "workorder/open_pm_workorders",
-      })
+      }),
   },
   methods: {
     changeTheme() {
       this.theme = !this.theme;
       this.$vuetify.theme.dark = this.theme;
+    },
+
+    getPrimaryHere() {
+      return getPrimary(this);
     }
   },
 };
@@ -120,8 +129,6 @@ export default {
 
 <style scoped>
 .c-logo-title {
-  border-bottom: 1px solid #607d8a;
-  color: #607d8a;
   font-weight: bolder !important;
   font-size: 1.1em;
 }

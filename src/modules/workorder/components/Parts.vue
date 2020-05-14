@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-card v-if="pageLoad">
-            <v-toolbar color="blue-grey" dark flat>
+            <v-toolbar color="primary" dark flat>
                 <v-toolbar-title>
                 <v-icon class="mx-2">fa-gears</v-icon> 
                 PARTS FOR "{{equipment_name}}"
@@ -137,7 +137,7 @@
                     <v-flex>
                         <v-btn
                             v-on:click="close"
-                            color="blue-grey white--text text-capitalize mb-4 mr-4 mt-4">
+                            color="primary white--text text-capitalize mb-4 mr-4 mt-4">
                                 <v-icon small>fa-close</v-icon>
                                 <span class="ml-2">Cancel</span>
                         </v-btn>
@@ -151,7 +151,7 @@
             <v-content>
                 <v-container class="fill-height" fluid>
                 <v-row justify="center" align="center">
-                    <v-progress-circular :size="50" color="blue-grey" indeterminate></v-progress-circular>
+                    <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
                 </v-row>
                 </v-container>
             </v-content>

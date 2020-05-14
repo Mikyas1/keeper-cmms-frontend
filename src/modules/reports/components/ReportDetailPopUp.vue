@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-card>
-      <v-toolbar color="blue-grey" dark flat>
+      <v-toolbar color="primary" dark flat>
         <v-toolbar-title>
           <div
             class="small-circle"
@@ -20,21 +20,21 @@
               <v-row no-gutters>
                 <v-col>Name:</v-col>
                 <v-col>
-                  <strong>{{ item.equipment.equipment_name }}</strong>
+                  <strong class="primary--text">{{ item.equipment.equipment_name }}</strong>
                 </v-col>
               </v-row>
               <div class="small-divider"></div>
               <v-row no-gutters>
                 <v-col>Serial Number</v-col>
                 <v-col>
-                  <strong>{{ item.equipment.serial_number }}</strong>
+                  <strong class="primary--text">{{ item.equipment.serial_number }}</strong>
                 </v-col>
               </v-row>
               <div class="small-divider"></div>
               <v-row no-gutters>
                 <v-col>Asset ID:</v-col>
                 <v-col>
-                  <strong>{{ item.equipment.inventory_number }}</strong>
+                  <strong class="primary--text">{{ item.equipment.inventory_number }}</strong>
                 </v-col>
               </v-row>
               <div class="small-divider"></div>
@@ -45,21 +45,21 @@
                     class="col-small-circle"
                     :style="`margin-right: 0px; background: ${getColorHere(item.equipment.status_flag.color)}`"
                   ></div>
-                  <strong style="margin-left: 10px;">{{ item.equipment.status_flag.name }}</strong>
+                  <strong class="primary--text" style="margin-left: 10px;">{{ item.equipment.status_flag.name }}</strong>
                 </v-col>
               </v-row>
               <div class="small-divider"></div>
               <v-row no-gutters>
                 <v-col>Warranty Expires:</v-col>
                 <v-col>
-                  <strong>{{ item.equipment.warranty_expiration_date }}</strong>
+                  <strong class="primary--text">{{ item.equipment.warranty_expiration_date }}</strong>
                 </v-col>
               </v-row>
               <div class="small-divider"></div>
               <v-row no-gutters>
                 <v-col>Description:</v-col>
                 <v-col>
-                  <strong>{{ item.equipment.description }}</strong>
+                  <strong class="primary--text">{{ item.equipment.description }}</strong>
                 </v-col>
               </v-row>
             </v-col>
@@ -69,21 +69,21 @@
               <v-row no-gutters>
                 <v-col>First Name:</v-col>
                 <v-col v-if="item.creater">
-                  <strong>{{ item.creater.first_name }}</strong>
+                  <strong class="primary--text">{{ item.creater.first_name }}</strong>
                 </v-col>
               </v-row>
               <div class="small-divider"></div>
               <v-row no-gutters>
                 <v-col>Employee Id:</v-col>
                 <v-col v-if="item.creater">
-                  <strong>{{ item.creater.employee_id }}</strong>
+                  <strong class="primary--text">{{ item.creater.employee_id }}</strong>
                 </v-col>
               </v-row>
               <div class="small-divider"></div>
               <v-row no-gutters>
                 <v-col>Phone NO:</v-col>
                 <v-col v-if="item.creater">
-                  <strong>{{ item.creater.phone_number }}</strong>
+                  <strong class="primary--text">{{ item.creater.phone_number }}</strong>
                 </v-col>
               </v-row>
               <div class="small-divider"></div>
@@ -94,21 +94,21 @@
                     class="col-small-circle"
                     :style="`margin-right: 0px; background: ${getColorHere(item.equipment_status.color )}`"
                   ></div>
-                  <strong style="margin-left: 10px;">{{ item.equipment_status.name }}</strong>
+                  <strong class="primary--text" style="margin-left: 10px;">{{ item.equipment_status.name }}</strong>
                 </v-col>
               </v-row>
               <div class="small-divider"></div>
               <v-row no-gutters>
                 <v-col>Description:</v-col>
                 <v-col>
-                  <strong>{{ item.description }}</strong>
+                  <strong class="primary--text">{{ item.description }}</strong>
                 </v-col>
               </v-row>
               <div class="small-divider"></div>
               <v-row no-gutters>
                 <v-col>Priority:</v-col>
                 <v-col>
-                  <strong>{{ item.priority.name }}</strong>
+                  <strong class="primary--text">{{ item.priority.name }}</strong>
                 </v-col>
               </v-row>
               <div class="small-divider"></div>
@@ -116,34 +116,34 @@
               <v-row no-gutters>
                 <v-col>Report Created:</v-col>
                 <v-col v-if="item.created">
-                  <strong>{{ moment(item.created).fromNow() }}</strong>
+                  <strong class="primary--text">{{ moment(item.created).fromNow() }}</strong>
                 </v-col>
               </v-row>
               <div class="small-divider"></div>
               <v-row no-gutters>
                 <v-col>User Type:</v-col>
                 <v-col v-if="item.creater">
-                  <strong>{{ item.creater.user_type }}</strong>
+                  <strong class="primary--text">{{ item.creater.user_type }}</strong>
                 </v-col>
               </v-row>
               <div class="small-divider"></div>
               <v-row no-gutters>
                 <v-col>Employee Position:</v-col>
                 <v-col v-if="item.creater && item.creater.employee_position">
-                  <strong>{{ item.creater.employee_position.position_name }}</strong>
+                  <strong class="primary--text">{{ item.creater.employee_position.position_name }}</strong>
                 </v-col>
               </v-row>
               <div class="small-divider"></div>
               <v-row no-gutters>
                 <v-col>Education Level</v-col>
                 <v-col v-if="item.creater && item.creater.training_detail">
-                  <strong>{{ item.creater.training_detail.training_level }}</strong>
+                  <strong class="primary--text">{{ item.creater.training_detail.training_level }}</strong>
                 </v-col>
               </v-row>
             </v-col>
           </v-row>
 
-          <div class="divider"></div>
+          <div class="divider" :style="'background: ' + getPrimaryHere()"></div>
 
           <!-- location -->
           <v-row no-gutters class="mt-5 mb-5">
@@ -152,42 +152,42 @@
               <v-row no-gutters>
                 <v-col>Building:</v-col>
                 <v-col v-if="item.location">
-                  <strong>{{ item.location.building.name }}</strong>
+                  <strong class="primary--text">{{ item.location.building.name }}</strong>
                 </v-col>
               </v-row>
               <div class="small-divider"></div>
               <v-row no-gutters>
                 <v-col>Floor:</v-col>
                 <v-col v-if="item.location">
-                  <strong>{{ item.location.floor }}</strong>
+                  <strong class="primary--text">{{ item.location.floor }}</strong>
                 </v-col>
               </v-row>
               <div class="small-divider"></div>
               <v-row no-gutters>
                 <v-col>Room Number:</v-col>
                 <v-col v-if="item.location">
-                  <strong>{{ item.location.room_number }}</strong>
+                  <strong class="primary--text">{{ item.location.room_number }}</strong>
                 </v-col>
               </v-row>
               <div class="small-divider"></div>
               <v-row no-gutters>
                 <v-col>Room Section:</v-col>
                 <v-col v-if="item.location">
-                  <strong>{{ item.location.sub_room_section }}</strong>
+                  <strong class="primary--text">{{ item.location.sub_room_section }}</strong>
                 </v-col>
               </v-row>
               <div class="small-divider"></div>
               <v-row no-gutters>
                 <v-col>Department:</v-col>
                 <v-col v-if="item.department">
-                  <strong>{{ item.department.name }}</strong>
+                  <strong class="primary--text">{{ item.department.name }}</strong>
                 </v-col>
               </v-row>
               <div class="small-divider"></div>
               <v-row no-gutters>
                 <v-col>Location Code:</v-col>
                 <v-col v-if="item.location">
-                  <strong>{{ item.location.code }}</strong>
+                  <strong class="primary--text">{{ item.location.code }}</strong>
                 </v-col>
               </v-row>
             </v-col>
@@ -200,7 +200,7 @@
               <v-row no-gutters>
                 <v-col>First Name:</v-col>
                 <v-col v-if="item.closed_by">
-                  <strong>{{ item.closed_by.first_name }}</strong>
+                  <strong class="primary--text">{{ item.closed_by.first_name }}</strong>
                 </v-col>
               </v-row>
 
@@ -208,14 +208,14 @@
               <v-row no-gutters>
                 <v-col>Employee Id:</v-col>
                 <v-col v-if="item.closed_by">
-                  <strong>{{ item.closed_by.employee_id }}</strong>
+                  <strong class="primary--text">{{ item.closed_by.employee_id }}</strong>
                 </v-col>
               </v-row>
               <div class="small-divider"></div>
               <v-row no-gutters>
                 <v-col>Phone NO:</v-col>
                 <v-col v-if="item.closed_by">
-                  <strong>{{ item.closed_by.phone_number }}</strong>
+                  <strong class="primary--text">{{ item.closed_by.phone_number }}</strong>
                 </v-col>
               </v-row>
 
@@ -223,7 +223,7 @@
               <v-row no-gutters>
                 <v-col>Report Closed:</v-col>
                 <v-col v-if="item.updated">
-                  <strong>{{ moment(item.updated).fromNow() }}</strong>
+                  <strong class="primary--text">{{ moment(item.updated).fromNow() }}</strong>
                 </v-col>
               </v-row>
 
@@ -231,7 +231,7 @@
               <v-row no-gutters>
                 <v-col>Report Ignored:</v-col>
                 <v-col>
-                  <strong>{{ item.ignored }}</strong>
+                  <strong class="primary--text">{{ item.ignored }}</strong>
                 </v-col>
               </v-row>
 
@@ -239,21 +239,21 @@
               <v-row no-gutters>
                 <v-col>User Type:</v-col>
                 <v-col v-if="item.closed_by">
-                  <strong>{{ item.closed_by.user_type }}</strong>
+                  <strong class="primary--text">{{ item.closed_by.user_type }}</strong>
                 </v-col>
               </v-row>
               <div class="small-divider"></div>
               <v-row no-gutters>
                 <v-col>Employee Position:</v-col>
                 <v-col v-if="item.closed_by && item.closed_by.employee_position">
-                  <strong>{{ item.closed_by.employee_position.position_name }}</strong>
+                  <strong class="primary--text">{{ item.closed_by.employee_position.position_name }}</strong>
                 </v-col>
               </v-row>
               <div class="small-divider"></div>
               <v-row no-gutters>
                 <v-col>Education Level</v-col>
                 <v-col v-if="item.closed_by && item.closed_by.training_detail">
-                  <strong>{{ item.closed_by.training_detail.training_level }}</strong>
+                  <strong class="primary--text">{{ item.closed_by.training_detail.training_level }}</strong>
                 </v-col>
               </v-row>
             </v-col>
@@ -265,7 +265,7 @@
               <v-row no-gutters>
                 <v-col>Report Status:</v-col>
                 <v-col>
-                  <strong>Open</strong>
+                  <strong class="primary--text">Open</strong>
                 </v-col>
               </v-row>
             </v-col>
@@ -275,7 +275,7 @@
       </v-card-text>
 
       <!-- buttons -->
-      <div class="btns">
+      <div class="btns" :style="'border-top: 1px solid ' + getPrimaryHere()">
         <v-card>
           <v-layout>
             <v-flex md6 v-if="isAdministrator && !item.closed">
@@ -302,7 +302,7 @@
               </v-btn>
 
               <v-btn
-                color="blue-grey white--text text-capitalize mb-4 mr mt-4"
+                color="primary white--text text-capitalize mb-4 mr mt-4"
                 v-on:click="closeDialog"
               >
                     <v-icon small>fa-close</v-icon>
@@ -314,7 +314,7 @@
             <v-flex v-else md2>
 
               <v-btn
-                color="blue-grey white--text text-capitalize mb-4 mr mt-4"
+                color="primary white--text text-capitalize mb-4 mr mt-4"
                 v-on:click="closeDialog"
               >
                     <v-icon small>fa-close</v-icon>
@@ -349,6 +349,8 @@ import { getColor } from "@/resources/helper";
 import SubmitWorkOrder from  '../../workorder/components/SubmitWorkOrder';
 
 import { mapGetters } from "vuex";
+
+import { getPrimary } from "@/resources/helper";
 
 export default {
   name: "ReportDetailPopUp",
@@ -421,6 +423,9 @@ export default {
           this.resetWorkorder();
         }
       }
+    },
+    getPrimaryHere() {
+      return getPrimary(this);
     }
   }
 };
@@ -447,16 +452,12 @@ export default {
   margin-right: 50px;
 }
 
-strong {
-  color: #607d8a;
-}
-
 .divider {
-  background: #607d8a;
   height: 1px;
   margin-top: 4px;
   margin-bottom: 10px;
 }
+
 .small-divider {
   background: rgba(0, 0, 0, 0.08);
   height: 1px;
@@ -466,7 +467,6 @@ strong {
 }
 .btns {
   width: 100%;
-  border-top: 1px solid #607d8a;
 }
 .height {
   height: 60px;

@@ -230,31 +230,8 @@ export default {
     cursor: pointer;
 }
 
-.c-title {
-  border-bottom: 2px solid #607d8a;
-}
-
-.c-title-lower {
-  border-bottom: 2px solid #607d8a;
-  border-top: 0px;
-  min-height: 140px;
-  padding-bottom: 0 !important;
-}
-
 .c-table-footer {
   min-height: 50px;
-}
-
-strong {
-  color: #607d8a;
-}
-
-.c-card {
-  border: 2px solid #607d8a;
-}
-
-.filter-section {
-  border-top: 2px solid #607d8a;
 }
 
 .small-circle {

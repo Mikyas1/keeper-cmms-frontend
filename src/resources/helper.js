@@ -46,7 +46,7 @@ const get_complex_options = function(filter_data, filter_field) {
  */
 const get_filter_query = function(filters) {
 
-  var query = "/?";
+  var query = "?";
   var key = "";
 
   for (var index in filters) {
@@ -68,4 +68,9 @@ const get_filter_query = function(filters) {
   return {query: query, key: key};
 }
 
-export { getColor, get_options, get_complex_options, get_filter_query };
+
+const getPrimary = function(vm) {
+  return vm.$vuetify.theme.dark ? vm.$vuetify.theme.themes.dark.primary : vm.$vuetify.theme.themes.light.primary;
+}
+
+export { getColor, get_options, get_complex_options, get_filter_query, getPrimary };

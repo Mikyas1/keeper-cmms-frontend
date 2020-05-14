@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-card v-if="pageLoad && equipment_filters && workorder_choice">
-            <v-toolbar color="blue-grey" dark flat>
+            <v-toolbar color="primary" dark flat>
                 <v-toolbar-title>
                 <v-icon class="mx-2">fa-wrench</v-icon> 
                 SUBMIT WORKDONE
@@ -81,7 +81,7 @@
 
                     </v-layout>
 
-                    <div class="divider"></div>
+                    <div class="divider" :style="'background: ' +  getPrimaryHere()"></div>
 
                     <!-- Resources -->
                     <h1 class="title mb-3 mt-5">RESOURCES</h1>
@@ -121,13 +121,13 @@
 
                      <v-btn
                         v-on:click="open_resource_dialog"
-                        class="mb-4 blue-grey white--text text-capitalize"
+                        class="mb-4 primary white--text text-capitalize"
                      >
                       <v-icon small class="mr-2">fa fa-male</v-icon> 
                       Add Resource
                      </v-btn>
 
-                     <div class="divider"></div>
+                     <div class="divider" :style="'background: ' +  getPrimaryHere()"></div>
 
 
                 <!-- Invoices -->
@@ -164,13 +164,13 @@
 
                      <v-btn
                         v-on:click="open_invoice_dialog"
-                        class="mb-4 blue-grey white--text text-capitalize"
+                        class="mb-4 primary white--text text-capitalize"
                      >
                       <v-icon small class="mr-2">fa fa-ticket</v-icon>
                         Add Invoice
                      </v-btn>
 
-                     <div class="divider"></div>
+                     <div class="divider" :style="'background: ' +  getPrimaryHere()"></div>
 
 
                 <!-- PARTS -->
@@ -206,7 +206,7 @@
 
                      <v-btn
                         v-on:click="open_parts_dialog"
-                        class="mb-4 blue-grey white--text text-capitalize"
+                        class="mb-4 primary white--text text-capitalize"
                      >
                       <v-icon small class="mr-2">fa fa-gears</v-icon>
                         Add Parts
@@ -216,7 +216,7 @@
             </v-card-text>
 
             <!-- buttons -->
-            <div class="btns">
+            <div class="btns" :style="'border-top: 1px solid ' + getPrimaryHere()">
                 <v-layout>
                     <v-flex md8>
                     </v-flex>
@@ -232,7 +232,7 @@
                     <v-flex>
                         <v-btn 
                             v-on:click="closeSubmitWorkdone"
-                            color="blue-grey white--text text-capitalize mb-4 mr-4 mt-4">
+                            color="primary white--text text-capitalize mb-4 mr-4 mt-4">
                                 <v-icon small>fa-close</v-icon>
                                 <span class="ml-2">Close</span>
                         </v-btn>
@@ -240,8 +240,18 @@
                 </v-layout>
             </div>
 
-
         </v-card>
+
+        <div class="loading-card" v-if="!pageLoad">
+            <v-content>
+                <v-container class="fill-height" fluid>
+                <v-row justify="center" align="center">
+                    <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
+                </v-row>
+                </v-container>
+            </v-content>
+        </div>
+
 
         <!-- Resource dialog -->
         <!-- ADD DIALOG -->
@@ -295,6 +305,8 @@
 import { mapGetters } from "vuex";
 
 import { get_options } from "@/resources/helper";
+import { getPrimary } from "@/resources/helper";
+
 import Parts from "./Parts";
 import Resources from "./Resources";
 import Invoice from "./Invoices";
@@ -592,31 +604,48 @@ export default {
             this.invoices = this.invoices.filter(x => x !== obj);
         },
 
+        getPrimaryHere() {
+            return getPrimary(this);
+        }
+
     },
     created() {
-        if(this.equipment_filters !== null) {
-            this.pageLoad = true;
-          } else {
+
+        this.pageLoad = false;
+        if (this.equipment_filters === null) {
             this.$store
             .dispatch("equipments/get_equipment_filters")
-              .then(() => {
-                  if (this.workorder_choice !== null) {
-                      this.pageLoad = true;
-                  } else {
-                      this.$store
+                .then(() => {
+                    if (this.workorder_choice === null) {
+                        this.$store
                         .dispatch("workorder/get_workorder_choice")
-                        .then(() => {
-                            this.pageLoad = true;
-                        })
-                        .catch(() => {
-                            this.pageLoad = false;
-                        })
-                  }
-              })
-              .catch(() => {
-                this.pageLoad = false;
-              });
-          }
+                            .then(() => {
+                                this.pageLoad = true;
+                            })
+                            .catch(() => {
+                                this.pageLoad = false;
+                            })
+                    } else {
+                        this.pageLoad = true;
+                    }
+                })
+                .catch(() => {
+                    this.pageLoad = false;
+                })
+        } else {
+            if (this.workorder_choice === null) {
+            this.$store
+                .dispatch("workorder/get_workorder_choice")
+                    .then(() => {
+                        this.pageLoad = true;
+                    })
+                    .catch(() => {
+                        this.pageLoad = false;
+                    })
+            } else {
+                this.pageLoad = true;
+            }
+        }
 
         this.$emit('created', this.reset);
     
@@ -625,14 +654,19 @@ export default {
 </script>
 
 <style scoped>
+
 .btns {
   width: 100%;
-  border-top: 1px solid #607d8a;
 }
+
 .divider {
-    background: #607D8A;
     height: 1px;
     margin-top: 4px;
     margin-bottom: 10px;
 }
+
+.loading-card {
+    height: 600px;
+}
+
 </style>

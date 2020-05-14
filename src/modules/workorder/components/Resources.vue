@@ -1,7 +1,7 @@
 <template>
     <div>
          <v-card v-if="pageLoad">
-            <v-toolbar color="blue-grey" dark flat>
+            <v-toolbar color="primary" dark flat>
                 <v-toolbar-title>
                 <v-icon class="mx-2">fa-male</v-icon> 
                 RESOURCES
@@ -83,7 +83,7 @@
             </v-card-text>
 
             <!-- buttons -->
-            <div class="btns">
+            <div class="btns" :style="'border-top: 1px solid ' + getPrimaryHere()">
                 <v-layout>
                     <v-flex md8>
                     </v-flex>
@@ -98,7 +98,7 @@
                     <v-flex>
                         <v-btn
                             v-on:click="close"
-                            color="blue-grey white--text text-capitalize mb-4 mr-4 mt-4">
+                            color="primary white--text text-capitalize mb-4 mr-4 mt-4">
                                 <v-icon small>fa-close</v-icon>
                                 <span class="ml-2">Cancel</span>
                         </v-btn>
@@ -112,7 +112,7 @@
             <v-content>
                 <v-container class="fill-height" fluid>
                 <v-row justify="center" align="center">
-                    <v-progress-circular :size="50" color="blue-grey" indeterminate></v-progress-circular>
+                    <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
                 </v-row>
                 </v-container>
             </v-content>
@@ -123,6 +123,8 @@
 
 <script>
 import { mapGetters } from "vuex";
+
+import { getPrimary } from "@/resources/helper";
 
 export default {
     name: 'Resources',
@@ -217,6 +219,10 @@ export default {
                 noError = false;
             }
             return noError;
+        },
+
+        getPrimaryHere() {
+            return getPrimary(this);
         }
     },
     created() {
@@ -242,6 +248,5 @@ export default {
 <style scoped>
 .btns {
   width: 100%;
-  border-top: 1px solid #607d8a;
 }
 </style>

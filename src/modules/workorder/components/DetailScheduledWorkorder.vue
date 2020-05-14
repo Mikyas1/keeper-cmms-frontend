@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-card v-if="pageLoad">
-            <v-toolbar color="blue-grey" dark flat>
+            <v-toolbar color="primary" dark flat>
                 <v-toolbar-title>
                 <v-icon class="mx-2" :color="getColor(pm_workorder.active)">fa-cogs</v-icon> 
 
@@ -43,7 +43,7 @@
                         </v-col>
                     </v-row>
 
-                    <div v-if="pm_workorder.image" class="divider"></div>
+                    <div v-if="pm_workorder.image" class="divider" :style="'background: ' + getPrimaryHere()"></div>
 
 
                     <h1 class="title mb-2">PM WORKORDER</h1>
@@ -59,28 +59,28 @@
                         >
                             <v-row no-gutters>
                                 <v-col>Name:</v-col>
-                                <v-col><strong>{{ pm_workorder.name }}</strong></v-col>
+                                <v-col><strong class="primary--text">{{ pm_workorder.name }}</strong></v-col>
                             </v-row>
                             <div class="small-divider"></div>
                             <v-row no-gutters>
                                 <v-col>Priority:</v-col>
-                                <v-col ><strong v-if="pm_workorder.priority">{{ pm_workorder.priority.name }}</strong></v-col>
+                                <v-col ><strong class="primary--text" v-if="pm_workorder.priority">{{ pm_workorder.priority.name }}</strong></v-col>
                             </v-row>
                             <div class="small-divider"></div>
                             <v-row no-gutters>
                                 <v-col>Work Category:</v-col>
-                                <v-col ><strong v-if="pm_workorder.work_category">{{ pm_workorder.work_category.name }}</strong></v-col>
+                                <v-col ><strong class="primary--text" v-if="pm_workorder.work_category">{{ pm_workorder.work_category.name }}</strong></v-col>
                             </v-row>
                             <div class="small-divider"></div>
                             <v-row no-gutters>
                                 <v-col>Job Hazard:</v-col>
-                                <v-col ><strong v-if="pm_workorder.job_hazard">{{ pm_workorder.job_hazard.name }}</strong></v-col>
+                                <v-col ><strong class="primary--text" v-if="pm_workorder.job_hazard">{{ pm_workorder.job_hazard.name }}</strong></v-col>
                             </v-row>
                             <div class="small-divider"></div>                            
                             <v-row no-gutters>
                                 <v-col>Associations:</v-col>
                                 <v-col >
-                                    <strong 
+                                    <strong class="primary--text"
                                         v-for="equipment in pm_workorder.equipment"
                                         :key="equipment.inventory_number"
                                     >- {{ equipment.equipment_name }} <br></strong>
@@ -90,30 +90,30 @@
                             <v-row no-gutters>
                                 <v-col>Description:</v-col>
                                 <v-col>
-                                <strong>{{ pm_workorder.description != "null" ? pm_workorder.description : "" }}</strong>
+                                <strong class="primary--text">{{ pm_workorder.description != "null" ? pm_workorder.description : "" }}</strong>
                                 </v-col>
                             </v-row>
                             <div class="small-divider"></div> 
                             <v-row no-gutters>
                                 <v-col>Created By:</v-col>
-                                <v-col><strong>{{pm_workorder.created_by.first_name}} - {{ pm_workorder.created_by.employee_id }}</strong></v-col>
+                                <v-col><strong class="primary--text">{{pm_workorder.created_by.first_name}} - {{ pm_workorder.created_by.employee_id }}</strong></v-col>
                             </v-row>
                             <div class="small-divider"></div>
                             <v-row no-gutters>
                                 <v-col>Created:</v-col>
-                                <v-col><strong>{{ moment(pm_workorder.created).fromNow() }}</strong></v-col>
+                                <v-col><strong class="primary--text">{{ moment(pm_workorder.created).fromNow() }}</strong></v-col>
                             </v-row>
                             <div class="small-divider"></div>                           
                             <v-row no-gutters>
                                 <v-col>Document:</v-col>
-                                <v-col ><strong v-if="pm_workorder.document">
+                                <v-col ><strong class="primary--text" v-if="pm_workorder.document">
                                     <a target="_blank" :href="pm_workorder.document">document</a>
                                     </strong></v-col>
                             </v-row>
                             <div class="small-divider"></div>
                             <v-row no-gutters>
                                 <v-col>Estimated Cost:</v-col>
-                                <v-col ><strong v-if="pm_workorder.estimated_cost">{{ pm_workorder.estimated_cost }} ETB</strong></v-col>
+                                <v-col ><strong class="primary--text" v-if="pm_workorder.estimated_cost">{{ pm_workorder.estimated_cost }} ETB</strong></v-col>
                             </v-row>
                             
                         </v-col>
@@ -128,7 +128,7 @@
                             <v-row no-gutters>
                                 <v-col>Active:</v-col>
                                 <v-col>
-                                    <strong>
+                                    <strong class="primary--text">
                                         <v-icon :color="getColor(pm_workorder.active)" v-if="pm_workorder.active" small>fa fa-check</v-icon>
                                         <v-icon :color="getColor(pm_workorder.active)" v-else small>fa fa-close</v-icon>
                                     </strong></v-col>
@@ -136,28 +136,28 @@
                             <div class="small-divider"></div>
                             <v-row no-gutters>
                                 <v-col>Initial Workorder status:</v-col>
-                                <v-col ><strong>{{ pm_workorder.workorder_status.name }}</strong></v-col>
+                                <v-col ><strong class="primary--text">{{ pm_workorder.workorder_status.name }}</strong></v-col>
                             </v-row>
                             <div class="small-divider"></div>
                             <v-row no-gutters>
                                 <v-col>Start Date:</v-col>
-                                <v-col ><strong>{{ pm_workorder.start_date }}</strong></v-col>
+                                <v-col ><strong class="primary--text">{{ pm_workorder.start_date }}</strong></v-col>
                             </v-row>
                             <div class="small-divider"></div>
                             <v-row no-gutters>
                                 <v-col>End Date:</v-col>
-                                <v-col ><strong>{{ pm_workorder.end_date }}</strong></v-col>
+                                <v-col ><strong class="primary--text">{{ pm_workorder.end_date }}</strong></v-col>
                             </v-row>
                             <div class="small-divider"></div>
                             <v-row no-gutters>
                                 <v-col>Days to complete:</v-col>
-                                <v-col ><strong>{{ pm_workorder.due_date }} days</strong></v-col>
+                                <v-col ><strong class="primary--text">{{ pm_workorder.due_date }} days</strong></v-col>
                             </v-row>
                             <div class="small-divider"></div>
                             <v-row no-gutters>
                                 <v-col>Multiple:</v-col>
                                 <v-col>
-                                    <strong>
+                                    <strong class="primary--text">
                                         <v-icon :color="getColor(pm_workorder.multiple)" v-if="pm_workorder.multiple" small>fa fa-check</v-icon>
                                         <v-icon :color="getColor(pm_workorder.multiple)" v-else small>fa fa-close</v-icon>
                                     </strong>
@@ -171,30 +171,30 @@
                                         v-for="assigned in pm_workorder.assigned_to"
                                         :key="assigned.employee_id"
                                     >
-                                        <strong>- {{ assigned.first_name }} - {{assigned.employee_id}}</strong><br>
+                                        <strong class="primary--text">- {{ assigned.first_name }} - {{assigned.employee_id}}</strong><br>
                                     </span>
                                 </v-col>
                             </v-row>
                             <div class="small-divider"></div>
                             <v-row no-gutters>
                                 <v-col>Scheduled So Far:</v-col>
-                                <v-col><strong>{{ pm_workorder.scheduled_so_far }}</strong></v-col>
+                                <v-col><strong class="primary--text">{{ pm_workorder.scheduled_so_far }}</strong></v-col>
                             </v-row>
                             <div class="small-divider"></div>
                             <v-row no-gutters>
                                 <v-col>Done So Far:</v-col>
-                                <v-col><strong>{{ pm_workorder.done_so_far }}</strong></v-col>
+                                <v-col><strong class="primary--text">{{ pm_workorder.done_so_far }}</strong></v-col>
                             </v-row>
                             <div class="small-divider"></div>
                             <v-row no-gutters>
                                 <v-col>Latest Scheduled Date:</v-col>
-                                <v-col><strong>{{ pm_workorder.last_scheduled_date }}</strong></v-col>
+                                <v-col><strong class="primary--text">{{ pm_workorder.last_scheduled_date }}</strong></v-col>
                             </v-row>
                             <div class="small-divider"></div>
                             <v-row no-gutters>
                                 <v-col>Latest complited:</v-col>
                                 <v-col>
-                                    <strong>
+                                    <strong class="primary--text">
                                         <v-icon :color="getColor(pm_workorder.last_complited)" v-if="pm_workorder.last_complited" small>fa fa-check</v-icon>
                                         <v-icon :color="getColor(pm_workorder.last_complited)" v-else small>fa fa-close</v-icon>
                                     </strong>
@@ -247,7 +247,7 @@
             </v-card-text>
 
             <!-- buttons -->
-            <div class="btns">
+            <div class="btns" :style="'border-top: 1px solid ' + getPrimaryHere()">
                 <v-layout>
                     <v-flex md8>
                     </v-flex>
@@ -279,7 +279,7 @@
                     <v-flex>
                         <v-btn
                             v-on:click="close"
-                            color="blue-grey white--text text-capitalize mb-4 mr-4 mt-4">
+                            color="primary white--text text-capitalize mb-4 mr-4 mt-4">
                                 <v-icon small>fa-close</v-icon>
                                 <span class="ml-2">Close</span>
                         </v-btn>
@@ -294,7 +294,7 @@
             <v-content>
                 <v-container class="fill-height" fluid>
                 <v-row justify="center" align="center">
-                    <v-progress-circular :size="50" color="blue-grey" indeterminate></v-progress-circular>
+                    <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
                 </v-row>
                 </v-container>
             </v-content>
@@ -335,6 +335,8 @@
 import { scheduler_type } from "@/resources/data";
 import SchedulerDetail from "./SchedulerDetail";
 import EditPmWorkorder from "./EditPmWorkorder";
+
+import { getPrimary } from "@/resources/helper";
 
 var moment = require('moment');
 export default {
@@ -465,6 +467,10 @@ export default {
         reload_detail_workorder() {
             this.setWorkorder(this.pm_workorder_id);
             this.$emit('reload');
+        },
+
+        getPrimaryHere() {
+            return getPrimary(this);
         }
 
     },
@@ -481,12 +487,8 @@ export default {
 .loading-card {
     height: 600px;
 }
-strong {
-    color: #607D8A;
-}
 
 .divider {
-    background: #607D8A;
     height: 1px;
     margin-top: 4px;
     margin-bottom: 10px;
@@ -518,6 +520,5 @@ strong {
 }
 .btns {
   width: 100%;
-  border-top: 1px solid #607d8a;
 }
 </style>

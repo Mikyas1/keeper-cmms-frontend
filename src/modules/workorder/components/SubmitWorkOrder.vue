@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-card v-if="pageLoad">
-      <v-toolbar color="blue-grey" dark flat>
+      <v-toolbar color="primary" dark flat>
         <v-toolbar-title>
           <v-icon>fa-wrench</v-icon> 
           <span> SUBMIT WORK ORDER</span>
@@ -183,7 +183,7 @@
       </v-card-text>
 
       <!-- buttons -->
-        <div class="btns">
+        <div class="btns" :style="'border-top: 1px solid ' + getPrimaryHere()">
             <v-layout>
                 <v-flex md9>
                 </v-flex>
@@ -198,7 +198,7 @@
                 </v-flex>
                 <v-flex>
                     <v-btn
-                        color="blue-grey white--text text-capitalize mb-4 mr-4 mt-4"
+                        color="primary white--text text-capitalize mb-4 mr-4 mt-4"
                         v-on:click="closeDialog"
                     >
                         <v-icon small>fa-close</v-icon>
@@ -214,7 +214,7 @@
       <v-content>
         <v-container class="fill-height" fluid>
           <v-row justify="center" align="center">
-            <v-progress-circular :size="50" color="blue-grey" indeterminate></v-progress-circular>
+            <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
           </v-row>
         </v-container>
       </v-content>
@@ -226,6 +226,8 @@
 
 import { mapGetters } from "vuex";
 import { get_complex_options } from "@/resources/helper";
+
+import { getPrimary } from "@/resources/helper";
 
 export default {
     name: 'SubmitWorkOrder',
@@ -400,7 +402,12 @@ export default {
         this.assigned_to_errors = null;
         this.workorder_status = null;
         this.workorder_status_errors = null;
+      },
+
+      getPrimaryHere() {
+        return getPrimary(this);
       }
+      
     },
     created() {
       
@@ -426,7 +433,6 @@ export default {
 <style scoped>
 .btns {
   width: 100%;
-  border-top: 1px solid #607d8a;
 }
 .loading-card {
     height: 600px;

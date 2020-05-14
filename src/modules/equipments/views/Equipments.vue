@@ -3,8 +3,8 @@
 
     <BodyNav :page_title="'Equipment'"></BodyNav>
 
-    <v-card raised v-if="pageLoad" class="c-card">
-      <v-card-title class="c-title">
+    <v-card raised v-if="pageLoad" :style="'border: 2px solid ' + getPrimaryHere()">
+      <v-card-title class="c-title" :style="'border-bottom: 2px solid ' + getPrimaryHere()">
         <v-form v-on:submit.prevent="goSearch" style="width: 100%">
           <v-layout row wrap>
             <v-flex xs12 md9>
@@ -21,7 +21,7 @@
             <v-flex xs12 md2>
               <v-btn
                 class="mt-3"
-                color="blue-grey white--text text-capitalize"
+                color="primary white--text text-capitalize"
                 :loading="loading"
                 type="submit"
               >
@@ -32,14 +32,14 @@
           </v-layout>
         </v-form>
       </v-card-title>
-      <v-card-title class="c-title-lower">
+      <v-card-title class="c-title-lower" :style="'border-bottom: 2px solid ' + getPrimaryHere()">
         <v-layout row wrap>
           <v-flex xs12 md9>
             <p class="body-1 pl-2">
               Query:
-              <strong>{{getQuery}}</strong>
+              <strong class="primary--text">{{getQuery}}</strong>
               <br />Found:
-              <strong>{{equipments.count}}</strong> Equipments.
+              <strong class="primary--text">{{equipments.count}}</strong> Equipments.
             </p>
           </v-flex>
           <v-flex xs12 md3 class="mb-3">
@@ -47,7 +47,7 @@
             <v-btn
               small
               class="mt-5 mr-3"
-              color="blue-grey white--text text-capitalize"
+              color="primary white--text text-capitalize"
               :disabled="!getBoolean(equipments.previous)"
               :loading="previous_btn"
               v-on:click="get_equipments_with_url(equipments.previous, 'p')"
@@ -58,7 +58,7 @@
             <v-btn
               small
               class="mt-5"
-              color="blue-grey white--text text-capitalize"
+              color="primary white--text text-capitalize"
               :loading="next_btn"
               :disabled="!getBoolean(equipments.next)"
               v-on:click="get_equipments_with_url(equipments.next, 'n')"
@@ -69,7 +69,7 @@
           </v-flex>
         </v-layout>
 
-        <v-layout class="filter-section">
+        <v-layout :style="'border-top: 2px solid ' + getPrimaryHere()">
           <v-flex xs8 class="mt-1">
             <v-layout row wrap>
               <v-flex xs12 md4>
@@ -105,7 +105,7 @@
             <v-btn
               small
               class="mt-4 ml-5"
-              color="blue-grey white--text text-capitalize"
+              color="primary white--text text-capitalize"
               :loading="filter_btn"
               v-on:click="filter"
             >Go</v-btn>
@@ -218,9 +218,9 @@
         <v-flex xs12 md9>
           <p class="body-2 pl-3 ml-3">
             Total
-            <strong>{{equipments.count}}</strong>
+            <strong class="primary--text">{{equipments.count}}</strong>
             Items, Showing maximum of
-            <strong>{{ load_per_page }}</strong> Items per page.
+            <strong class="primary--text">{{ load_per_page }}</strong> Items per page.
           </p>
         </v-flex>
         <v-flex xs12 md3 class="mb-3" :class="{'ml-5': $vuetify.breakpoint.smAndDown}">
@@ -228,7 +228,7 @@
           <v-btn
             small
             class="mr-3"
-            color="blue-grey white--text text-capitalize"
+            color="primary white--text text-capitalize"
             :disabled="!getBoolean(equipments.previous)"
             :loading="previous_btn"
             v-on:click="get_equipments_with_url(equipments.previous, 'p')"
@@ -238,7 +238,7 @@
           </v-btn>
           <v-btn
             small
-            color="blue-grey white--text text-capitalize"
+            color="primary white--text text-capitalize"
             :disabled="!getBoolean(equipments.next)"
             v-on:click="get_equipments_with_url(equipments.next, 'n')"
             :loading="next_btn"
@@ -254,7 +254,7 @@
       <v-content>
         <v-container class="fill-height" fluid>
           <v-row justify="center" align="center">
-            <v-progress-circular :size="50" color="blue-grey" indeterminate></v-progress-circular>
+            <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
           </v-row>
         </v-container>
       </v-content>
@@ -280,6 +280,7 @@ import { mapGetters } from "vuex";
 
 import { getColor } from "@/resources/helper";
 import { get_filter_query } from "@/resources/helper";
+import { getPrimary } from "@/resources/helper";
 
 import { get_complex_options } from "@/resources/helper";
 
@@ -463,6 +464,10 @@ export default {
 
     equipmentDetailPopupInit(fun) {
       this.init_equipment_detail = fun;
+    },
+
+    getPrimaryHere() {
+      return getPrimary(this);
     }
 
   },
@@ -574,12 +579,7 @@ export default {
   cursor: pointer;
 }
 
-.c-title {
-  border-bottom: 2px solid #607d8a;
-}
-
 .c-title-lower {
-  border-bottom: 2px solid #607d8a;
   border-top: 0px;
   min-height: 140px;
   padding-bottom: 0 !important;
@@ -589,15 +589,4 @@ export default {
   min-height: 50px;
 }
 
-strong {
-  color: #607d8a;
-}
-
-.c-card {
-  border: 2px solid #607d8a;
-}
-
-.filter-section {
-  border-top: 2px solid #607d8a;
-}
 </style>

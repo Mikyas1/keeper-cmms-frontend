@@ -39,7 +39,7 @@
 
         <div class="small-divider mt-3"></div>
 
-        <h3 class="mt-4 ml-3 blue-grey--text">Total downtime</h3>
+        <h3 class="mt-4 ml-3 primary--text">Total downtime</h3>
         <p class="mt-3 ml-3">Seconds: {{downtime.total_downtime}}
             <br>
             Minutes: {{downtime.total_downtime/60}}
@@ -49,7 +49,7 @@
 
         <div class="small-divider mt-3"></div>
 
-        <h3 class="mt-4 ml-3 blue-grey--text">Equipment Status Changed</h3>
+        <h3 class="mt-4 ml-3 primary--text">Equipment Status Changed</h3>
         <p class="mt-3 ml-3">
             Status Changed: {{downtime.downtime_history.length}}x
         </p>

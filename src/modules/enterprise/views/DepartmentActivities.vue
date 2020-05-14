@@ -7,9 +7,9 @@
         <v-container v-if="pageLoad" fluid class="my-0">
             <v-layout row wrap>
                 <v-flex xs12 sm6 md4 lg4 v-for="activite in activites" v-bind:key="activite.department.id">
-                    <v-card class="text-xs-center ma-3 c-card">
+                    <v-card class="text-xs-center ma-3 c-card" :style="'border: 2px solid ' + getPrimaryHere()">
                         
-                        <v-card-title class="c-title mb-3">
+                        <v-card-title class="c-title mb-3" :style="'border-bottom: 2px solid ' + getPrimaryHere()">
                             <v-icon>fa fa-institution</v-icon> 
                             <span class="ml-3 font-weight-medium">{{ reduceText(activite.department.name) }}</span>
                         </v-card-title>
@@ -26,7 +26,7 @@
                             </div>
 
                             <div class="subheading font-weight-regular">
-                              <v-icon class="mr-2 mb-2">fa-wrench</v-icon>  PM: {{ activite.pm_workorders }}
+                              <v-icon class="mr-2 mb-2">fa-cogs</v-icon>  PM: {{ activite.pm_workorders }}
                             </div>
 
                             <div class="subheading font-weight-regular">
@@ -42,7 +42,7 @@
                         <v-card-actions class="justify-end">
                             <!-- <v-btn
                                 depressed
-                                color="blue-grey text-capitalize"
+                                color="primary text-capitalize"
                                 dark
                             >
                                 <v-icon small class="mr-2">fa-external-link</v-icon>
@@ -58,7 +58,7 @@
             <v-content>
                 <v-container class="fill-height" fluid>
                 <v-row justify="center" align="center">
-                    <v-progress-circular :size="50" color="blue-grey" indeterminate></v-progress-circular>
+                    <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
                 </v-row>
                 </v-container>
             </v-content>
@@ -70,6 +70,8 @@
 <script>
 
 import BodyNav from "@/components/BodyNav";
+
+import { getPrimary } from "@/resources/helper";
 
 export default {
     name: "DepartmentActivities",
@@ -93,6 +95,10 @@ export default {
                 return text.slice(0, 15) + "...";
                 }
             }
+        },
+
+        getPrimaryHere() {
+            return getPrimary(this);
         }
     },
     created() {
@@ -110,20 +116,11 @@ export default {
 </script>
 
 <style scoped>
-.c-btn {
-    background-color: #607d8a;
-}
-
-.c-title {
-    border-bottom: 2px solid #607d8a !important;
-}
-
 .c-title span {
     font-size: .8em;
 }
 
 .c-card {
-    border: 2px solid #607d8a;
     margin-top: 0 !important;
 }
 </style>

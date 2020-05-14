@@ -5,15 +5,15 @@
             <div v-on:click="expand" class="pa-3 c-report-header">
                 <v-layout class="my-1">
                     <v-flex xs11>
-                        <v-icon class="mr-2">fa-wrench</v-icon><span class="reprot-title">DM Workorders <strong>{{ open_dm_workorders.length }}</strong></span>
+                        <v-icon class="mr-2 primary--text">fa-wrench</v-icon><span class="reprot-title primary--text">DM Workorders <strong>{{ open_dm_workorders.length }}</strong></span>
                     </v-flex>
 
                     <v-flex xs1 v-if="show">
-                        <v-icon color="blue-grey">fa-angle-up</v-icon>
+                        <v-icon color="primary">fa-angle-up</v-icon>
                     </v-flex>
 
                     <v-flex xs1 v-else>
-                        <v-icon color="blue-grey">fa-angle-down</v-icon>
+                        <v-icon color="primary">fa-angle-down</v-icon>
                     </v-flex>
 
                 </v-layout>
@@ -30,7 +30,7 @@
                     v-on:click="openDetail(workorder.id)"
                     >
 
-                        <v-card-title class="c-title pt-2 pb-2 mb-2">
+                        <v-card-title class="pt-2 pb-2 mb-2" :style="'border-bottom: 1px solid ' +  getPrimaryHere()">
                             <v-icon :color="getOverDueColor(workorder)" class="mr-1">
                                 fa-wrench
                             </v-icon>
@@ -98,15 +98,15 @@
              <div v-on:click="expand_pm" class="pa-3 c-report-header">
                 <v-layout class="my-1">
                     <v-flex xs11>
-                        <v-icon class="mr-2">fa-cogs</v-icon><span class="reprot-title">PM Workorders <strong>{{ open_pm_workorders.length }}</strong></span>
+                        <v-icon class="mr-2 primary--text">fa-cogs</v-icon><span class="reprot-title primary--text">PM Workorders <strong>{{ open_pm_workorders.length }}</strong></span>
                     </v-flex>
 
                     <v-flex xs1 v-if="show_pm">
-                        <v-icon color="blue-grey">fa-angle-up</v-icon>
+                        <v-icon class="primary--text">fa-angle-up</v-icon>
                     </v-flex>
 
                     <v-flex xs1 v-else>
-                        <v-icon color="blue-grey">fa-angle-down</v-icon>
+                        <v-icon class="primary--text">fa-angle-down</v-icon>
                     </v-flex>
 
                 </v-layout>
@@ -123,7 +123,7 @@
                     v-on:click="openDetail(workorder.id)"
                     >
 
-                        <v-card-title class="c-title pt-2 pb-2 mb-2">
+                        <v-card-title class="pt-2 pb-2 mb-2" :style="'border-bottom: 1px solid ' +  getPrimaryHere()">
                             <v-icon :color="getOverDueColor(workorder)" class="mr-1">
                                 fa-wrench
                             </v-icon>
@@ -190,7 +190,7 @@
         <!-- loader -->
 
         <div v-if="!pageLoad">
-            <v-progress-circular class="loader" :size="50" color="blue-grey" indeterminate></v-progress-circular>
+            <v-progress-circular class="loader" :size="50" color="primary" indeterminate></v-progress-circular>
         </div>
 
         <!-- Dynamic dialog -->
@@ -211,6 +211,8 @@
 
 <script>
 import { set_open_workorder_reload } from "../store/functions";
+
+import { getPrimary } from "@/resources/helper";
 
 var moment = require("moment");
 
@@ -321,6 +323,10 @@ export default {
                 .catch(() => {
                     this.pageLoad = false;
                 });
+        },
+
+        getPrimaryHere() {
+            return getPrimary(this);
         }
 
     },
@@ -341,9 +347,6 @@ export default {
   margin-left: 40%;
   margin-top: 40%;
 }
-.c-title{
-    border-bottom: 1px solid #607D8A;
-}
 
 .c-report-header {
   background-color: rgba(0, 0, 0, 0.1);
@@ -356,6 +359,5 @@ export default {
 
 .reprot-title {
   font-size: 1.1em;
-  color: #607D8A;
 }
 </style>

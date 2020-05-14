@@ -3,7 +3,7 @@
 
       <BodyNav :page_title="'Profile Detail'"></BodyNav>
 
-      <v-card flat class="c-card">
+      <v-card flat :style="'border: 2px solid ' + getPrimaryHere()">
         
       <v-card-text>
 
@@ -84,6 +84,8 @@ import { mapGetters } from "vuex";
 
 import BodyNav from "@/components/BodyNav";
 
+import { getPrimary } from "@/resources/helper";
+
 export default {
     name: 'AccountDetail',
 
@@ -95,14 +97,17 @@ export default {
       ...mapGetters({
         user: "auth/user",
       })
+    },
+
+    methods: {
+      getPrimaryHere() {
+        return getPrimary(this);
+      }
   },
 }
 </script>
 
 <style scoped>
-.c-card {
-  border: 2px solid #607d8a;
-}
 
 .small-divider {
     background: rgba(0, 0, 0, 0.08);

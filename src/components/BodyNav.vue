@@ -4,12 +4,12 @@
     <v-layout>
       <v-flex xs7 md9>
         Home 
-        <v-icon small class="page-title">
+        <v-icon small class="primary--text">
           fa fa-arrow-right
-        </v-icon> <span class="page-title">{{page_title}}</span>
+        </v-icon> <span class="primary--text">{{page_title}}</span>
       </v-flex>
       <v-flex xs5 md3 v-if="right">
-        <router-link class="right" router v-bind:to="right.url">
+        <router-link class="right primary--text" router v-bind:to="right.url">
           <v-icon small class="pb-1 mr-1">fa-{{right.icon}}</v-icon>
           {{right.name}}
         </router-link>
@@ -44,13 +44,8 @@ export default {
   margin-left: 2px;
 }
 
-.page-title {
-  color: #607d8a;
-}
-
 .right {
   text-decoration: none;
-  color: #607d8a;
 }
 
 .right:hover {

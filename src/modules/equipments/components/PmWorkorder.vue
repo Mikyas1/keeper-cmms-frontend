@@ -32,7 +32,7 @@
                             <span v-for="equipment in item.equipment.slice(0,1)" :key="equipment.inventory_number">
                                 - {{reduceText(equipment.equipment_name)}} <br/>
                             </span>
-                            <span class="c-more" v-if="item.equipment.length > 1">- <strong>({{item.equipment.length - 1}}) more</strong></span>
+                            <span v-if="item.equipment.length > 1">- <strong class="primary--text">({{item.equipment.length - 1}}) more</strong></span>
                         </div>
                     </template>
 
@@ -56,7 +56,7 @@
                             <span v-for="scheduler in item.scheduler.slice(0,1)" :key="scheduler.id">
                                 - {{reduceText(scheduler.name)}} <br/>
                             </span>
-                            <span class="c-more" v-if="item.scheduler.length > 1">- <strong>({{item.scheduler.length - 1}}) more</strong></span>
+                            <span v-if="item.scheduler.length > 1">- <strong class="primary--text">({{item.scheduler.length - 1}}) more</strong></span>
                         </div>
                     </template>
 
@@ -66,7 +66,7 @@
                             <span v-for="scheduler in item.scheduler.slice(0,1)" :key="scheduler.scheduler_type">
                                 - {{p_sheduler_type[scheduler.scheduler_type]}} <br/>
                             </span>
-                            <span class="c-more" v-if="item.scheduler.length > 1">- <strong>({{item.scheduler.length - 1}}) more</strong></span>
+                            <span v-if="item.scheduler.length > 1">- <strong class="primary--text">({{item.scheduler.length - 1}}) more</strong></span>
                         </div>
                     </template>
 
@@ -91,7 +91,7 @@
                             <span v-for="assigned in item.assigned_to.slice(0,1)" :key="assigned.employee_id">
                                 - {{assigned.first_name}} - {{assigned.employee_id}} <br/>
                             </span>
-                            <span class="c-more" v-if="item.assigned_to.length > 1">- <strong>({{item.assigned_to.length - 1}}) more</strong></span>
+                            <span v-if="item.assigned_to.length > 1">- <strong class="primary--text">({{item.assigned_to.length - 1}}) more</strong></span>
                         </div>
                     </template>
 
@@ -177,6 +177,8 @@
 var moment = require('moment');
 import { scheduler_type } from "@/resources/data";
 
+import { getPrimary } from "@/resources/helper";
+
 export default {
     name: 'Pmworkorder',
     props: ['pm_workorders'],
@@ -248,6 +250,10 @@ export default {
             this.p_sheduler_type = data;
         },
 
+        getPrimaryHere() {
+            return getPrimary(this);
+        }
+
     },
 
     created() {
@@ -302,31 +308,8 @@ export default {
     cursor: pointer;
 }
 
-.c-title {
-  border-bottom: 2px solid #607d8a;
-}
-
-.c-title-lower {
-  border-bottom: 2px solid #607d8a;
-  border-top: 0px;
-  min-height: 140px;
-  padding-bottom: 0 !important;
-}
-
 .c-table-footer {
   min-height: 50px;
-}
-
-strong {
-  color: #607d8a;
-}
-
-.c-card {
-  border: 2px solid #607d8a;
-}
-
-.filter-section {
-  border-top: 2px solid #607d8a;
 }
 
 .small-circle {

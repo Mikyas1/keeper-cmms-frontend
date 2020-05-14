@@ -9,7 +9,7 @@
     <v-icon small color="white" class="mr-3">{{ icon }}</v-icon>
     <span>{{ snackbar.message }}</span>
 
-    <v-btn text icon class="c-icon-close" v-on:click="CLOSE_SNCKBAR">
+    <v-btn text icon class="primary--text" v-on:click="CLOSE_SNCKBAR">
         <v-icon>fa-close</v-icon>
     </v-btn>
   </v-snackbar>
@@ -47,10 +47,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.c-icon-close {
-  color: #607D8A;
-}
-
-</style>

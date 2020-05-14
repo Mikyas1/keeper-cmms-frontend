@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-card>
-            <v-toolbar color="blue-grey" dark flat>
+            <v-toolbar color="primary" dark flat>
                 <v-toolbar-title>
                     <v-icon class="mx-2">fa-list-alt</v-icon> 
                     TASK
@@ -62,7 +62,7 @@
             </v-card-text>
 
             <!-- buttons -->
-            <div class="btns">
+            <div class="btns" :style="'border-top: 1px solid ' + getPrimaryHere()">
                 <v-layout>
                     <v-flex md9>
                     </v-flex>
@@ -76,7 +76,7 @@
                     </v-flex>
                     <v-flex>
                         <v-btn
-                            color="blue-grey white--text text-capitalize mb-4 mr-4 mt-4"
+                            color="primary white--text text-capitalize mb-4 mr-4 mt-4"
                             v-on:click="close"
                             >
                                 <v-icon small>fa-close</v-icon>
@@ -92,6 +92,9 @@
 </template>
 
 <script>
+
+import { getPrimary } from "@/resources/helper";
+
 export default {
     name: 'Tasks',
 
@@ -150,6 +153,10 @@ export default {
                                     estimated_hour: this.estimated_hour
                                     });
             this.close();
+        },
+       
+        getPrimaryHere() {
+            return getPrimary(this);
         }
     },
 
@@ -162,6 +169,5 @@ export default {
 <style scoped>
 .btns {
   width: 100%;
-  border-top: 1px solid #607d8a;
 }
 </style>

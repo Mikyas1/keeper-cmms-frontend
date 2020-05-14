@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-card v-if="pageLoad && extera">
-            <v-toolbar color="blue-grey" dark flat>
+            <v-toolbar color="primary" dark flat>
                 <v-toolbar-title>
                 <v-icon class="mx-2" :color="getOverDueColor(workorder)">fa-wrench</v-icon> 
                 
@@ -64,61 +64,61 @@
                             <h1 class="title mb-2">WORKORDER</h1>
                             <v-row no-gutters>
                                 <v-col>Name:</v-col>
-                                <v-col><strong>{{ workorder.name }}</strong></v-col>
+                                <v-col><strong class="primary--text">{{ workorder.name }}</strong></v-col>
                             </v-row>
                             <div class="small-divider"></div>
                             <v-row no-gutters>
                                 <v-col>Demand/PM:</v-col>
-                                <v-col ><strong>{{ workorder.workorder_type == 'DM' ? 'Demand' : 'PM' }}</strong></v-col>
+                                <v-col ><strong class="primary--text">{{ workorder.workorder_type == 'DM' ? 'Demand' : 'PM' }}</strong></v-col>
                             </v-row>
                             <div class="small-divider"></div>
                             <v-row no-gutters>
                                 <v-col>Priority:</v-col>
-                                <v-col ><strong v-if="workorder.priority">{{ workorder.priority.name }}</strong></v-col>
+                                <v-col ><strong class="primary--text" v-if="workorder.priority">{{ workorder.priority.name }}</strong></v-col>
                             </v-row>
                             <div class="small-divider"></div>
                             <v-row no-gutters>
                                 <v-col>Work Category:</v-col>
-                                <v-col ><strong v-if="workorder.work_category">{{ workorder.work_category.name }}</strong></v-col>
+                                <v-col ><strong class="primary--text" v-if="workorder.work_category">{{ workorder.work_category.name }}</strong></v-col>
                             </v-row>
                             <div class="small-divider"></div>
                             <v-row no-gutters>
                                 <v-col>Job Hazard:</v-col>
-                                <v-col ><strong v-if="workorder.job_hazard">{{ workorder.job_hazard.name }}</strong></v-col>
+                                <v-col ><strong class="primary--text" v-if="workorder.job_hazard">{{ workorder.job_hazard.name }}</strong></v-col>
                             </v-row>
                             <div class="small-divider"></div>                            
                             <v-row no-gutters>
                                 <v-col>Associations:</v-col>
-                                <v-col ><strong v-if="workorder.equipment">{{ workorder.equipment.equipment_name }}</strong></v-col>
+                                <v-col ><strong class="primary--text" v-if="workorder.equipment">{{ workorder.equipment.equipment_name }}</strong></v-col>
                             </v-row>
                             <div class="small-divider"></div>
                             <v-row no-gutters>
                                 <v-col>Description:</v-col>
                                 <v-col>
-                                <strong>{{ workorder.description != "null" ? workorder.description : "" }}</strong>
+                                <strong class="primary--text">{{ workorder.description != "null" ? workorder.description : "" }}</strong>
                                 </v-col>
                             </v-row>
                             <div class="small-divider"></div> 
                             <v-row no-gutters>
                                 <v-col>Created By:</v-col>
-                                <v-col><strong>{{workorder.created_by.first_name}} - {{ workorder.created_by.employee_id }}</strong></v-col>
+                                <v-col><strong class="primary--text">{{workorder.created_by.first_name}} - {{ workorder.created_by.employee_id }}</strong></v-col>
                             </v-row>
                             <div class="small-divider"></div>
                             <v-row no-gutters>
                                 <v-col>Created:</v-col>
-                                <v-col><strong>{{ moment(workorder.created).fromNow() }}</strong></v-col>
+                                <v-col><strong class="primary--text">{{ moment(workorder.created).fromNow() }}</strong></v-col>
                             </v-row>
                             <div class="small-divider"></div>                           
                             <v-row no-gutters>
                                 <v-col>Document:</v-col>
-                                <v-col ><strong v-if="workorder.document">
+                                <v-col ><strong class="primary--text" v-if="workorder.document">
                                     <a target="_blank" :href="workorder.document">document</a>
                                     </strong></v-col>
                             </v-row>
                             <div class="small-divider"></div>
                             <v-row no-gutters>
                                 <v-col>Estimated Cost:</v-col>
-                                <v-col ><strong v-if="workorder.estimated_cost">{{ workorder.estimated_cost }} ETB</strong></v-col>
+                                <v-col ><strong class="primary--text" v-if="workorder.estimated_cost">{{ workorder.estimated_cost }} ETB</strong></v-col>
                             </v-row>
                             
                             
@@ -134,42 +134,42 @@
                             <h1 class="title mb-2">WORKORDER STATUS</h1>
                             <v-row no-gutters>
                                 <v-col>Status:</v-col>
-                                <v-col ><strong>{{ getProperStatus(workorder) }}</strong></v-col>
+                                <v-col ><strong class="primary--text">{{ getProperStatus(workorder) }}</strong></v-col>
                             </v-row>
                             <div class="small-divider"></div>
                             <v-row no-gutters>
                                 <v-col>Closed:</v-col>
-                                <v-col><strong>{{ workorder.closed ? 'Yes' : 'No' }}</strong></v-col>
+                                <v-col><strong class="primary--text">{{ workorder.closed ? 'Yes' : 'No' }}</strong></v-col>
                             </v-row>
                             <div class="small-divider"></div>
                             <v-row v-if="workorder.closed" no-gutters>
                                 <v-col>Closed by:</v-col>
-                                <v-col><strong v-if="workorder.closed_by">{{ workorder.closed_by.first_name }} - {{ workorder.closed_by.employee_id }}</strong></v-col>
+                                <v-col><strong class="primary--text" v-if="workorder.closed_by">{{ workorder.closed_by.first_name }} - {{ workorder.closed_by.employee_id }}</strong></v-col>
                             </v-row>
                             <div v-if="workorder.closed" class="small-divider"></div>
                             <v-row no-gutters>
                                 <v-col>OverDue:</v-col>
-                                <v-col><strong>{{ workorder.over_due ? 'Yes' : 'No' }}</strong></v-col>
+                                <v-col><strong class="primary--text">{{ workorder.over_due ? 'Yes' : 'No' }}</strong></v-col>
                             </v-row>
                             <div class="small-divider"></div>
                             <v-row no-gutters>
                                 <v-col>Rejected:</v-col>
-                                <v-col ><strong>{{ workorder.rejected ? 'Yes' : 'No' }}</strong></v-col>
+                                <v-col ><strong class="primary--text">{{ workorder.rejected ? 'Yes' : 'No' }}</strong></v-col>
                             </v-row>
                             <div class="small-divider"></div>
                             <v-row v-if="workorder.closed" no-gutters>
                                 <v-col>Closed Date:</v-col>
-                                <v-col><strong>{{ workorder.closed_date }}</strong></v-col>
+                                <v-col><strong class="primary--text">{{ workorder.closed_date }}</strong></v-col>
                             </v-row>
                             <div v-if="workorder.closed" class="small-divider"></div>
                             <v-row no-gutters>
                                 <v-col>Due Date:</v-col>
-                                <v-col><strong>{{ workorder.due_date }}</strong></v-col>
+                                <v-col><strong class="primary--text">{{ workorder.due_date }}</strong></v-col>
                             </v-row>
                             <div class="small-divider"></div>
                             <v-row no-gutters>
                                 <v-col>Last Updated:</v-col>
-                                <v-col><strong v-if="workorder.created !== workorder.updated">{{ moment(workorder.updated).fromNow() }}</strong></v-col>
+                                <v-col><strong class="primary--text" v-if="workorder.created !== workorder.updated">{{ moment(workorder.updated).fromNow() }}</strong></v-col>
                             </v-row>
                             <div class="small-divider"></div>
                             <v-row no-gutters>
@@ -179,7 +179,7 @@
                                         v-for="assigned in workorder.assigned_to"
                                         :key="assigned.employee_id"
                                     >
-                                        <strong>- {{ assigned.first_name }} - {{assigned.employee_id}}</strong><br>
+                                        <strong class="primary--text">- {{ assigned.first_name }} - {{assigned.employee_id}}</strong><br>
                                     </span>
                                 </v-col>
                             </v-row>
@@ -194,21 +194,21 @@
                         <v-row no-gutters>
                             <v-col>Name:</v-col>
                             <v-col>
-                            <strong>{{ workorder.equipment.equipment_name }}</strong>
+                            <strong class="primary--text">{{ workorder.equipment.equipment_name }}</strong>
                             </v-col>
                         </v-row>
                         <div class="small-divider"></div>
                         <v-row no-gutters>
                             <v-col>Serial Number</v-col>
                             <v-col>
-                            <strong>{{ workorder.equipment.serial_number }}</strong>
+                            <strong class="primary--text">{{ workorder.equipment.serial_number }}</strong>
                             </v-col>
                         </v-row>
                         <div class="small-divider"></div>
                         <v-row no-gutters>
                             <v-col>Asset ID:</v-col>
                             <v-col>
-                            <strong>{{ workorder.equipment.inventory_number }}</strong>
+                            <strong class="primary--text">{{ workorder.equipment.inventory_number }}</strong>
                             </v-col>
                         </v-row>
                         <div class="small-divider"></div>
@@ -219,48 +219,48 @@
                                 class="col-small-circle"
                                 :style="`margin-right: 0px; background: ${getColorHere(workorder.equipment.status_flag.color)}`"
                             ></div>
-                            <strong style="margin-left: 10px;">{{ workorder.equipment.status_flag.name }}</strong>
+                            <strong class="primary--text" style="margin-left: 10px;">{{ workorder.equipment.status_flag.name }}</strong>
                             </v-col>
                         </v-row>
                         <div class="small-divider"></div>
                         <v-row no-gutters>
                             <v-col>Warranty Expires:</v-col>
                             <v-col>
-                            <strong>{{ workorder.equipment.warranty_expiration_date }}</strong>
+                            <strong class="primary--text">{{ workorder.equipment.warranty_expiration_date }}</strong>
                             </v-col>
                         </v-row>
                         <div class="small-divider"></div>
                         <v-row no-gutters>
                             <v-col>Description:</v-col>
                             <v-col>
-                            <strong>{{ workorder.equipment.description }}</strong>
+                            <strong class="primary--text">{{ workorder.equipment.description }}</strong>
                             </v-col>
                         </v-row>
 
                         <h1 class="title mb-2 mt-5">LOCATION</h1>
                             <v-row no-gutters>
                                 <v-col>Department:</v-col>
-                                <v-col><strong>{{ workorder.department.name }}</strong></v-col>
+                                <v-col><strong class="primary--text">{{ workorder.department.name }}</strong></v-col>
                             </v-row>
                             <div class="small-divider"></div>
                             <v-row no-gutters>
                                 <v-col>Building:</v-col>
-                                <v-col><strong>{{ workorder.location.building.name }}</strong></v-col>
+                                <v-col><strong class="primary--text">{{ workorder.location.building.name }}</strong></v-col>
                             </v-row>
                             <div class="small-divider"></div>
                             <v-row no-gutters>
                                 <v-col>Floor:</v-col>
-                                <v-col><strong>{{ workorder.location.floor }}</strong></v-col>
+                                <v-col><strong class="primary--text">{{ workorder.location.floor }}</strong></v-col>
                             </v-row>
                             <div class="small-divider"></div>
                             <v-row no-gutters>
                                 <v-col>Room No:</v-col>
-                                <v-col><strong>{{ workorder.location.room_number }}</strong></v-col>
+                                <v-col><strong class="primary--text">{{ workorder.location.room_number }}</strong></v-col>
                             </v-row>
                             <div v-if="workorder.location.sub_room_section" class="small-divider"></div>
                             <v-row no-gutters v-if="workorder.location.sub_room_section">
                                 <v-col>Room No:</v-col>
-                                <v-col><strong>{{ workorder.location.sub_room_section }}</strong></v-col>
+                                <v-col><strong class="primary--text">{{ workorder.location.sub_room_section }}</strong></v-col>
                             </v-row>
                         
                     </v-col>
@@ -271,21 +271,21 @@
                                 <v-row no-gutters>
                                     <v-col>First Name:</v-col>
                                     <v-col v-if="workorder.report.creater">
-                                    <strong>{{ workorder.report.creater.first_name }}</strong>
+                                    <strong class="primary--text">{{ workorder.report.creater.first_name }}</strong>
                                     </v-col>
                                 </v-row>
                                 <div class="small-divider"></div>
                                 <v-row no-gutters>
                                     <v-col>Employee Id:</v-col>
                                     <v-col v-if="workorder.report.creater">
-                                    <strong>{{ workorder.report.creater.employee_id }}</strong>
+                                    <strong class="primary--text">{{ workorder.report.creater.employee_id }}</strong>
                                     </v-col>
                                 </v-row>
                                 <div class="small-divider"></div>
                                 <v-row no-gutters>
                                     <v-col>Phone NO:</v-col>
                                     <v-col v-if="workorder.report.creater">
-                                    <strong>{{ workorder.report.creater.phone_number }}</strong>
+                                    <strong class="primary--text">{{ workorder.report.creater.phone_number }}</strong>
                                     </v-col>
                                 </v-row>
                                 <div class="small-divider"></div>
@@ -296,21 +296,21 @@
                                         class="col-small-circle"
                                         :style="`margin-right: 0px; background: ${getColorHere(workorder.report.equipment_status.color )}`"
                                     ></div>
-                                    <strong style="margin-left: 10px;">{{ workorder.report.equipment_status.name }}</strong>
+                                    <strong class="primary--text" style="margin-left: 10px;">{{ workorder.report.equipment_status.name }}</strong>
                                     </v-col>
                                 </v-row>
                                 <div class="small-divider"></div>
                                 <v-row no-gutters>
                                     <v-col>Description:</v-col>
                                     <v-col>
-                                    <strong>{{ workorder.report.description }}</strong>
+                                    <strong class="primary--text">{{ workorder.report.description }}</strong>
                                     </v-col>
                                 </v-row>
                                 <div class="small-divider"></div>
                                 <v-row no-gutters>
                                     <v-col>Priority:</v-col>
                                     <v-col>
-                                    <strong>{{ workorder.report.priority.name }}</strong>
+                                    <strong class="primary--text">{{ workorder.report.priority.name }}</strong>
                                     </v-col>
                                 </v-row>
                                 <div class="small-divider"></div>
@@ -318,28 +318,28 @@
                                 <v-row no-gutters>
                                     <v-col>Report Created:</v-col>
                                     <v-col v-if="workorder.report.created">
-                                    <strong>{{ moment(workorder.report.created).fromNow() }}</strong>
+                                    <strong class="primary--text">{{ moment(workorder.report.created).fromNow() }}</strong>
                                     </v-col>
                                 </v-row>
                                 <div class="small-divider"></div>
                                 <v-row no-gutters>
                                     <v-col>User Type:</v-col>
                                     <v-col v-if="workorder.report.creater">
-                                    <strong>{{ workorder.report.creater.user_type }}</strong>
+                                    <strong class="primary--text">{{ workorder.report.creater.user_type }}</strong>
                                     </v-col>
                                 </v-row>
                                 <div class="small-divider"></div>
                                 <v-row no-gutters>
                                     <v-col>Employee Position:</v-col>
                                     <v-col v-if="workorder.report.creater && workorder.report.creater.employee_position">
-                                    <strong>{{ workorder.report.creater.employee_position.position_name }}</strong>
+                                    <strong class="primary--text">{{ workorder.report.creater.employee_position.position_name }}</strong>
                                     </v-col>
                                 </v-row>
                                 <div class="small-divider"></div>
                                 <v-row no-gutters>
                                     <v-col>Education Level</v-col>
                                     <v-col v-if="workorder.report.creater && workorder.report.creater.training_detail">
-                                    <strong>{{ workorder.report.creater.training_detail.training_level }}</strong>
+                                    <strong class="primary--text">{{ workorder.report.creater.training_detail.training_level }}</strong>
                                     </v-col>
                                 </v-row>
                             </div>
@@ -349,21 +349,21 @@
                                 <v-row no-gutters>
                                     <v-col>Name:</v-col>
                                     <v-col v-if="workorder.pm_scheduler.name">
-                                    <strong>{{ workorder.pm_scheduler.name }}</strong>
+                                    <strong class="primary--text">{{ workorder.pm_scheduler.name }}</strong>
                                     </v-col>
                                 </v-row>
                                 <div class="small-divider"></div>
                                 <v-row no-gutters>
                                     <v-col>Latest Scheduled:</v-col>
                                     <v-col v-if="workorder.pm_scheduler.last_scheduled_date">
-                                    <strong>{{ workorder.pm_scheduler.last_scheduled_date }}</strong>
+                                    <strong class="primary--text">{{ workorder.pm_scheduler.last_scheduled_date }}</strong>
                                     </v-col>
                                 </v-row>
                                 <div class="small-divider"></div>
                                 <v-row no-gutters>
                                     <v-col>Latest Complited:</v-col>
                                     <v-col>
-                                    <strong>
+                                    <strong class="primary--text">
                                         <v-icon :color="getColor_now(workorder.pm_scheduler.last_complited)" v-if="workorder.pm_scheduler.last_complited" small>fa fa-check</v-icon>
                                         <v-icon :color="getColor_now(workorder.pm_scheduler.last_complited)" v-else small>fa fa-close</v-icon>
                                     </strong>
@@ -373,42 +373,42 @@
                                 <v-row no-gutters>
                                     <v-col>Scheduled so far:</v-col>
                                     <v-col v-if="workorder.pm_scheduler.scheduled_so_far">
-                                    <strong>{{ workorder.pm_scheduler.scheduled_so_far }}</strong>
+                                    <strong class="primary--text">{{ workorder.pm_scheduler.scheduled_so_far }}</strong>
                                     </v-col>
                                 </v-row>
                                 <div class="small-divider"></div>
                                 <v-row no-gutters>
                                     <v-col>Done so far:</v-col>
                                     <v-col v-if="workorder.pm_scheduler.done_so_far">
-                                    <strong>{{ workorder.pm_scheduler.done_so_far }}</strong>
+                                    <strong class="primary--text">{{ workorder.pm_scheduler.done_so_far }}</strong>
                                     </v-col>
                                 </v-row>
                                 <div class="small-divider"></div>
                                 <v-row no-gutters>
                                     <v-col>Days to complete:</v-col>
-                                    <v-col ><strong>{{ workorder.pm_scheduler.due_date }} days</strong></v-col>
+                                    <v-col ><strong class="primary--text">{{ workorder.pm_scheduler.due_date }} days</strong></v-col>
                                 </v-row>
                                 <div class="small-divider"></div>
                                 <v-row no-gutters>
                                     <v-col>Scheduler Name:</v-col>
-                                    <v-col><strong>{{ workorder.scheduler.name }}</strong></v-col>
+                                    <v-col><strong class="primary--text">{{ workorder.scheduler.name }}</strong></v-col>
                                 </v-row>
                                 <div class="small-divider"></div>
                                 <v-row no-gutters>
                                     <v-col>Type:</v-col>
-                                    <v-col ><strong>{{p_sheduler_type[workorder.scheduler.scheduler_type]}}</strong></v-col>
+                                    <v-col ><strong class="primary--text">{{p_sheduler_type[workorder.scheduler.scheduler_type]}}</strong></v-col>
                                 </v-row>
                                 <div class="small-divider"></div>
 
                                 <div v-if="workorder.scheduler.scheduler_type == 'IN'">
                                     <v-row no-gutters>
                                         <v-col>Interval:</v-col>
-                                        <v-col ><strong v-if="workorder.scheduler.interval != null">{{ workorder.scheduler.interval }}</strong></v-col>
+                                        <v-col ><strong class="primary--text" v-if="workorder.scheduler.interval != null">{{ workorder.scheduler.interval }}</strong></v-col>
                                     </v-row>
                                     <div class="small-divider"></div>
                                     <v-row no-gutters>
                                         <v-col>Starting Date:</v-col>
-                                        <v-col ><strong v-if="workorder.scheduler.interval_start_date != null">{{ workorder.scheduler.interval_start_date }}</strong></v-col>
+                                        <v-col ><strong class="primary--text" v-if="workorder.scheduler.interval_start_date != null">{{ workorder.scheduler.interval_start_date }}</strong></v-col>
                                     </v-row>
                                     <div class="small-divider"></div>
                                 </div>
@@ -416,35 +416,35 @@
                                 <div v-if="workorder.scheduler.scheduler_type == 'OT'">
                                     <v-row no-gutters>
                                         <v-col>On Date:</v-col>
-                                        <v-col ><strong v-if="workorder.scheduler.one_time_date != null">{{ workorder.scheduler.one_time_date }}</strong></v-col>
+                                        <v-col ><strong class="primary--text" v-if="workorder.scheduler.one_time_date != null">{{ workorder.scheduler.one_time_date }}</strong></v-col>
                                     </v-row>
                                 </div>
 
                                 <div v-if="workorder.scheduler.scheduler_type == 'DY'">
                                     <v-row no-gutters>
                                         <v-col>On Day:</v-col>
-                                        <v-col ><strong>Every Day</strong></v-col>
+                                        <v-col ><strong class="primary--text">Every Day</strong></v-col>
                                     </v-row>
                                 </div>
 
                                 <div v-if="workorder.scheduler.scheduler_type == 'WK'">
                                     <v-row no-gutters>
                                         <v-col>Week Day:</v-col>
-                                        <v-col ><strong v-if="workorder.scheduler.week_day != null">{{ get_week_days[workorder.scheduler.week_day].name }}</strong></v-col>
+                                        <v-col ><strong class="primary--text" v-if="workorder.scheduler.week_day != null">{{ get_week_days[workorder.scheduler.week_day].name }}</strong></v-col>
                                     </v-row>
                                 </div>
 
                                 <div v-if="workorder.scheduler.scheduler_type == 'MN'">
                                     <v-row no-gutters>
                                         <v-col>On the:</v-col>
-                                        <v-col ><strong v-if="workorder.scheduler.day_of_the_month != null">{{ get_month_days[workorder.scheduler.day_of_the_month].name }}</strong></v-col>
+                                        <v-col ><strong class="primary--text" v-if="workorder.scheduler.day_of_the_month != null">{{ get_month_days[workorder.scheduler.day_of_the_month].name }}</strong></v-col>
                                     </v-row>
                                     <div class="small-divider"></div>
                                     <v-row no-gutters>
                                         <v-col>Months:</v-col>
                                         <v-col >
                                             <div v-if="workorder.scheduler.month != null">
-                                                <strong 
+                                                <strong class="primary--text" 
                                                     v-for="month in workorder.scheduler.month"
                                                     :key="month.id"
                                                 > 
@@ -519,7 +519,7 @@
 
                      </v-data-table>
 
-                     <div class="divider"></div>
+                     <div class="divider" :style="'background: ' + getPrimaryHere()"></div>
 
                     <h1 class="title mt-4 mb-2">WORK DONE ({{ workdone.length }})</h1>
                     <v-data-table
@@ -562,7 +562,7 @@
 
 
             <!-- buttons -->
-            <div class="btns">
+            <div class="btns" :style="'border-top: 1px solid ' + getPrimaryHere()">
                 <v-layout>
                     <v-flex md8>
                     </v-flex>
@@ -578,7 +578,7 @@
                     <v-flex>
                         <v-btn 
                             v-on:click="closeDetailWorkorder"
-                            color="blue-grey white--text text-capitalize mb-4 mr-4 mt-4">
+                            color="primary white--text text-capitalize mb-4 mr-4 mt-4">
                                 <v-icon small>fa-close</v-icon>
                                 <span class="ml-2">Close</span>
                         </v-btn>
@@ -591,7 +591,7 @@
             <v-content>
                 <v-container class="fill-height" fluid>
                 <v-row justify="center" align="center">
-                    <v-progress-circular :size="50" color="blue-grey" indeterminate></v-progress-circular>
+                    <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
                 </v-row>
                 </v-container>
             </v-content>
@@ -635,7 +635,8 @@ var moment = require('moment');
 import SubmitWorkDone from "./SubmitWorkDone";
 import WorkDoneDetail from "./WorkDoneDetail";
 
-import { getColor } from "@/resources/helper"; 
+import { getColor } from "@/resources/helper";
+import { getPrimary } from "@/resources/helper";
 
 import { week_days } from "@/resources/data";
 import { month_days } from "@/resources/data";
@@ -831,6 +832,10 @@ export default {
             }
             this.p_sheduler_type = data;
         },
+
+        getPrimaryHere() {
+            return getPrimary(this);
+        }
     },
     
     created() {
@@ -845,12 +850,8 @@ export default {
 .loading-card {
     height: 600px;
 }
-strong {
-    color: #607D8A;
-}
 
 .divider {
-    background: #607D8A;
     height: 1px;
     margin-top: 4px;
     margin-bottom: 10px;
@@ -882,6 +883,5 @@ strong {
 }
 .btns {
   width: 100%;
-  border-top: 1px solid #607d8a;
 }
 </style>

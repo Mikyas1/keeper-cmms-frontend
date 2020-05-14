@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-card>
-            <v-toolbar color="blue-grey" dark flat>
+            <v-toolbar color="primary" dark flat>
                 <v-toolbar-title>
                     <v-icon class="mx-2">fa-calendar</v-icon> 
                     SCHEDULER
@@ -31,7 +31,7 @@
                     </v-flex>
                     <v-flex xs12 md9 class="px-5">
                         
-                        <h2 v-if="selected_type == null" class="mt-4 ml-4 blue-grey--text"><strong><v-icon class="mb-5" color="green">fa fa-paperclip</v-icon> Pleace Select a Scheduler Type.</strong></h2>
+                        <h2 v-if="selected_type == null" class="mt-4 ml-4 primary--text"><strong><v-icon class="mb-5" color="green">fa fa-paperclip</v-icon> Pleace Select a Scheduler Type.</strong></h2>
                         
                         <div class="mt-4" v-else>
                         
@@ -124,7 +124,7 @@
                             
                                 <v-card class="pa-4 mr-5" flat>
 
-                                    <h3 class="blue-grey--text">Select Months</h3>
+                                    <h3 class="primary--text">Select Months</h3>
 
                                     <v-btn
                                         small
@@ -175,7 +175,7 @@
             </v-card-text>
             
             <!-- buttons -->
-            <div v-if="selected_type != null" class="btns">
+            <div v-if="selected_type != null" class="btns" :style="'border-top: 1px solid ' + getPrimaryHere()">
                 <v-layout>
                     <v-flex md9>
                     </v-flex>
@@ -189,7 +189,7 @@
                     </v-flex>
                     <v-flex>
                         <v-btn
-                            color="blue-grey white--text text-capitalize mb-4 mr-4 mt-4"
+                            color="primary white--text text-capitalize mb-4 mr-4 mt-4"
                             v-on:click="close"
                             >
                                 <v-icon small>fa-close</v-icon>
@@ -209,6 +209,8 @@ import { scheduler_type } from "@/resources/data";
 import { month_days } from "@/resources/data";
 import { months } from "@/resources/data";
 import { week_days } from "@/resources/data";
+
+import { getPrimary } from "@/resources/helper";
 
 export default {
     name: 'Scheduler',
@@ -405,6 +407,10 @@ export default {
                                             scheduler_type: this.selected_type,
                                         });
             this.close();
+        },
+
+        getPrimaryHere() {
+            return getPrimary(this);
         }
 
     },
@@ -419,7 +425,6 @@ export default {
 <style scoped>
 .btns {
   width: 100%;
-  border-top: 1px solid #607d8a;
 }
 .month-day-selector {
     width: 50%;

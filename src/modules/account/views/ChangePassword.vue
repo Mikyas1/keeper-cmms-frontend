@@ -4,7 +4,7 @@
     <BodyNav :page_title="'Change Password'"></BodyNav>
 
     <v-card>
-      <v-toolbar color="blue-grey" dark flat>
+      <v-toolbar color="primary" dark flat>
         <v-toolbar-title>
           <v-icon>fa-unlock-alt</v-icon>
           <span class="ml-2">Change Password</span>
@@ -39,7 +39,7 @@
 
             <v-spacer />
             <v-btn
-              color="blue-grey white--text text-capitalize"
+              color="primary white--text text-capitalize"
               :loading="loading"
               type="submit"
             >Change Password</v-btn>

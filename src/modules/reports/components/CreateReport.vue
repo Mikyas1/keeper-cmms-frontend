@@ -1,7 +1,7 @@
 <template>
   <div>
       <v-card v-if="pageLoad">
-        <v-toolbar color="blue-grey" dark flat>
+        <v-toolbar color="primary" dark flat>
             <v-toolbar-title>
             <v-icon>fa-bell</v-icon>
             <span class="ml-2">Report: {{equipment.equipment_name}}</span>
@@ -64,20 +64,20 @@
         </v-card-text>
 
         <!-- buttons -->
-        <div class="btns mt-5">
+        <div class="btns mt-5" :style="'border-top: 1px solid ' + getPrimaryHere()">
             <v-card>
             <v-layout>
                 <v-flex md7>
                 </v-flex>
                 <v-flex md5>
                     <v-btn
-                        color="blue-grey white--text text-capitalize mb-4 mr-4 mt-4 ml-5"
+                        color="primary white--text text-capitalize mb-4 mr-4 mt-4 ml-5"
                         v-on:click="closeDialog"
                     >
                         <v-icon small>fa-close</v-icon>
                         <span class="ml-2">Cancel</span>
                     </v-btn>
-                    <v-btn color="blue-grey white--text text-capitalize mb-4 mr-4 mt-4"
+                    <v-btn color="primary white--text text-capitalize mb-4 mr-4 mt-4"
                         v-on:click="report"
                         :loading="loading"  
                     >
@@ -95,7 +95,7 @@
       <v-content>
         <v-container class="fill-height" fluid>
           <v-row justify="center" align="center">
-            <v-progress-circular :size="50" color="blue-grey" indeterminate></v-progress-circular>
+            <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
           </v-row>
         </v-container>
       </v-content>
@@ -107,6 +107,8 @@
 <script>
 import { getColor } from "@/resources/helper";
 import { get_options } from "@/resources/helper";
+
+import { getPrimary } from "@/resources/helper";
 
 import { mapGetters } from "vuex";
 
@@ -210,6 +212,9 @@ export default {
                     }
                 }
             })
+    },
+    getPrimaryHere() {
+      return getPrimary(this);
     }
   },
   created() {
@@ -242,7 +247,6 @@ export default {
 
 .btns {
   width: 100%;
-  border-top: 1px solid #607d8a;
 }
 
 </style>

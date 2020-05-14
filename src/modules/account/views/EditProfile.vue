@@ -4,7 +4,7 @@
     <BodyNav :page_title="'Edit Profile'"></BodyNav>
     
     <v-card v-if="pageLoad">
-      <v-toolbar color="blue-grey" dark flat>
+      <v-toolbar color="primary" dark flat>
         <v-toolbar-title>
           <v-icon>fa-user</v-icon>
           <span class="ml-2">Edit Profile</span>
@@ -85,7 +85,7 @@
 
             <v-spacer />
             <v-btn
-              color="blue-grey white--text text-capitalize"
+              color="primary white--text text-capitalize"
               :loading="loading"
               type="submit"
             >Update Profile</v-btn>
@@ -98,7 +98,7 @@
       <v-content>
         <v-container class="fill-height" fluid>
           <v-row justify="center" align="center">
-            <v-progress-circular :size="50" color="blue-grey" indeterminate></v-progress-circular>
+            <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
           </v-row>
         </v-container>
       </v-content>

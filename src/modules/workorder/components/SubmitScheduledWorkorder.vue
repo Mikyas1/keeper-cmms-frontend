@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-card v-if="pageLoad">
-            <v-toolbar color="blue-grey" dark flat>
+            <v-toolbar color="primary" dark flat>
                 <v-toolbar-title>
                     <v-icon class="mx-2">fa-cogs</v-icon> 
                     SUBMIT SCHEDULED WORKORDER
@@ -202,13 +202,13 @@
 
                     <v-btn
                         v-on:click="open_scheduler_dialog"
-                        class="mb-4 blue-grey white--text text-capitalize"
+                        class="mb-4 primary white--text text-capitalize"
                     >
                     <v-icon small class="mr-2">fa fa-calendar</v-icon>
                         Add Scheduler
                     </v-btn>
 
-                    <div class="divider"></div>
+                    <div class="divider" :style="'background: ' + getPrimaryHere()"></div>
 
                     <!-- Tasks -->
                     <h1 class="title mb-3 mt-5">TASKS</h1>
@@ -245,7 +245,7 @@
 
                     <v-btn
                         v-on:click="open_tasks_dialog"
-                        class="mb-4 blue-grey white--text text-capitalize"
+                        class="mb-4 primary white--text text-capitalize"
                     >
                     <v-icon small class="mr-2">fa fa-list-alt</v-icon>
                         Add Tasks
@@ -255,7 +255,7 @@
             </v-card-text>
 
             <!-- buttons -->
-            <div class="btns">
+            <div class="btns" :style="'border-top: 1px solid ' + getPrimaryHere()">
                 <v-layout>
                     <v-flex md9>
                     </v-flex>
@@ -270,7 +270,7 @@
                     </v-flex>
                     <v-flex>
                         <v-btn
-                            color="blue-grey white--text text-capitalize mb-4 mr-4 mt-4"
+                            color="primary white--text text-capitalize mb-4 mr-4 mt-4"
                             v-on:click="closeSubmitScheduledWorkorder">
                                 <v-icon small>fa-close</v-icon>
                                 <span class="ml-2">Close</span>
@@ -286,7 +286,7 @@
             <v-content>
                 <v-container class="fill-height" fluid>
                 <v-row justify="center" align="center">
-                    <v-progress-circular :size="50" color="blue-grey" indeterminate></v-progress-circular>
+                    <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
                 </v-row>
                 </v-container>
             </v-content>
@@ -325,6 +325,7 @@
 
 import { mapGetters } from "vuex";
 import { get_complex_options } from "@/resources/helper";
+import { getPrimary } from "@/resources/helper";
 
 import Scheduler from './Scheduler';
 import Tasks from './Tasks';
@@ -641,6 +642,10 @@ export default {
             }
         },
 
+        getPrimaryHere() {
+            return getPrimary(this);
+        }
+
     },
 
     computed: {
@@ -720,13 +725,11 @@ export default {
 <style scoped>
 .btns {
   width: 100%;
-  border-top: 1px solid #607d8a;
 }
 .loading-card {
     height: 600px;
 }
 .divider {
-    background: #607D8A;
     height: 1px;
     margin-top: 4px;
     margin-bottom: 10px;

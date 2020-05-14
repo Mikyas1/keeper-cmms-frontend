@@ -97,7 +97,7 @@
       <v-content>
         <v-container class="fill-height" fluid>
           <v-row justify="center" align="center">
-            <v-progress-circular :size="50" color="blue-grey" indeterminate></v-progress-circular>
+            <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
           </v-row>
         </v-container>
       </v-content>

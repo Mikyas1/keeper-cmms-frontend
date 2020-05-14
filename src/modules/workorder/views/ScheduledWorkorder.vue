@@ -1,8 +1,8 @@
 <template>
     <div>
         <BodyNav :page_title="'Scheduled Work Orders'"></BodyNav>
-        <v-card raised v-if="pageLoad" class="c-card">
-            <v-card-title class="c-title">
+        <v-card raised v-if="pageLoad" :style="'border: 2px solid ' + getPrimaryHere()">
+            <v-card-title :style="'border-bottom: 2px solid ' + getPrimaryHere()">
                 <v-form v-on:submit.prevent="goSearch" style="width: 100%">
                     <v-layout row wrap>
                         <v-flex xs12 md9>
@@ -19,7 +19,7 @@
                         <v-flex xs12 md2>
                         <v-btn
                             class="mt-3"
-                            color="blue-grey white--text text-capitalize"
+                            color="primary white--text text-capitalize"
                             :loading="searchLoading"
                             type="submit"
                         >
@@ -31,14 +31,14 @@
                     </v-form>
                 </v-card-title>
 
-                <v-card-title class="c-title-lower">
+                <v-card-title class="c-title-lower" :style="'border-bottom: 2px solid ' + getPrimaryHere()">
                     <v-layout row wrap>
                         <v-flex xs12 md9>
                             <p class="body-1 pl-2">
                             Query:
-                            <strong>{{getQuery}}</strong>
+                            <strong class="primary--text">{{getQuery}}</strong>
                             <br />Found:
-                            <strong>{{scheduled_workorder.count}}</strong> Scheduled Workorders.
+                            <strong class="primary--text">{{scheduled_workorder.count}}</strong> Scheduled Workorders.
                             </p>
                         </v-flex>
                         <v-flex xs12 md3 class="mb-3">
@@ -46,7 +46,7 @@
                             <v-btn
                                 small
                                 class="mt-5 mr-3"
-                                color="blue-grey white--text text-capitalize"
+                                color="primary white--text text-capitalize"
                                 :disabled="!getBoolean(scheduled_workorder.previous)"
                                 :loading="previous_btn"
                                 v-on:click="get_scheduled_workorder_with_url(scheduled_workorder.previous, 'p')"
@@ -57,7 +57,7 @@
                             <v-btn
                             small
                                 class="mt-5"
-                                color="blue-grey white--text text-capitalize"
+                                color="primary white--text text-capitalize"
                                 :loading="next_btn"
                                 :disabled="!getBoolean(scheduled_workorder.next)"
                                 v-on:click="get_scheduled_workorder_with_url(scheduled_workorder.next, 'n')"
@@ -69,7 +69,7 @@
                     </v-layout>
 
                     <!-- filter section -->
-                    <div class="filter-section">
+                    <div :style="'border-top: 2px solid ' + getPrimaryHere()">
                         <v-layout row wrap>
                             <v-flex xs12 md3>
                                 <v-select
@@ -154,7 +154,7 @@
                                 <v-btn
                                 small
                                 class=""
-                                color="blue-grey white--text text-capitalize"
+                                color="primary white--text text-capitalize"
                                 :loading="filter_btn"
                                 v-on:click="filter"
                                 >Go</v-btn>
@@ -166,7 +166,7 @@
                                     fab
                                     small
                                     icon 
-                                    color="blue-grey"
+                                    color="primary"
                                     :class="{'mb-4': $vuetify.breakpoint.smAndDown}"
                                     v-on:click="open_submit_scheduled_workorder"
                                     >
@@ -213,7 +213,7 @@
                             <span v-for="equipment in item.equipment.slice(0,1)" :key="equipment.inventory_number">
                                 - {{reduceText(equipment.equipment_name)}} <br/>
                             </span>
-                            <span class="c-more" v-if="item.equipment.length > 1">- <strong>({{item.equipment.length - 1}}) more</strong></span>
+                            <span class="c-more" v-if="item.equipment.length > 1">- <strong class="primary--text">({{item.equipment.length - 1}}) more</strong></span>
                         </div>
                     </template>
 
@@ -237,7 +237,7 @@
                             <span v-for="scheduler in item.scheduler.slice(0,1)" :key="scheduler.id">
                                 - {{reduceText(scheduler.name)}} <br/>
                             </span>
-                            <span class="c-more" v-if="item.scheduler.length > 1">- <strong>({{item.scheduler.length - 1}}) more</strong></span>
+                            <span class="c-more" v-if="item.scheduler.length > 1">- <strong class="primary--text">({{item.scheduler.length - 1}}) more</strong></span>
                         </div>
                     </template>
 
@@ -247,7 +247,7 @@
                             <span v-for="scheduler in item.scheduler.slice(0,1)" :key="scheduler.scheduler_type">
                                 - {{p_sheduler_type[scheduler.scheduler_type]}} <br/>
                             </span>
-                            <span class="c-more" v-if="item.scheduler.length > 1">- <strong>({{item.scheduler.length - 1}}) more</strong></span>
+                            <span class="c-more" v-if="item.scheduler.length > 1">- <strong class="primary--text">({{item.scheduler.length - 1}}) more</strong></span>
                         </div>
                     </template>
 
@@ -272,7 +272,7 @@
                             <span v-for="assigned in item.assigned_to.slice(0,1)" :key="assigned.employee_id">
                                 - {{assigned.first_name}} - {{assigned.employee_id}} <br/>
                             </span>
-                            <span class="c-more" v-if="item.assigned_to.length > 1">- <strong>({{item.assigned_to.length - 1}}) more</strong></span>
+                            <span class="c-more" v-if="item.assigned_to.length > 1">- <strong class="primary--text">({{item.assigned_to.length - 1}}) more</strong></span>
                         </div>
                     </template>
 
@@ -353,9 +353,9 @@
                     <v-flex xs12 md9>
                         <p class="body-2 pl-3 ml-3">
                             Total
-                            <strong>{{scheduled_workorder.count}}</strong>
+                            <strong class="primary--text">{{scheduled_workorder.count}}</strong>
                             Items, Showing maximum of
-                            <strong>{{ load_per_page }}</strong> Items per page.
+                            <strong class="primary--text">{{ load_per_page }}</strong> Items per page.
                         </p>
                         </v-flex>
                         <v-flex xs12 md3 class="mb-3" :class="{'ml-5': $vuetify.breakpoint.smAndDown}">
@@ -363,7 +363,7 @@
                         <v-btn
                             small
                             class="mr-3"
-                            color="blue-grey white--text text-capitalize"
+                            color="primary white--text text-capitalize"
                             :disabled="!getBoolean(scheduled_workorder.previous)"
                             :loading="previous_btn"
                             v-on:click="get_scheduled_workorder_with_url(scheduled_workorder.previous, 'p')"
@@ -373,7 +373,7 @@
                         </v-btn>
                         <v-btn
                             small
-                            color="blue-grey white--text text-capitalize"
+                            color="primary white--text text-capitalize"
                             :disabled="!getBoolean(scheduled_workorder.next)"
                             v-on:click="get_scheduled_workorder_with_url(scheduled_workorder.next, 'n')"
                             :loading="next_btn"
@@ -390,7 +390,7 @@
             <v-content>
                 <v-container class="fill-height" fluid>
                 <v-row justify="center" align="center">
-                    <v-progress-circular :size="50" color="blue-grey" indeterminate></v-progress-circular>
+                    <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
                 </v-row>
                 </v-container>
             </v-content>
@@ -430,6 +430,7 @@
 import { set_pm_workorder_reload_fun } from "../store/functions";
 
 import { get_filter_query } from "@/resources/helper";
+import { getPrimary } from "@/resources/helper";
 
 import { mapGetters } from "vuex";
 
@@ -735,6 +736,10 @@ export default {
 
         reload_pm_workorders() {
             this.get_scheduled_workorder_init();
+        },
+
+        getPrimaryHere() {
+            return getPrimary(this);
         }
 
     },
@@ -794,12 +799,7 @@ export default {
     cursor: pointer;
 }
 
-.c-title {
-  border-bottom: 2px solid #607d8a;
-}
-
 .c-title-lower {
-  border-bottom: 2px solid #607d8a;
   border-top: 0px;
   min-height: 140px;
   padding-bottom: 0 !important;
@@ -807,18 +807,6 @@ export default {
 
 .c-table-footer {
   min-height: 50px;
-}
-
-strong {
-  color: #607d8a;
-}
-
-.c-card {
-  border: 2px solid #607d8a;
-}
-
-.filter-section {
-  border-top: 2px solid #607d8a;
 }
 
 .small-circle {

@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-card v-if="pageLoad">
-            <v-toolbar color="blue-grey" dark flat>
+            <v-toolbar color="primary" dark flat>
                 <v-toolbar-title>
                 <v-icon class="mx-2" :color="getColor(pm_workorder.active)">fa-cogs</v-icon> 
 
@@ -78,7 +78,7 @@
                     </v-flex>
                     <v-flex>
                         <v-btn
-                            color="blue-grey white--text text-capitalize mb-4 mr-4 mt-4"
+                            color="primary white--text text-capitalize mb-4 mr-4 mt-4"
                             v-on:click="close"
                         >
                             <v-icon small>fa-close</v-icon>
@@ -94,7 +94,7 @@
             <v-content>
                 <v-container class="fill-height" fluid>
                 <v-row justify="center" align="center">
-                    <v-progress-circular :size="50" color="blue-grey" indeterminate></v-progress-circular>
+                    <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
                 </v-row>
                 </v-container>
             </v-content>

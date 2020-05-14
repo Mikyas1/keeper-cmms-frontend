@@ -6,15 +6,16 @@
       <div v-on:click="expand" class="pa-3 c-report-header">
         <v-layout class="my-1">
           <v-flex xs11>
-            <v-icon class="mr-2">fa-bell-o</v-icon><span class="reprot-title">All Reports <strong>{{ open_reports_from_store.length }}</strong></span>
+            <v-icon class="mr-2 primary--text">fa-bell-o</v-icon>
+            <span class="reprot-title primary--text">All Reports <strong>{{ open_reports_from_store.length }}</strong></span>
           </v-flex>
 
           <v-flex xs1 v-if="show">
-            <v-icon color="blue-grey">fa-angle-up</v-icon>
+            <v-icon color="primary">fa-angle-up</v-icon>
           </v-flex>
 
           <v-flex xs1 v-else>
-            <v-icon color="blue-grey">fa-angle-down</v-icon>
+            <v-icon color="primary">fa-angle-down</v-icon>
           </v-flex>
 
         </v-layout>
@@ -30,7 +31,7 @@
           :key="report.id"
           v-on:click="openReport(report)"
         >
-          <v-card-title class="c-title pt-2 pb-2 mb-2">
+          <v-card-title class="pt-2 pb-2 mb-2" :style="'border-bottom: 1px solid ' + getPrimaryHere()">
               <v-icon>fa-bell-o</v-icon><span class="title ml-2"> Report</span>
           </v-card-title>
 
@@ -89,7 +90,7 @@
 
     <div v-if="!pageLoad">
       <!-- <v-content class="loader-wrapper"> -->
-      <v-progress-circular class="loader" :size="50" color="blue-grey" indeterminate></v-progress-circular>
+      <v-progress-circular class="loader" :size="50" color="primary" indeterminate></v-progress-circular>
       <!-- </v-content> -->
     </div>
 
@@ -111,6 +112,8 @@ var moment = require("moment");
 import { mapGetters } from "vuex";
 
 import { getColor } from "@/resources/helper";
+
+import { getPrimary } from "@/resources/helper";
 
 import ReportDetailPopUp from "./ReportDetailPopUp";
 export default {
@@ -147,6 +150,9 @@ export default {
     },
     expand() {
       this.show = !this.show;
+    },
+    getPrimaryHere() {
+      return getPrimary(this);
     }
   },
   created() {
@@ -171,9 +177,6 @@ export default {
   margin-left: 40%;
   margin-top: 40%;
 }
-.c-title{
-    border-bottom: 1px solid #607D8A;
-}
 
 .c-report-header {
   background-color: rgba(0, 0, 0, 0.1);
@@ -187,6 +190,5 @@ export default {
 
 .reprot-title {
   font-size: 1.1em;
-  color: #607D8A;
 }
 </style>

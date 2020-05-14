@@ -16,7 +16,7 @@
           >
             <v-card class="elevation-12">
               <v-toolbar
-                color="blue-grey"
+                color="primary"
                 dark
                 flat
               >
@@ -62,7 +62,7 @@
                       
                     <v-spacer />
                         <v-btn 
-                            color="blue-grey white--text text-capitalize"
+                            color="primary white--text text-capitalize"
                             :loading="loading"
                             type="submit"
                         >
