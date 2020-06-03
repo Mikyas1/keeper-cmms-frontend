@@ -9,7 +9,7 @@
     <v-icon small color="white" class="mr-3">{{ icon }}</v-icon>
     <span>{{ snackbar.message }}</span>
 
-    <v-btn text icon class="primary--text" v-on:click="CLOSE_SNCKBAR">
+    <v-btn text icon class="white--text" v-on:click="CLOSE_SNCKBAR">
         <v-icon>fa-close</v-icon>
     </v-btn>
   </v-snackbar>
@@ -39,7 +39,7 @@ export default {
     },
     color() {
       if (this.snackbar.status == "success") {
-        return "green";
+        return "primary";
       } else {
         return "";
       }

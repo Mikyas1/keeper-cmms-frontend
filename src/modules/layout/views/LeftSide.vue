@@ -51,6 +51,15 @@
         </v-list-item-content>
       </v-list-item>
 
+      <v-list-item class="py-1" v-if="isAdministrator" router v-bind:to="{'name': 'system_report'}">
+        <v-list-item-action>
+          <v-icon small>fa-bar-chart-o</v-icon>
+        </v-list-item-action>
+        <v-list-item-content>
+          <v-list-item-title>System Report</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+
     </v-list>
 
     <br />
@@ -115,12 +124,21 @@ export default {
   },
   data: () => ({
     user_management: [
-      { url: { name: "register" }, icon: "fa-user-plus", text: "Add user" },
+      {
+        url: { name: "user_list" },
+        icon: "fa-list-ul",
+        text: "Users"
+      },
+      { 
+        url: { name: "register" }, 
+        icon: "fa-user-plus", 
+        text: "Add user" 
+      },
       {
         url: { name: "reset_password" },
         icon: "fa-unlock",
         text: "Reset Password"
-      }
+      },
     ],
     profile: [
       { url: { name: "account_detail" }, icon: "fa-address-card-o", text: "Profile Detail" },

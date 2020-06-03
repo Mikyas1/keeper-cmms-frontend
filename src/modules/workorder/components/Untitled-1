@@ -86,7 +86,7 @@ xx    equipment                   = models.ManyToManyField(equipment_models.Equi
 
 xx    active                      = models.BooleanField(default = True)
 
-x    scheduler                   = models.ManyToManyField(Scheduler)
+xx    scheduler                   = models.ManyToManyField(Scheduler)
 
 xx    start_date                  = models.DateField(null = True, blank = True)
 xx    end_date                    = models.DateField(null = True, blank = True)
@@ -94,7 +94,7 @@ xx    due_date                    = models.IntegerField(validators=[MinValueVali
 
 xx    workorder_status            = models.ForeignKey(WorkOrderStatus, on_delete=models.PROTECT)
 
-x    tasks                       = models.ManyToManyField(Tasks, related_name = "Pmworkorder_tasks", blank=True)
+xx    tasks                       = models.ManyToManyField(Tasks, related_name = "Pmworkorder_tasks", blank=True)
 xx    assigned_to                 = models.ManyToManyField(account_models.Profile)
 
 xx    document                    = models.FileField(upload_to='PmWorkorder_document/', blank=True, null=True)
@@ -107,3 +107,8 @@ xx    done_so_far                 = models.IntegerField(validators=[MinValueVali
 
 xx    created                     = models.DateTimeField(auto_now_add=True)
 xx    updated                     = models.DateTimeField(auto_now=True)
+
+
+?? BUG
+
+xx fix is not active users from getting any access in the system.

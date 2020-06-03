@@ -307,6 +307,7 @@ export default {
         this.due_date_errors = null;
         this.name_errors = null;
         this.assigned_to_errors = null;
+        this.workorder_status_errors = null;
 
         let formData = new FormData();
 
@@ -378,6 +379,20 @@ export default {
                         this[key] = error.response.data[key];
                     }
                 }
+                if(error.response.data.detail != undefined) {
+                    this.$store.commit("SET_SNACKBAR", {
+                        message: error.response.data.detail,
+                        value: true,
+                        status: "error"
+                    });
+                } else if (error.response.status === 400) {
+                    this.$store.commit("SET_SNACKBAR", {
+                        message: "Please Fill the form properly",
+                        value: true,
+                        status: "error"
+                    });
+                }
+
             })
       },
       closeDialog() {

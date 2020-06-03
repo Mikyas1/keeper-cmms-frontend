@@ -61,6 +61,7 @@
             type="number"
             v-model="man_hour_cost"
             :error-messages="man_hour_cost_errors"
+            disabled
           />
           <v-select
             label="Employee Position"
@@ -68,6 +69,7 @@
             v-model="employee_position"
             :error-messages="employee_position_errors"
             :items="employee_positions_options"
+            disabled
           ></v-select>
           <v-select
             label="Training Detail"
@@ -75,6 +77,7 @@
             v-model="training_detail"
             :error-messages="training_detail_errors"
             :items="training_details_options"
+            disabled
           ></v-select>
           <v-card-actions>
             <!-- display non field error -->

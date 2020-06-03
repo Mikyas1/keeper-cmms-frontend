@@ -173,7 +173,7 @@
                                             <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
                                             <v-btn text color="primary" @click="$refs.menu.save(due_date)">OK</v-btn>
                                         </v-date-picker>
-                                        </v-menu>
+                                    </v-menu>
                                 </v-flex>
                             </v-layout>
                             </v-flex>

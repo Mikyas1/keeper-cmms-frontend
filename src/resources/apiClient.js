@@ -27,7 +27,12 @@ export default {
 
         reset_password(payload) {
             return http.put(urls.reset_password, payload);
-        }
+        },
+
+        user_list() {
+            return http.get(urls.user_list);
+        },
+
     },
 
     enterprise: {
@@ -200,6 +205,22 @@ export default {
         up_coming_events() {
             return http.get(urls.up_coming_events);
         }
+
+    },
+
+    system_report: {
+
+        report_current_workorders() {
+            return http.get(urls.report_current_workorders);  
+        },
+
+        report_workorder_history(payload) {
+            return http.post(urls.report_workorder_history, payload);
+        },
+
+        get_parts() {
+            return http.get(urls.get_parts);  
+        },
 
     }
 }

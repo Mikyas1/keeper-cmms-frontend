@@ -1,6 +1,7 @@
 import Layout from "./views/Layout";
 import Equipments from "../equipments/views/Equipments";
 import Register from "../account/views/Register";
+import UserList from "../account/views/UserList";
 import AccountDetail from "../account/views/AccountDetail";
 import EditProfile from "../account/views/EditProfile";
 import ChangePassword from "../account/views/ChangePassword";
@@ -10,6 +11,7 @@ import ReportList from "../reports/views/ReportList";
 import Workorder from "../workorder/views/Workorder";
 import Calendar from "../workorder/views/Calendar";
 import ScheduledWorkorder from "../workorder/views/ScheduledWorkorder";
+import SystemReport from "../sytem_report/views/SystemReport";
 
 // import { NonAuthRequired } from '@/resources/auth';
 import { AuthRequired } from '@/resources/auth';
@@ -47,6 +49,20 @@ export default [
                 name: "register",
                 components: {
                     default: Register,
+                }
+            }
+        ],
+    },
+    {
+        path: "/user-list",
+        component: Layout,
+        beforeEnter: AdministratorRequired,
+        children: [
+            {
+                path: "",
+                name: "user_list",
+                components: {
+                    default: UserList,
                 }
             }
         ],
@@ -183,6 +199,20 @@ export default [
                 name: "scheduled_workorder",
                 components: {
                     default: ScheduledWorkorder,
+                }
+            }
+        ],
+    },
+    {
+        path: "/system-report",
+        component: Layout,
+        beforeEnter: AdministratorRequired,
+        children: [
+            {
+                path: "",
+                name: "system_report",
+                components: {
+                    default: SystemReport,
                 }
             }
         ],

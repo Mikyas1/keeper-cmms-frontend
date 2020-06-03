@@ -6,6 +6,7 @@ const urls = {
     get_profile: 'account/get-profile/',
     change_password: 'account/change-password',
     reset_password: 'account/reset-password',
+    user_list: 'account/user-list',
 
     // enterprise apis
     department_activities: 'enterprise/department-activities',
@@ -47,6 +48,11 @@ const urls = {
     change_pm_active:  'workorder/enable-disable-pm-workorder/',
     edit_pm_workorder: 'workorder/edit-pm-workorder/',
     up_coming_events: 'workorder/up-coming-events',
+
+    // system report
+    report_current_workorders: 'system-report/report-current-workorders',
+    report_workorder_history: 'system-report/report-workorder-history',
+    get_parts: '/system-report/report-inventory',
 };
 
 

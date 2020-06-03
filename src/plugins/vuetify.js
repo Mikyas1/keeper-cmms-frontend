@@ -9,15 +9,33 @@ export default new Vuetify({
     iconfont: 'fa4', // use fa-<icon-name> mdi-<icon-name>
   },
   // blue-grey == '#607d8a'
+  // denger-red == '#F83F37'
+  // cool-green == '#3A800D'
+
+  // material primaries
+  // red == '#d32f2f'
+  // pink == '#ec407a'
+  // indigo == '#536dfe'
+  // deepPurple == '#7c4dff'
+  // cyan == '#00838f'
+  // teal == '#00897b'
+  // green == '#2e7d32'
+  // lime == '#afb42b'
+  // yellow == '#f9a825'
+  // orange == '#e65100'
+  // brown == '#4e342e'
+  // grey == '#424242'
+
+
   theme: {
     themes: {
       light: {
-        primary: '#F83F37',
-        secondary: '#fc4b6c',
+        primary: '#e65100',
+        secondary: '#3A800D',
       },
       dark:{
-        primary: '#607d8a',
-        secondary: '#fc4b6c',
+        primary: '#e65100',
+        secondary: '#F83F37',
       }
     }
   }

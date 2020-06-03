@@ -14,7 +14,7 @@ export default {
                 reject(e);
             });
         });
-      },
+    },
 
     create_profile: ({ commit }, data) => {
         return new Promise((resolve, reject) => {
@@ -65,6 +65,20 @@ export default {
             .catch(e => {
                 reject(e);
             })
+        });
+    },
+
+    user_list: ({ commit }) => {
+        return new Promise((resolve, reject) => {
+            apiClient.account.user_list()
+            .then(response => {
+                // update store profile
+                commit("GODARK");
+                resolve(response.data);
+            })
+            .catch(e => {
+                reject(e);
+            });
         });
     },
 };
