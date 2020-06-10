@@ -292,7 +292,7 @@
                     @closeSubmitWorkdone="submitWorkDoneDialog = !submitWorkDoneDialog"
                     @created="parts_init"
                     @add_part_used="parts_added"
-                    :equipment_id="workorder.equipment.inventory_number"
+                    :equipment_model_id="workorder.equipment.equipment_model.id"
                     v-on:close="parts_dialog = !parts_dialog"
                 ></Parts>
             </v-card>

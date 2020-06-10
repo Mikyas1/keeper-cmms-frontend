@@ -1,64 +1,23 @@
 <template>
     <div>
-        <h1>History</h1>
-        <v-menu
-            ref="start_menu"
-            v-model="start_menu"
-            :close-on-content-click="false"
-            :return-value.sync="start_date"
-            transition="scale-transition"
-            offset-y
-            min-width="290px"
-            >
-            <template v-slot:activator="{ on }">
-                <v-text-field
-                    v-model="start_date"
-                    label="Start Date"
-                    prepend-icon="fa-calendar"
-                    readonly
-                    v-on="on"
-                    :error-messages="start_date_errors"
-                ></v-text-field>
-            </template>
-            <v-date-picker v-model="start_date" no-title scrollable>
-                <v-spacer></v-spacer>
-                <v-btn text color="primary" @click="$refs.start_menu.save(null)">Clear</v-btn>                                           
-                <v-btn text color="primary" @click="start_menu = false">Cancel</v-btn>
-                <v-btn text color="primary" @click="$refs.start_menu.save(start_date)">OK</v-btn>
-            </v-date-picker>
-        </v-menu>
-        <v-menu
-            ref="end_menu"
-            v-model="end_menu"
-            :close-on-content-click="false"
-            :return-value.sync="end_date"
-            transition="scale-transition"
-            offset-y
-            min-width="290px"
-            >
-            <template v-slot:activator="{ on }">
-                <v-text-field
-                    v-model="end_date"
-                    label="End Date"
-                    prepend-icon="fa-calendar"
-                    readonly
-                    v-on="on"
-                ></v-text-field>
-            </template>
-            <v-date-picker v-model="end_date" no-title scrollable>
-                <v-spacer></v-spacer>
-                <v-btn text color="primary" @click="$refs.end_menu.save(null)">Clear</v-btn>                                           
-                <v-btn text color="primary" @click="end_menu = false">Cancel</v-btn>
-                <v-btn text color="primary" @click="$refs.end_menu.save(end_date)">OK</v-btn>
-            </v-date-picker>
-        </v-menu>
-        <v-btn 
-            class="mb-3" 
-            v-on:click="generate_report_history"
-            :loading="loading"
-        >Generate</v-btn>
 
         <div v-if="workorder_history_summary">
+
+            <v-layout row class="ma-3 pl-4">
+                <v-flex md9>
+                    <h1 class="grey--text"><span class="primary--text">Workorders History</span></h1>
+                </v-flex>
+                <v-flex md3>
+                    <h1 class="grey--text pl-5">KEEPER CMMS</h1>
+                </v-flex>
+            </v-layout>
+        
+            <p class="ma-3 pl-4 title">Report Generated: <span class="primary--text">{{workorder_history_summary.generation_date}}</span></p>
+            <p class="ma-3 pl-4 title">Workorder History from: <span class="primary--text">{{this.$route.params.start}}</span> 
+            to: <span class="primary--text">{{this.$route.params.end == '-' ? 'now': this.$route.params.end}}</span></p>
+            <p class="ma-3 pl-4 mb-5">This report include the summay of all closed workorder history 
+                and activities registered to the system at the time of report generation.</p>
+            
             <v-layout wrap row>
 
                 <v-row
@@ -179,6 +138,8 @@
                     </v-row>
             </v-layout>
 
+            <div style="height: 50px;"></div>
+
             <v-layout>
             
             <v-card flat>
@@ -193,7 +154,7 @@
                             <th class="td-xl">Work Order Name</th>
                             <th class="td-md">Type</th>
                             <th class="td-lg">Assigned to</th>
-                            <th class="td-lg">Department</th>
+                            <th class="td-xl">Department</th>
                             <th class="td-lg">Labor</th>
                             <th class="td-lg">Parts Cost</th>
                             <th class="td-lg">Invoices</th>
@@ -251,7 +212,7 @@
                             </tr>
                             <tr>
                                 <td>% Demand Work Orders Completed On Time</td>
-                                <td>{{(workorder_history_summary.demand.due / (workorder_history_summary.demand.overdue + workorder_history_summary.demand.due)) * 100}}%</td>
+                                <td>{{round_num((workorder_history_summary.demand.due / (workorder_history_summary.demand.overdue + workorder_history_summary.demand.due)) * 100)}}%</td>
                             </tr>
                         </tbody>
                     </template>
@@ -259,7 +220,6 @@
             </v-card>
 
         </v-layout>
-
 
         <v-layout>
             
@@ -284,7 +244,7 @@
                             </tr>
                             <tr>
                                 <td>% PM Work Orders Completed On Time</td>
-                                <td>{{(workorder_history_summary.pm.due / (workorder_history_summary.pm.overdue + workorder_history_summary.demand.due)) * 100}}%</td>
+                                <td>{{round_num((workorder_history_summary.pm.due / (workorder_history_summary.pm.overdue + workorder_history_summary.demand.due)) * 100)}}%</td>
                             </tr>
                         </tbody>
                     </template>
@@ -345,21 +305,21 @@
                             </tr>
                             <tr>
                                 <td>Avg. Labour Cost</td>
-                                <td>{{get_total_labor_cost(workorder_history_summary.man_hours) / get_total_workorders}} ETB</td>
+                                <td>{{round_num(get_total_labor_cost(workorder_history_summary.man_hours) / get_total_workorders)}} ETB</td>
                             </tr>
                             <tr>
                                 <td>Avg. Parts Cost</td>
-                                <td>{{get_total_parts_cost(workorder_history_summary.parts_used) / get_total_workorders}} ETB</td>
+                                <td>{{round_num(get_total_parts_cost(workorder_history_summary.parts_used) / get_total_workorders)}} ETB</td>
                             </tr>
                             <tr>
                                 <td>Avg. invoice Cost</td>
-                                <td>{{get_total_invoice(workorder_history_summary.invoices) / get_total_workorders}} ETB</td>
+                                <td>{{round_num(get_total_invoice(workorder_history_summary.invoices) / get_total_workorders)}} ETB</td>
                             </tr>
                             <tr>
                                 <td>Avg. Total Cost</td>
-                                <td>{{(get_total_labor_cost(workorder_history_summary.man_hours) 
+                                <td>{{round_num((get_total_labor_cost(workorder_history_summary.man_hours) 
                                     + get_total_parts_cost(workorder_history_summary.parts_used)
-                                    + get_total_invoice(workorder_history_summary.invoices)) / get_total_workorders}} ETB</td>
+                                    + get_total_invoice(workorder_history_summary.invoices)) / get_total_workorders)}} ETB</td>
                             </tr>
                         </tbody>
                     </template>
@@ -367,15 +327,20 @@
             </v-card>
 
         </v-layout>
-
-            <!-- {{get_total_invoice(this.workorder_history_summary.invoices)}} -->
-        <br>
-        <!-- {{workorder_history_summary}} -->
-        <br>
-        <!-- {{get_labor_cost_per_employee(this.workorder_history_summary.man_hours)}} -->
-        <!-- {{get_equipment_cost_history_data(this.workorder_history_summary.equipments, this.workorder_history_summary.workorders)}} -->
+        <div>
+            <v-btn v-if="show_btn" class="primary dark ma-4 ml-5 text-capitalize" v-on:click="print">Print</v-btn>
         </div>
-        
+    </div>
+    
+    <div v-else>
+        <v-content>
+            <v-container class="fill-height" fluid>
+            <v-row justify="center" align="center">
+                <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
+            </v-row>
+            </v-container>
+        </v-content>
+    </div>
         
 
     </div>
@@ -398,16 +363,8 @@ export default {
     
     data() {
         return {
-            loading: false,
-            start_date: null,
-            start_menu: false,
-            start_date_errors: null,
-
-            end_date: null,
-            end_menu: false,
-
             workorder_history_summary: null,
-
+            show_btn: true,
         }
     },
 
@@ -544,8 +501,8 @@ export default {
         },
 
         workorders_on_time() {
-            return (this.workorder_history_summary.pm.due + this.workorder_history_summary.demand.due) / 
-            this.get_total_workorders * 100
+            return this.round_num(((this.workorder_history_summary.pm.due + this.workorder_history_summary.demand.due) / 
+            this.get_total_workorders) * 100);
         },
 
         get_total_workorders() {
@@ -556,32 +513,19 @@ export default {
     },
 
     methods: {
-        generate_report_history() {
-            this.start_date_errors = null;
-            this.loading = true;
-
+        generate_report_history(start_date, end_date) {
             var data = {};
-            data.start_date = this.start_date;
-            if (this.end_date) {
-                data.end_date = this.end_date;
+            data.start_date = start_date;
+            if (end_date != '-') {
+                data.end_date = end_date;
             }
             this.$store
                 .dispatch("system_report/report_workorder_history", data)
                 .then(response => {
                     this.workorder_history_summary = response;
-                    this.loading = false;
                 })
 
-                .catch(error => {
-                    this.loading = false;
-                    for (var key in error.response.data) {
-                        if (key !== "non_field_errors") {
-                            this[key + "_errors"] = error.response.data[key];
-                        } else {
-                            this[key] = error.response.data[key];
-                    }
-                }
-            })
+                .catch(() => {})
         },
 
         get_total_invoice(arr) {
@@ -722,7 +666,26 @@ export default {
         
         workorder_color(val) {
             return val? 'red' : '';
+        },
+
+
+        round_num(val) {
+           return Math.round(val * 100) / 100; 
+        },
+
+        print() {
+            this.show_btn = false;
+            document.title = "Workorder History summary (from - " + this.workorder_history_summary.start_date + " to - " + this.workorder_history_summary.end_date;
+            setTimeout(() => { 
+                window.print();
+                this.show_btn = true;
+                document.title = "KEEPER ENTERPRISE CMMS DASHBOARD";
+            }, 1);
         }
+    },
+
+    created() {
+        this.generate_report_history(this.$route.params.start, this.$route.params.end);
     }
     
 }
@@ -758,6 +721,10 @@ export default {
 
 .td-xxxl {
     min-width: 500px;
+}
+
+.graph-height {
+    max-height: 500px;
 }
 
 </style>

@@ -7,7 +7,7 @@
             class="small-circle"
             :style="`margin-right: 0px; background: ${getColorHere(item.equipment_status.color)}`"
           ></div>
-          <span class="ml-2">{{item.equipment.equipment_name}} By {{item.creater.employee_id}}</span>
+          <span class="ml-2">Report on "{{item.equipment.equipment_name}}" By {{item.creater.employee_id}}</span>
         </v-toolbar-title>
       </v-toolbar>
 

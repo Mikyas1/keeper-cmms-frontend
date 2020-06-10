@@ -163,7 +163,7 @@
 <script>
 export default {
     name: 'Parts',
-    props: ['equipment_id'],
+    props: ['equipment_model_id'],
     data() {
         return {
             pageLoad: true,
@@ -209,7 +209,7 @@ export default {
             this.reset()
             // this.pageLoad = false;
             this.$store
-                .dispatch("workorder/get_equipment_parts", this.equipment_id)
+                .dispatch("workorder/get_equipment_parts", this.equipment_model_id)
                 .then((response) => {
                     this.pageLoad = true;
                     this.part_list = response.parts;

@@ -30,11 +30,11 @@ export default new Vuetify({
   theme: {
     themes: {
       light: {
-        primary: '#e65100',
+        primary: '#7c4dff',
         secondary: '#3A800D',
       },
       dark:{
-        primary: '#e65100',
+        primary: '#7c4dff',
         secondary: '#F83F37',
       }
     }

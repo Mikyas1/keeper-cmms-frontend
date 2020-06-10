@@ -1,172 +1,203 @@
 <template>
-    <div v-if="pageLoad">
-
-        <v-layout wrap row>
-
-            <v-row
-            align="center"
-            justify="center"
-            >
-                <v-col
-                    cols="12"
-                    sm="7"
-                    md="5"
-                    lg="4"
-                >
-                    <div class="small-mobile">
-                        <StackedBar 
-                            :labels="['PM', 'Demand', 'All']" 
-                            :data="get_open_workdone_summary" 
-                            :title="'Summary'">
-                        </StackedBar>
-                    </div>
-                </v-col>
-
-                <v-col
-                    cols="12"
-                    sm="6"
-                    md="5"
-                    lg="4"
-                >
-                    <div class="small-mobile">
-                        <pie-chart :data="get_workorder_type_summary"  :title="'Summary PM/Demand'">></pie-chart>
-                    </div>
-                </v-col>
-
-            </v-row>
-
-        </v-layout>
-
-        <v-layout wrap row>
-
-            <v-row
-            align="center"
-            justify="center"
-            >
-                <v-col
-                    cols="12"
-                    sm="7"
-                    md="5"
-                    lg="5"
-                >
-                    <pie-chart :data="get_workorder_status_summary"  :title="'Status'">></pie-chart>
-                </v-col>
-            </v-row>
-        </v-layout>
-
-        <v-layout>
-            
-            <v-card flat>
-                <p class="ml-4 my-3">({{open_workdone_summary.open_workorders.length}}) 
-                    Open work orders
-                </p>
-                <v-simple-table class="mb-5">
-                    <template v-slot:default>
-                    <thead>
-                        <tr>
-                            <th class="td-sm">Id</th>
-                            <th class="td-xl">Work Order Name</th>
-                            <th class="td-lg">Status</th>
-                            <th class="td-md">Type</th>
-                            <th class="td-lg">Due Date</th>
-                            <th class="td-lg">Assigned to</th>
-                            <th class="td-lg">Department</th>
-                            <th class="td-md">Priority</th>
-                            <th class="td-lg">Est. Cost</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="workorder in open_workdone_summary.open_workorders" :key="workorder.id" 
-                            :style="'color: ' + workorder_color(workorder.over_due)">
-                            <td>{{ workorder.id}}</td>
-                            <td>{{ workorder.name }}</td>
-                            <td>{{ workorder.workorder_status.name }}</td>
-                            <td>{{ workorder_type(workorder.workorder_type) }}</td>
-                            <td>{{ workorder.due_date }}</td>
-                            <td>
-                                <span v-for="assigned in workorder.assigned_to" :key="assigned.employee_id">
-                                    - {{assigned.first_name}} ({{assigned.employee_id}}) <br/>
-                                </span>
-                            </td>
-                            <td>{{ workorder.department.name }}</td>
-                            <td><span v-if="workorder.priority">{{ workorder.priority.name }}</span></td>
-                            <td><span v-if="workorder.man_hour_cost">{{ workorder.man_hour_cost }} ETB</span></td>
-                        </tr>
-                    </tbody>
-                    </template>
-                </v-simple-table>
-            </v-card>
-
-        </v-layout>
-
+    <div>
+        <div v-if="pageLoad">
+            <v-layout row class="ma-3 pl-4">
+                <v-flex md9>
+                    <h1 class="grey--text"><span class="primary--text">Open Workorders</span></h1>
+                </v-flex>
+                <v-flex md3>
+                    <h1 class="grey--text pl-5">KEEPER CMMS</h1>
+                </v-flex>
+            </v-layout>
         
-        <v-layout>
+            <p class="ma-3 pl-4 title">Report Generated: <span class="primary--text">{{open_workdone_summary.generation_date}}</span></p>
+            <p class="ma-3 pl-4 mb-5">This report include the summay of all open workorders 
+                and activities registered to the system at the time of report generation.</p>
+
+            <v-layout wrap row>
+
+                <v-row
+                align="center"
+                justify="center"
+                >
+                    <v-col
+                        cols="12"
+                        sm="7"
+                        md="5"
+                        lg="4"
+                    >
+                        <div class="small-mobile">
+                            <StackedBar 
+                                :labels="['PM', 'Demand', 'All']" 
+                                :data="get_open_workdone_summary" 
+                                :title="'Summary'">
+                            </StackedBar>
+                        </div>
+                    </v-col>
+
+                    <v-col
+                        cols="12"
+                        sm="6"
+                        md="5"
+                        lg="4"
+                    >
+                        <div class="small-mobile">
+                            <pie-chart :data="get_workorder_type_summary"  :title="'Summary PM/Demand'">></pie-chart>
+                        </div>
+                    </v-col>
+
+                </v-row>
+
+            </v-layout>
+
+            <v-layout wrap row>
+
+                <v-row
+                align="center"
+                justify="center"
+                >
+                    <v-col
+                        cols="12"
+                        sm="7"
+                        md="5"
+                        lg="5"
+                    >
+                        <pie-chart :data="get_workorder_status_summary"  :title="'Status'">></pie-chart>
+                    </v-col>
+                </v-row>
+            </v-layout>
+
+            <div style="height: 200px"></div>
+
+            <v-layout>
+                
+                <v-card flat>
+                    <p class="ml-4 my-3">({{open_workdone_summary.open_workorders.length}}) 
+                        Open work orders
+                    </p>
+                    <v-simple-table class="mb-5">
+                        <template v-slot:default>
+                        <thead>
+                            <tr>
+                                <th class="td-sm">Id</th>
+                                <th class="td-xl">Work Order Name</th>
+                                <th class="td-lg">Status</th>
+                                <th class="td-md">Type</th>
+                                <th class="td-lg">Due Date</th>
+                                <th class="td-lg">Assigned to</th>
+                                <th class="td-lg">Department</th>
+                                <th class="td-md">Priority</th>
+                                <th class="td-lg">Est. Cost</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="workorder in open_workdone_summary.open_workorders" :key="workorder.id" 
+                                :style="'color: ' + workorder_color(workorder.over_due)">
+                                <td>{{ workorder.id}}</td>
+                                <td>{{ workorder.name }}</td>
+                                <td>{{ workorder.workorder_status.name }}</td>
+                                <td>{{ workorder_type(workorder.workorder_type) }}</td>
+                                <td>{{ workorder.due_date }}</td>
+                                <td>
+                                    <span v-for="assigned in workorder.assigned_to" :key="assigned.employee_id">
+                                        - {{assigned.first_name}} ({{assigned.employee_id}}) <br/>
+                                    </span>
+                                </td>
+                                <td>{{ workorder.department.name }}</td>
+                                <td><span v-if="workorder.priority">{{ workorder.priority.name }}</span></td>
+                                <td><span v-if="workorder.man_hour_cost">{{ workorder.man_hour_cost }} ETB</span></td>
+                            </tr>
+                        </tbody>
+                        </template>
+                    </v-simple-table>
+                </v-card>
+
+            </v-layout>
+
             
-            <v-card flat>
-                <p class="ml-4 my-3">
-                    Summary
-                </p>
-                <v-simple-table class="mb-5">
-                    <template v-slot:default>
-                    <thead>
-                        <tr>
-                            <th class="td-xxl">Category</th>
-                            <th class="td-xxl">Due</th>
-                            <th class="td-xxl">Overdue</th>
-                            <th class="td-xxl">Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>PM</td>
-                            <td>{{open_workdone_summary.pm.due}}</td>
-                            <td>{{open_workdone_summary.pm.overdue}}</td>
-                            <td>{{open_workdone_summary.pm.overdue + open_workdone_summary.pm.due}}</td>
-                        </tr>
-                        <tr>
-                            <td>Demand</td>
-                            <td>{{open_workdone_summary.demand.due}}</td>
-                            <td>{{open_workdone_summary.demand.overdue}}</td>
-                            <td>{{open_workdone_summary.demand.overdue + open_workdone_summary.demand.due}}</td>
-                        </tr>
-                        <tr>
-                            <td>All</td>
-                            <td>{{open_workdone_summary.pm.due + open_workdone_summary.demand.due}}</td>
-                            <td>{{open_workdone_summary.pm.overdue + open_workdone_summary.demand.overdue}}</td>
-                            <td>{{open_workdone_summary.pm.overdue + open_workdone_summary.pm.due + open_workdone_summary.demand.overdue + open_workdone_summary.demand.due}}</td>
-                        </tr>
-                    </tbody>
-                    </template>
-                </v-simple-table>
-            </v-card>
+            <v-layout>
+                
+                <v-card flat>
+                    <p class="ml-4 my-3">
+                        Summary
+                    </p>
+                    <v-simple-table class="mb-5">
+                        <template v-slot:default>
+                        <thead>
+                            <tr>
+                                <th class="td-xxl">Category</th>
+                                <th class="td-xxl">Due</th>
+                                <th class="td-xxl">Overdue</th>
+                                <th class="td-xxl">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>PM</td>
+                                <td>{{open_workdone_summary.pm.due}}</td>
+                                <td>{{open_workdone_summary.pm.overdue}}</td>
+                                <td>{{open_workdone_summary.pm.overdue + open_workdone_summary.pm.due}}</td>
+                            </tr>
+                            <tr>
+                                <td>Demand</td>
+                                <td>{{open_workdone_summary.demand.due}}</td>
+                                <td>{{open_workdone_summary.demand.overdue}}</td>
+                                <td>{{open_workdone_summary.demand.overdue + open_workdone_summary.demand.due}}</td>
+                            </tr>
+                            <tr>
+                                <td>All</td>
+                                <td>{{open_workdone_summary.pm.due + open_workdone_summary.demand.due}}</td>
+                                <td>{{open_workdone_summary.pm.overdue + open_workdone_summary.demand.overdue}}</td>
+                                <td>{{open_workdone_summary.pm.overdue + open_workdone_summary.pm.due + open_workdone_summary.demand.overdue + open_workdone_summary.demand.due}}</td>
+                            </tr>
+                        </tbody>
+                        </template>
+                    </v-simple-table>
+                </v-card>
 
-        </v-layout>
+            </v-layout>
 
-         <v-layout>
-            
-            <v-card flat>
-                <p class="ml-4 my-3">
-                    Status
-                </p>
-                <v-simple-table class="mb-5">
-                    <template v-slot:default>
-                    <thead>
-                        <tr>
-                            <th class="td-xxxl">Status</th>
-                            <th class="td-xxxl">Wo count</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(key, val) in open_workdone_summary.status_by_workorder" :key="val">
-                            <td>{{val}}</td>
-                            <td>{{key}}</td>
-                        </tr>
-                    </tbody>
-                    </template>
-                </v-simple-table>
-            </v-card>
+            <v-layout>
+                
+                <v-card flat>
+                    <p class="ml-4 my-3">
+                        Status
+                    </p>
+                    <v-simple-table class="mb-5">
+                        <template v-slot:default>
+                        <thead>
+                            <tr>
+                                <th class="td-xxxl">Status</th>
+                                <th class="td-xxxl">Wo count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(key, val) in open_workdone_summary.status_by_workorder" :key="val">
+                                <td>{{val}}</td>
+                                <td>{{key}}</td>
+                            </tr>
+                        </tbody>
+                        </template>
+                    </v-simple-table>
+                </v-card>
 
-        </v-layout>
+            </v-layout>
+
+            <div>
+                <v-btn v-if="show_btn" class="primary dark ma-4 text-capitalize" v-on:click="print">Print</v-btn>
+            </div>
+
+        </div>
+
+        <div v-if="!pageLoad">
+            <v-content>
+                <v-container class="fill-height" fluid>
+                <v-row justify="center" align="center">
+                    <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
+                </v-row>
+                </v-container>
+            </v-content>
+        </div>
 
     </div>
 </template>
@@ -182,13 +213,13 @@ export default {
   components: {
     StackedBar,
     PieChart,
-
   },
 
   data() {
       return {
           pageLoad: false,
           open_workdone_summary: null,
+          show_btn: true,
       }
   },
 
@@ -277,6 +308,16 @@ export default {
         
         workorder_color(val) {
             return val? 'red' : '';
+        },
+
+        print() {
+            this.show_btn = false;
+            document.title = "Open Workorders summary - " + this.open_workdone_summary.generation_date;
+            setTimeout(() => { 
+                window.print();
+                this.show_btn = true;
+                document.title = "KEEPER ENTERPRISE CMMS DASHBOARD";
+            }, 1);
         }
     },
 

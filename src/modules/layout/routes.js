@@ -12,6 +12,9 @@ import Workorder from "../workorder/views/Workorder";
 import Calendar from "../workorder/views/Calendar";
 import ScheduledWorkorder from "../workorder/views/ScheduledWorkorder";
 import SystemReport from "../sytem_report/views/SystemReport";
+import SummaryReport from "../sytem_report/views/SummaryReport";
+import InventoryReport from "../sytem_report/views/InventoryReport";
+import History from "../sytem_report/components/History";
 
 // import { NonAuthRequired } from '@/resources/auth';
 import { AuthRequired } from '@/resources/auth';
@@ -189,6 +192,10 @@ export default [
             }
         ],
     },
+    // 
+    // SYSTEM REPORT PATHS
+    // 
+
     {
         path: "/scheduled-workorders",
         component: Layout,
@@ -216,6 +223,24 @@ export default [
                 }
             }
         ],
+    },
+    {
+        path: "/system-report/open-workorders-summary",
+        name: 'open_workorders_summary',
+        component: SummaryReport,
+        beforeEnter: AdministratorRequired,
+    },
+    {
+        path: "/system-report/inventory-summary",
+        name: 'inventory_summary',
+        component: InventoryReport,
+        beforeEnter: AdministratorRequired,
+    },
+    {
+        path: "/system-report/workorder-history-summary/:start/:end",
+        name: 'workorder_history_summary',
+        component: History,
+        beforeEnter: AdministratorRequired,
     },
 
 ];

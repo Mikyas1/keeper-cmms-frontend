@@ -22,7 +22,8 @@
             :key="0"
           >
 
-            <Summary/>
+            <p class="ma-3"><v-icon small class="primary--text pb-1 mr-2">fa-info-circle</v-icon> Generate open workorder report. Open workorder are workorders that are still active and not closed by a technician.</p>
+            <v-btn v-on:click="generate_open_workorders" class="primary dark ma-4 text-capitalize">Generate</v-btn>
           
           </v-tab-item>
 
@@ -30,7 +31,7 @@
             :key="1"
           >
 
-          <History></History>
+          <HistoryReport></HistoryReport>
 
           </v-tab-item>
 
@@ -38,33 +39,27 @@
             :key="2"
           >
 
-              <Inventory></Inventory>
+            <p class="ma-3"><v-icon small class="primary--text pb-1 mr-2">fa-info-circle</v-icon> Generate part's inventory report.</p>
+            <v-btn v-on:click="generate_inventory" class="primary dark ma-4 text-capitalize">Generate</v-btn>              
 
           </v-tab-item>
           
         </v-tabs-items>
         
-        <v-btn v-on:click="print">Print</v-btn>
     </div>
 </template>
 
 <script>
 import BodyNav from "@/components/BodyNav";
 
-import History from "../components/History";
-
-import Summary from "../components/Summary";
-
-import Inventory from "../components/Inventory";
+import HistoryReport from "./HistoryReport";
 
 export default {
   name: "SystemReport",
 
   components: {
     BodyNav,
-    History,
-    Summary,
-    Inventory,
+    HistoryReport,
   },
   
   data() {
@@ -74,15 +69,14 @@ export default {
   },
 
   methods: {
-    print() {
-      var prtContent = document.getElementById("print");
-      var winPrint = window.open('', '', 'left=0, top=0, width=800, height=900, toolbar=0, scrollbars=0, status=0');
-      winPrint.document.write(prtContent.innerHTML);
-      winPrint.document.close();
-      winPrint.focus();
-      winPrint.print();
-      winPrint.close();
-    }
+    generate_open_workorders() {
+      let routeData = this.$router.resolve({name: 'open_workorders_summary'});
+      window.open(routeData.href, '_blank');
+    },
+    generate_inventory() {
+      let routeData = this.$router.resolve({name: 'inventory_summary'});
+      window.open(routeData.href, '_blank');
+    },
   },
 
   created() {

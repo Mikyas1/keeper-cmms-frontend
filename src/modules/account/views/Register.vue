@@ -235,6 +235,19 @@ export default {
               this[key] = error.response.data[key];
             }
           }
+          if(error.response.data.detail != undefined) {
+            this.$store.commit("SET_SNACKBAR", {
+                message: error.response.data.detail,
+                value: true,
+                status: "error"
+            });
+          } else if (error.response.status === 400) {
+            this.$store.commit("SET_SNACKBAR", {
+                message: "Please Fill the form properly",
+                value: true,
+                status: "error"
+            });
+          }
         });
     }
   },
