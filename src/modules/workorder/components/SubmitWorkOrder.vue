@@ -1,224 +1,226 @@
 <template>
   <div>
-    <v-card v-if="pageLoad">
-      <v-toolbar color="primary" dark flat>
-        <v-toolbar-title>
-          <v-icon>fa-wrench</v-icon> 
-          <span> SUBMIT WORK ORDER</span>
-        </v-toolbar-title>
-      </v-toolbar>
-      <v-card-text>
-          <v-container>
-            <v-layout row wrap>
+    <v-card>
+      <div v-if="pageLoad">
+        <v-toolbar color="primary" dark flat>
+          <v-toolbar-title>
+            <v-icon>fa-wrench</v-icon> 
+            <span> SUBMIT WORK ORDER</span>
+          </v-toolbar-title>
+        </v-toolbar>
+        <v-card-text>
+            <v-container>
+              <v-layout row wrap>
+                  <v-flex xs12 md6 class="px-5">
+                      <v-text-field
+                          label="* WorkOrder Name"
+                          prepend-icon="fa-wrench"
+                          type="text"
+                          v-model="name"
+                          :error-messages="name_errors"
+                      />
+                      <v-text-field
+                          label="* Equipment"
+                          prepend-icon="fa-cubes"
+                          type="text"
+                          disabled
+                          v-model="report.equipment.equipment_name"
+                      />
+                      <v-text-field
+                          label="* Department"
+                          prepend-icon="fa-institution"
+                          type="text"
+                          disabled
+                          v-model="report.department.name"
+                      />
+                      <v-text-field
+                          label="* Location"
+                          prepend-icon="fa-map-signs"
+                          type="text"
+                          disabled
+                          :value="report.location.building.name + ' (' + report.location.room_number + ')'"
+                      />
+
+                      <v-menu
+                        ref="menu"
+                        v-model="menu"
+                        :close-on-content-click="false"
+                        :return-value.sync="due_date"
+                        transition="scale-transition"
+                        offset-y
+                        min-width="290px"
+                      >
+                        <template v-slot:activator="{ on }">
+                          <v-text-field
+                            v-model="due_date"
+                            label="* Due Date"
+                            prepend-icon="fa-calendar"
+                            readonly
+                            v-on="on"
+                            :error-messages="due_date_errors"
+                          ></v-text-field>
+                        </template>
+                        <v-date-picker v-model="due_date" no-title scrollable>
+                          <v-spacer></v-spacer>
+                          <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
+                          <v-btn text color="primary" @click="$refs.menu.save(due_date)">OK</v-btn>
+                        </v-date-picker>
+                      </v-menu>
+
+                      <v-text-field
+                        label="Estimated Cost"
+                        prepend-icon="fa-money"
+                        type="number"
+                        v-model="estimated_cost"
+                      />
+
+                  </v-flex>
+
+                  <v-flex xs12 md6 class="px-5">
+
+                      <v-select
+                        label="* Workorder Status"
+                        prepend-icon="fa-fire"
+                        :items="get_workorder_status"
+                        v-model="workorder_status"
+                        :error-messages="workorder_status_errors"
+                      ></v-select>
+                  
+                      <v-select
+                        label="Work Category"
+                        prepend-icon="fa-briefcase"
+                        :items="get_options_here(workorder_choice, 'work_categories')"
+                        v-model="work_category"
+                      ></v-select>
+
+                      <v-select
+                        label="Job Hazard"
+                        prepend-icon="fa-bolt"
+                        :items="get_options_here(workorder_choice, 'job_hazard')"
+                        v-model="job_hazard"
+                      ></v-select>
+
+                      <v-select
+                        prepend-icon="fa-user-plus"
+                        label="* Resources"
+                        :items="resources"
+                        v-model="assigned_to"
+                        multiple
+                        :error-messages="assigned_to_errors"
+                      ></v-select>
+
+                      <v-select
+                        label="Priority"
+                        prepend-icon="fa-sort-amount-desc"
+                        :items="get_options_here(workorder_choice, 'priorities')"
+                        v-model="priority"
+                      ></v-select>
+
+                  </v-flex>
+
+              </v-layout>
+
+              <v-layout row wrap>
+
+                <v-flex xs12 class="px-5">
+
+                  <v-textarea
+                      label="Description"
+                      prepend-icon="fa-commenting-o"
+                      auto-grow
+                      outlined
+                      v-model="description"
+                  ></v-textarea>
+                  
+                </v-flex>
+
+              </v-layout>
+
+              <v-layout  row wrap>
+
                 <v-flex xs12 md6 class="px-5">
-                    <v-text-field
-                        label="* WorkOrder Name"
-                        prepend-icon="fa-wrench"
-                        type="text"
-                        v-model="name"
-                        :error-messages="name_errors"
-                    />
-                    <v-text-field
-                        label="* Equipment"
-                        prepend-icon="fa-cubes"
-                        type="text"
-                        disabled
-                        v-model="report.equipment.equipment_name"
-                    />
-                    <v-text-field
-                        label="* Department"
-                        prepend-icon="fa-institution"
-                        type="text"
-                        disabled
-                        v-model="report.department.name"
-                    />
-                    <v-text-field
-                        label="* Location"
-                        prepend-icon="fa-map-signs"
-                        type="text"
-                        disabled
-                        :value="report.location.building.name + ' (' + report.location.room_number + ')'"
-                    />
 
-                    <v-menu
-                      ref="menu"
-                      v-model="menu"
-                      :close-on-content-click="false"
-                      :return-value.sync="due_date"
-                      transition="scale-transition"
-                      offset-y
-                      min-width="290px"
-                    >
-                      <template v-slot:activator="{ on }">
-                        <v-text-field
-                          v-model="due_date"
-                          label="* Due Date"
-                          prepend-icon="fa-calendar"
-                          readonly
-                          v-on="on"
-                          :error-messages="due_date_errors"
-                        ></v-text-field>
-                      </template>
-                      <v-date-picker v-model="due_date" no-title scrollable>
-                        <v-spacer></v-spacer>
-                        <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
-                        <v-btn text color="primary" @click="$refs.menu.save(due_date)">OK</v-btn>
-                      </v-date-picker>
-                    </v-menu>
-
-                    <v-text-field
-                      label="Estimated Cost"
-                      prepend-icon="fa-money"
-                      type="number"
-                      v-model="estimated_cost"
-                    />
-
+                  <v-text-field
+                    label="Requested By"
+                    prepend-icon="fa-user-o"
+                    type="text"
+                    disabled
+                    :value="report.creater.employee_id"
+                  />
+                  
                 </v-flex>
 
                 <v-flex xs12 md6 class="px-5">
 
-                    <v-select
-                      label="* Workorder Status"
-                      prepend-icon="fa-fire"
-                      :items="get_workorder_status"
-                      v-model="workorder_status"
-                      :error-messages="workorder_status_errors"
-                    ></v-select>
-                
-                    <v-select
-                      label="Work Category"
-                      prepend-icon="fa-briefcase"
-                      :items="get_options_here(workorder_choice, 'work_categories')"
-                      v-model="work_category"
-                    ></v-select>
+                  <v-file-input 
+                    label="Document"
+                    prepend-icon="fa-file-word-o"
+                    v-model="document"
+                  >
+                  </v-file-input>
+                  
+                </v-flex>
 
-                    <v-select
-                      label="Job Hazard"
-                      prepend-icon="fa-bolt"
-                      :items="get_options_here(workorder_choice, 'job_hazard')"
-                      v-model="job_hazard"
-                    ></v-select>
+              </v-layout>
 
-                    <v-select
-                      prepend-icon="fa-user-plus"
-                      label="* Resources"
-                      :items="resources"
-                      v-model="assigned_to"
-                      multiple
-                      :error-messages="assigned_to_errors"
-                    ></v-select>
+              <v-layout>
 
-                    <v-select
-                      label="Priority"
-                      prepend-icon="fa-sort-amount-desc"
-                      :items="get_options_here(workorder_choice, 'priorities')"
-                      v-model="priority"
-                    ></v-select>
+                <v-flex xs12 md6 class="px-2">
+                  
+                  <v-file-input 
+                    label="Image"
+                    prepend-icon="fa-image"
+                    accept="image/*"
+                    v-model="image"
+                  >
+                  </v-file-input>
 
                 </v-flex>
 
-            </v-layout>
+              </v-layout>
 
-            <v-layout row wrap>
+            </v-container>
 
-              <v-flex xs12 class="px-5">
+        </v-card-text>
 
-                <v-textarea
-                    label="Description"
-                    prepend-icon="fa-commenting-o"
-                    auto-grow
-                    outlined
-                    v-model="description"
-                ></v-textarea>
-                
-              </v-flex>
+        <!-- buttons -->
+          <div class="btns" :style="'border-top: 1px solid ' + getPrimaryHere()">
+              <v-layout>
+                  <v-flex md9>
+                  </v-flex>
+                  <v-flex>
+                      <v-btn color="green white--text text-capitalize mb-4 mr-4 mt-4"
+                        :loading="loading"
+                        v-on:click="submitWorkorder"
+                      >
+                          <v-icon small>fa-wrench</v-icon>
+                          <span class="ml-2">Submit</span>
+                      </v-btn>
+                  </v-flex>
+                  <v-flex>
+                      <v-btn
+                          color="primary white--text text-capitalize mb-4 mr-4 mt-4"
+                          v-on:click="closeDialog"
+                      >
+                          <v-icon small>fa-close</v-icon>
+                          <span class="ml-2">Cancel</span>
+                      </v-btn>
+                  </v-flex>
+              </v-layout>
+          </div>
+        </div>
 
-            </v-layout>
-
-            <v-layout  row wrap>
-
-              <v-flex xs12 md6 class="px-5">
-
-                <v-text-field
-                  label="Requested By"
-                  prepend-icon="fa-user-o"
-                  type="text"
-                  disabled
-                  :value="report.creater.employee_id"
-                />
-                
-              </v-flex>
-
-              <v-flex xs12 md6 class="px-5">
-
-                <v-file-input 
-                  label="Document"
-                  prepend-icon="fa-file-word-o"
-                  v-model="document"
-                >
-                </v-file-input>
-                
-              </v-flex>
-
-            </v-layout>
-
-            <v-layout>
-
-              <v-flex xs12 md6 class="px-2">
-                
-                <v-file-input 
-                  label="Image"
-                  prepend-icon="fa-image"
-                  accept="image/*"
-                  v-model="image"
-                >
-                </v-file-input>
-
-              </v-flex>
-
-            </v-layout>
-
-          </v-container>
-
-      </v-card-text>
-
-      <!-- buttons -->
-        <div class="btns" :style="'border-top: 1px solid ' + getPrimaryHere()">
-            <v-layout>
-                <v-flex md9>
-                </v-flex>
-                <v-flex>
-                    <v-btn color="green white--text text-capitalize mb-4 mr-4 mt-4"
-                      :loading="loading"
-                      v-on:click="submitWorkorder"
-                    >
-                        <v-icon small>fa-wrench</v-icon>
-                        <span class="ml-2">Submit</span>
-                    </v-btn>
-                </v-flex>
-                <v-flex>
-                    <v-btn
-                        color="primary white--text text-capitalize mb-4 mr-4 mt-4"
-                        v-on:click="closeDialog"
-                    >
-                        <v-icon small>fa-close</v-icon>
-                        <span class="ml-2">Cancel</span>
-                    </v-btn>
-                </v-flex>
-            </v-layout>
+        <div class="loading-card" v-if="!pageLoad">
+          <v-content>
+            <v-container class="fill-height" fluid>
+              <v-row justify="center" align="center">
+                <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
+              </v-row>
+            </v-container>
+          </v-content>
         </div>
 
     </v-card>
-
-    <div class="loading-card" v-if="!pageLoad">
-      <v-content>
-        <v-container class="fill-height" fluid>
-          <v-row justify="center" align="center">
-            <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
-          </v-row>
-        </v-container>
-      </v-content>
-    </div>
   </div>
 </template>
 

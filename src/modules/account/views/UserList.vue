@@ -30,8 +30,8 @@
                         <td>{{ user.user_type }}</td>
                         <td>{{ user.employee_id }}</td>
                         <td>{{ user.email }}</td>
-                        <td>{{ user.employee_position.position_name }}</td>
-                        <td>{{ user.training_detail.training_level }}</td>
+                        <td><span v-if="user.employee_position">{{ user.employee_position.position_name }}</span></td>
+                        <td><span v-if="user.training_detail">{{ user.training_detail.training_level }}</span></td>
                         <td>{{ user.man_hour_cost }} ETB</td>
                     </tr>
                 </tbody>

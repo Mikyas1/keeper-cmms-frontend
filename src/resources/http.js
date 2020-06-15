@@ -12,7 +12,8 @@ try {
             let data = JSON.parse(localStorage.getItem("keeper"));
 
             if (data && data.auth.token) {
-                config.headers["Authorization"] = 'Token ' + data.auth.token;
+                // config.headers["Authorization"] = 'Token ' + data.auth.token;
+                config.headers["Authorization"] = `JWT ${data.auth.token}`;
             }
 
             return config;
