@@ -53,6 +53,11 @@ const urls = {
     report_current_workorders: 'system-report/report-current-workorders',
     report_workorder_history: 'system-report/report-workorder-history',
     get_parts: '/system-report/report-inventory',
+
+    // facility admin
+    get_buildings: '/enterprise/building/',
+    get_departments: '/enterprise/department/',
+    get_locations: '/enterprise/location/'
 };
 
 

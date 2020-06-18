@@ -11,10 +11,14 @@ import ReportList from "../reports/views/ReportList";
 import Workorder from "../workorder/views/Workorder";
 import Calendar from "../workorder/views/Calendar";
 import ScheduledWorkorder from "../workorder/views/ScheduledWorkorder";
-import SystemReport from "../sytem_report/views/SystemReport";
-import SummaryReport from "../sytem_report/views/SummaryReport";
-import InventoryReport from "../sytem_report/views/InventoryReport";
-import History from "../sytem_report/components/History";
+import SystemReport from "../system_report/views/SystemReport";
+import SummaryReport from "../system_report/views/SummaryReport";
+import InventoryReport from "../system_report/views/InventoryReport";
+import History from "../system_report/components/History";
+import Buildings from "../facility_admin/views/Buildings";
+import Departments from "../facility_admin/views/Departments";
+import Locations from "../facility_admin/views/Locations";
+import Parts from "../facility_admin/views/Parts";
 
 // import { NonAuthRequired } from '@/resources/auth';
 import { AuthRequired } from '@/resources/auth';
@@ -241,6 +245,67 @@ export default [
         name: 'workorder_history_summary',
         component: History,
         beforeEnter: AdministratorRequired,
+    },
+
+    // 
+    // FACILITY ADMIN PATHS
+    // 
+
+    {
+        path: "/buildings",
+        component: Layout,
+        beforeEnter: AdministratorRequired,
+        children: [
+            {
+                path: "",
+                name: "buildings",
+                components: {
+                    default: Buildings,
+                }
+            }
+        ],
+    },
+    {
+        path: "/departments",
+        component: Layout,
+        beforeEnter: AdministratorRequired,
+        children: [
+            {
+                path: "",
+                name: "departments",
+                components: {
+                    default: Departments,
+                }
+            }
+        ],
+    },
+    {
+        path: "/locations",
+        component: Layout,
+        beforeEnter: AdministratorRequired,
+        children: [
+            {
+                path: "",
+                name: "locations",
+                components: {
+                    default: Locations,
+                }
+            }
+        ],
+    },
+    {
+        path: "/parts",
+        component: Layout,
+        beforeEnter: AdministratorRequired,
+        children: [
+            {
+                path: "",
+                name: "parts",
+                components: {
+                    default: Parts,
+                }
+            }
+        ],
     },
 
 ];

@@ -42,7 +42,7 @@
         </v-list-item-content>
       </v-list-item>
       
-      <v-list-item class="py-1" router v-bind:to="{'name': 'equipments'}">
+      <v-list-item class="py-1" v-if="!isAdministrator" router v-bind:to="{'name': 'equipments'}">
         <v-list-item-action>
           <v-icon small>fa-cubes</v-icon>
         </v-list-item-action>
@@ -59,6 +59,23 @@
           <v-list-item-title>System Report</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
+
+      <v-list-group v-if="isAdministrator" prepend-icon="fa-cog" :value="false" no-action>
+        <template v-slot:activator>
+          <v-list-item-title>Facility Admin</v-list-item-title>
+        </template>
+
+        <v-list-item v-for="link in facility_admin" :key="link.text" router v-bind:to="link.url">
+          <!-- <v-list-item-icon>
+            <v-icon small v-text="link.icon"></v-icon>
+          </v-list-item-icon> -->
+          <v-list-item-title>
+            <v-icon class="mr-3" small v-text="link.icon"></v-icon>
+            {{link.text}}
+          </v-list-item-title>
+          <!-- <div></div> -->
+        </v-list-item>
+      </v-list-group>
 
     </v-list>
 
@@ -139,6 +156,43 @@ export default {
         icon: "fa-unlock",
         text: "Reset Password"
       },
+    ],
+    facility_admin: [
+      {
+        url: { name: "buildings" },
+        icon: "fa-building-o",
+        text: "Buildings"
+      },
+      {
+        url: { name: "departments" },
+        icon: "fa-institution",
+        text: "Departments"
+      },
+      {
+        url: { name: "locations" },
+        icon: "fa-map-o",
+        text: "Locations"
+      },
+      {
+        url: { name: "user_list" },
+        icon: "fa-cube",
+        text: "Equipment Models"
+      },
+      {
+        url: {'name': 'equipments'},
+        icon: "fa-cog",
+        text: "Equipments"
+      },
+      {
+        url: { name: "parts" },
+        icon: "fa-microchip",
+        text: "Parts"
+      },
+      // {
+      //   url: {'name': 'scheduled_workorder'},
+      //   icon: "fa-wrench",
+      //   text: "Scheduled Work Orders"
+      // },
     ],
     profile: [
       { url: { name: "account_detail" }, icon: "fa-address-card-o", text: "Profile Detail" },

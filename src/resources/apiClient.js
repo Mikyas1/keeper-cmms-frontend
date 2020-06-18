@@ -222,5 +222,20 @@ export default {
             return http.get(urls.get_parts);  
         },
 
+    },
+
+    facility_admin: {
+
+        get_buildings() {
+            return http.get(urls.get_buildings);
+        },
+
+        get_departments() {
+            return http.get(urls.get_departments);
+        },
+
+        get_locations()  {
+            return http.get(urls.get_locations);
+        },
     }
 }
