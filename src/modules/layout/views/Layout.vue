@@ -57,7 +57,7 @@
     <!-- LEFT SIDE POPUP -->
     <!-- <v-navigation-drawer v-model="left" fixed temporary /> -->
 
-    <v-content>
+    <v-main>
       <v-container fluid>
         <v-row justify="center" align="center">
           <v-col>
@@ -68,7 +68,7 @@
           </v-col>
         </v-row>
       </v-container>
-    </v-content>
+    </v-main>
 
     <!-- RIGHT SIDE POPUP -->
     <!-- <v-navigation-drawer v-model="right" fixed right temporary /> -->

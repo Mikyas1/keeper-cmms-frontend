@@ -237,13 +237,13 @@
                         <v-expansion-panel-content>
 
                             <div v-if="!currentWorkOrders">
-                                <v-content>
+                                <v-main>
                                     <v-container class="fill-height" fluid>
                                     <v-row justify="center" align="center">
                                         <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
                                     </v-row>
                                     </v-container>
-                                </v-content>
+                                </v-main>
                             </div>
                             <div v-else>
                                 <Workorder :workorders="currentWorkOrders"></Workorder>
@@ -257,13 +257,13 @@
                         <v-expansion-panel-content>
                             
                             <div v-if="!workOrdersHistory">
-                                <v-content>
+                                <v-main>
                                     <v-container class="fill-height" fluid>
                                     <v-row justify="center" align="center">
                                         <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
                                     </v-row>
                                     </v-container>
-                                </v-content>
+                                </v-main>
                             </div>
                             <div v-else>
                                 <Workorder :workorders="workOrdersHistory"></Workorder>
@@ -278,13 +278,13 @@
                         <v-expansion-panel-content>
                            
                             <div v-if="!pmWorkorders">
-                                <v-content>
+                                <v-main>
                                     <v-container class="fill-height" fluid>
                                     <v-row justify="center" align="center">
                                         <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
                                     </v-row>
                                     </v-container>
-                                </v-content>
+                                </v-main>
                             </div>
                             <div v-else>
                                 <PmWorkorder :pm_workorders="pmWorkorders"></PmWorkorder>
@@ -298,13 +298,13 @@
                         <v-expansion-panel-content>
                             
                             <div v-if="!downTimeHistory">
-                                <v-content>
+                                <v-main>
                                     <v-container class="fill-height" fluid>
                                     <v-row justify="center" align="center">
                                         <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
                                     </v-row>
                                     </v-container>
-                                </v-content>
+                                </v-main>
                             </div>
                             <div v-else>
                                 <DownTime :downtime="downTimeHistory"></DownTime>

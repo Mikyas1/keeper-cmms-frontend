@@ -94,13 +94,13 @@
     <!-- {{events}} -->
 
     <div class="loading-card" v-if="!pageLoad">
-      <v-content>
+      <v-main>
         <v-container class="fill-height" fluid>
           <v-row justify="center" align="center">
             <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
           </v-row>
         </v-container>
-      </v-content>
+      </v-main>
     </div>
 
     <!-- Dynamic dialog -->

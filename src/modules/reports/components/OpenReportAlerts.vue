@@ -89,9 +89,9 @@
     </div>
 
     <div v-if="!pageLoad">
-      <!-- <v-content class="loader-wrapper"> -->
+      <!-- <v-main class="loader-wrapper"> -->
       <v-progress-circular class="loader" :size="50" color="primary" indeterminate></v-progress-circular>
-      <!-- </v-content> -->
+      <!-- </v-main> -->
     </div>
 
     <!-- Dynamic dialog -->

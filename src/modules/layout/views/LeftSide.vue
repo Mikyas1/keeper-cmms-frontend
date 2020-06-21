@@ -42,7 +42,7 @@
         </v-list-item-content>
       </v-list-item>
       
-      <v-list-item class="py-1" v-if="!isAdministrator" router v-bind:to="{'name': 'equipments'}">
+      <v-list-item class="py-1" router v-bind:to="{'name': 'equipments'}">
         <v-list-item-action>
           <v-icon small>fa-cubes</v-icon>
         </v-list-item-action>
