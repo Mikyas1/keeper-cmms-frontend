@@ -113,7 +113,7 @@
                         <div v-if="work_done.work_done.document_two" class="small-divider"></div>
                         <v-row v-if="work_done.work_done.document_two" no-gutters>
                             <v-col>Document Two:</v-col>
-                            <v-col ><strong class="primary--text"><a target="_blank" :href="media_url + work_done.work_done.document">document two</a></strong></v-col>
+                            <v-col ><strong class="primary--text"><a target="_blank" :href="media_url + work_done.work_done.document_two">document two</a></strong></v-col>
                         </v-row>
                         
                     </v-col>

@@ -105,7 +105,8 @@ export default {
         return new Promise((resolve, reject) => {
             apiClient.workorder.get_open_Workorders()
             .then(response => {
-                commit("SET_OPEN_WORKORDERS", response.data);
+                commit("SET_OPEN_WORKORDERS", response.data.workorders);
+                commit("SET_PENDING_REVIEW", response.data.pending_review);
                 resolve( response.data );
             })
             .catch(e => {
@@ -381,6 +382,75 @@ export default {
             apiClient.workorder.up_coming_events()
             .then(response => {
                 commit("account/GODARK", null, { root: true });
+                resolve( response.data );
+            })
+            .catch(e => {
+                reject(e);
+            })
+        });
+    },
+
+    workorder_review_detail: ({ commit }, id) => {
+        return new Promise((resolve, reject) => {
+            apiClient.workorder.workorder_review_detail(id)
+            .then(response => {
+                commit("account/GODARK", null, { root: true });
+                resolve( response.data );
+            })
+            .catch(e => {
+                reject(e);
+            })
+        });
+    },
+
+    approve_workorder_review: ({ commit }, data) => {
+        return new Promise((resolve, reject) => {
+            apiClient.workorder.approve_workorder_review(data)
+            .then(response => {
+                commit("account/GODARK", null, { root: true });
+                if (funs.open_workorder_reload_fun) {
+                    funs.open_workorder_reload_fun();
+                }
+                if (funs.workorder_list_reload_fun) {
+                    funs.workorder_list_reload_fun();
+                }
+                if(funs.workorder_equipment_detail) {
+                    funs.workorder_equipment_detail();
+                }
+                if(funs.calander_reload_fun) {
+                    funs.calander_reload_fun();
+                }
+                if(funs.pm_workorder_reload_fun) {
+                    funs.pm_workorder_reload_fun();
+                }
+                resolve( response.data );
+            })
+            .catch(e => {
+                reject(e);
+            })
+        });
+    },
+
+    reject_workorder_review: ({ commit }, data) => {
+        return new Promise((resolve, reject) => {
+            apiClient.workorder.reject_workorder_review(data)
+            .then(response => {
+                commit("account/GODARK", null, { root: true });
+                if (funs.open_workorder_reload_fun) {
+                    funs.open_workorder_reload_fun();
+                }
+                if (funs.workorder_list_reload_fun) {
+                    funs.workorder_list_reload_fun();
+                }
+                if(funs.workorder_equipment_detail) {
+                    funs.workorder_equipment_detail();
+                }
+                if(funs.calander_reload_fun) {
+                    funs.calander_reload_fun();
+                }
+                if(funs.pm_workorder_reload_fun) {
+                    funs.pm_workorder_reload_fun();
+                }
                 resolve( response.data );
             })
             .catch(e => {

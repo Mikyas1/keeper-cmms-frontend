@@ -180,6 +180,11 @@
                 >
                     <h1 class="title mb-2">Location</h1>
                     <v-row no-gutters>
+                        <v-col>Name:</v-col>
+                        <v-col v-if="item.location"><strong class="primary--text">{{ item.location.name }}</strong></v-col>
+                    </v-row>
+                    <div class="small-divider"></div>
+                    <v-row no-gutters>
                         <v-col>Building:</v-col>
                         <v-col v-if="item.location"><strong class="primary--text">{{ item.location.building.name }}</strong></v-col>
                     </v-row>
@@ -195,13 +200,26 @@
                     </v-row>
                     <div class="small-divider"></div>
                     <v-row no-gutters>
-                        <v-col>Section:</v-col>
-                        <v-col v-if="item.location"><strong class="primary--text">{{ item.location.sub_room_section }}</strong></v-col>
+                        <v-col>Location Status:</v-col>
+                        <v-col v-if="item.location.status_flag">
+                            <strong 
+                            :style="`color: ${getColorHere(item.location.status_flag.color)}`">
+                                {{ item.location.status_flag.name }}
+                            </strong>
+                        </v-col>
                     </v-row>
                     <div class="small-divider"></div>
                     <v-row no-gutters>
                         <v-col>Department:</v-col>
                         <v-col v-if="item.department"><strong class="primary--text">{{ item.department.name }}</strong></v-col>
+                    </v-row>
+                    <div class="small-divider"></div>
+                    <v-row no-gutters>
+                        <v-col>Active:</v-col>
+                        <v-col v-if="item.location"><strong class="primary--text">
+                            <v-icon :color="getColor(item.location.active)" v-if="item.location.active" small>fa fa-check</v-icon>
+                            <v-icon :color="getColor(item.location.active)" v-else small>fa fa-close</v-icon>    
+                        </strong></v-col>
                     </v-row>
                     <div class="small-divider"></div>
                     <v-row no-gutters>
@@ -431,6 +449,14 @@ export default {
 
     report() {
         this.reportDialog = true;
+    },
+
+    getColor(val) {
+        if (val) {
+            return 'green';
+        } else {
+            return 'red';
+        }
     },
 
     getColorHere(val) {

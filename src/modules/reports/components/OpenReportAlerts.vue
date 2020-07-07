@@ -7,7 +7,9 @@
         <v-layout class="my-1">
           <v-flex xs11>
             <v-icon class="mr-2 primary--text">fa-bell-o</v-icon>
-            <span class="reprot-title primary--text">All Reports <strong>{{ open_reports_from_store.length }}</strong></span>
+            <span class="reprot-title primary--text">
+              <strong>({{ open_reports_from_store.length }})</strong> All Reports 
+            </span>
           </v-flex>
 
           <v-flex xs1 v-if="show">
@@ -81,7 +83,7 @@
         <!-- If no Reports to show -->
         <div v-if="open_reports_from_store.length === 0" class="ml-5 mb-3">
           <v-icon class="mr-2">fa-thumbs-o-up</v-icon> 
-          No Reports to show.
+            No Reports to show.
         </div>
 
       </div>
@@ -126,7 +128,7 @@ export default {
   data() {
     return {
       pageLoad: false,
-      show: true,
+      show: false,
 
       detailDialog: false,
       detailReport: null,
@@ -137,7 +139,9 @@ export default {
   },
   computed: {
     ...mapGetters({
-      open_reports_from_store: "reports/open_reports"
+      open_reports_from_store: "reports/open_reports",
+      isAdministrator: "auth/isAdministrator",
+      isRegular: "auth/isRegular",
     })
   },
   methods: {
@@ -156,6 +160,9 @@ export default {
     }
   },
   created() {
+    if (this.isAdministrator || this.isRegular) {
+      this.show = true;
+    }
     this.$store
       .dispatch("reports/get_open_reports")
       .then(() => {

@@ -48,6 +48,9 @@ const urls = {
     change_pm_active:  'workorder/enable-disable-pm-workorder/',
     edit_pm_workorder: 'workorder/edit-pm-workorder/',
     up_coming_events: 'workorder/up-coming-events',
+    workorder_review_detail: 'workorder/workorder-review-detail/',
+    approve_workorder_review: 'workorder/approve-workorder-review',
+    reject_workorder_review: "workorder/reject-workorder-review",
 
     // system report
     report_current_workorders: 'system-report/report-current-workorders',

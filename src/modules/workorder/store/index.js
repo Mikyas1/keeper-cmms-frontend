@@ -7,6 +7,7 @@ export default {
     state: {
         workorder_choice: null,
         open_workorders: null,
+        pending_review: null,
         companies: null,
     },
     getters,

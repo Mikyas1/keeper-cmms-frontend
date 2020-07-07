@@ -8,4 +8,7 @@ export default {
     open_pm_workorders: state => {
         return state.open_workorders.filter(x => x.workorder_type == 'PM');
     },
+    pending_review: state => {
+        return state.pending_review;
+    }
 };

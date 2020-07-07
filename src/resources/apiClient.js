@@ -187,7 +187,7 @@ export default {
         },
 
         create_scheduled_workorder(payload) {
-            return http.post(urls.create_scheduled_workorder, payload, { headers: { 'Content-Type': 'multipart/form-data' } })
+            return http.post(urls.create_scheduled_workorder, payload, { headers: { 'Content-Type': 'multipart/form-data' } });
         },
 
         pm_detail_workorder(id) {
@@ -204,6 +204,18 @@ export default {
 
         up_coming_events() {
             return http.get(urls.up_coming_events);
+        },
+
+        workorder_review_detail(id) {
+            return http.get(urls.workorder_review_detail + id);
+        },
+
+        approve_workorder_review(payload) {
+            return http.post(urls.approve_workorder_review, payload);
+        },
+
+        reject_workorder_review(payload) {
+            return http.post(urls.reject_workorder_review, payload, { headers: { 'Content-Type': 'multipart/form-data' } });
         }
 
     },

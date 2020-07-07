@@ -32,6 +32,11 @@
                             <div class="subheading font-weight-regular">
                               <v-icon class="mr-2 mb-2">fa-wrench</v-icon>  Demand: {{ activite.dm_workorders }}
                             </div>
+
+                            <div class="subheading font-weight-regular">
+                              <v-icon class="mr-2 mb-2">fa-spin fa-cog</v-icon>  Pending: {{ activite.pending }}
+                            </div>
+
                             <div class="subheading font-weight-regular">
                               <v-icon class="mr-4" small>fa-hourglass-end</v-icon>  Overdue: {{ activite.over_due_workorders }}
                             </div>

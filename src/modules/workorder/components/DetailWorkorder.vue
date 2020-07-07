@@ -6,14 +6,25 @@
                 <v-icon class="mx-2" :color="getOverDueColor(workorder)">fa-wrench</v-icon> 
                 
                 <span v-if="workorder.workorder_type === 'DM'">
-                    DEMAND WORKORDER
+                    <!-- DEMAND WORKORDER -->
+                    DM Workorder
                 </span>
 
                 <span v-if="workorder.workorder_type === 'PM'">
-                    PM WORKORDER
+                    PM Workorder
                 </span>
                     - 
                 <span> {{reduceText(workorder.name)}} (id - {{workorder.id}})</span>
+
+                <span v-if="workorder.pending && myWorkorder" class="pt-5 ml-3 pending">
+                    <v-icon small class="pending pt-2">
+                        fa-spin fa-cog
+                    </v-icon>
+                    <span class="ml-1">
+                        Pending
+                    </span> 
+                </span>
+                
                 </v-toolbar-title>
             </v-toolbar>
             
@@ -75,6 +86,11 @@
                             <v-row no-gutters>
                                 <v-col>Priority:</v-col>
                                 <v-col ><strong class="primary--text" v-if="workorder.priority">{{ workorder.priority.name }}</strong></v-col>
+                            </v-row>
+                            <div class="small-divider"></div>
+                            <v-row no-gutters>
+                                <v-col>Review Required:</v-col>
+                                <v-col ><strong class="primary--text">{{ workorder.request_review ? 'Yes' : 'No' }}</strong></v-col>
                             </v-row>
                             <div class="small-divider"></div>
                             <v-row no-gutters>
@@ -372,14 +388,14 @@
                                 <div class="small-divider"></div>
                                 <v-row no-gutters>
                                     <v-col>Scheduled so far:</v-col>
-                                    <v-col v-if="workorder.pm_scheduler.scheduled_so_far">
+                                    <v-col v-if="workorder.pm_scheduler">
                                     <strong class="primary--text">{{ workorder.pm_scheduler.scheduled_so_far }}</strong>
                                     </v-col>
                                 </v-row>
                                 <div class="small-divider"></div>
                                 <v-row no-gutters>
                                     <v-col>Done so far:</v-col>
-                                    <v-col v-if="workorder.pm_scheduler.done_so_far">
+                                    <v-col v-if="workorder.pm_scheduler">
                                     <strong class="primary--text">{{ workorder.pm_scheduler.done_so_far }}</strong>
                                     </v-col>
                                 </v-row>
@@ -396,7 +412,7 @@
                                 <div class="small-divider"></div>
                                 <v-row no-gutters>
                                     <v-col>Type:</v-col>
-                                    <v-col ><strong class="primary--text">{{p_sheduler_type[workorder.scheduler.scheduler_type]}}</strong></v-col>
+                                    <v-col ><strong class="primary--text">{{ p_sheduler_type[workorder.scheduler.scheduler_type] }}</strong></v-col>
                                 </v-row>
                                 <div class="small-divider"></div>
 
@@ -555,6 +571,37 @@
 
                      </v-data-table>
 
+                     <!-- REVIEWS -->
+
+                     <div v-if="review" class="divider" :style="'background: ' + getPrimaryHere()"></div>
+
+                     <div v-if="review">
+
+                        <h1 class="title mt-4 mb-2">REVIEW ({{ review.length }})</h1>
+                        <v-data-table
+                            class="mb-5"
+                            :headers="review_headers"
+                            :items="review"
+                            item-key="id"
+                            :hide-default-footer="workdone.length <= 10"
+                            v-if="workdone.length > 0"
+                            @click:row="openDetailReview"
+                            :mobile-breakpoint="0"
+                        >
+
+                                <!-- Revewer -->
+                                <template v-slot:item.reviewer="{ item }">
+                                    <div v-if="item.reviewer">{{ item.reviewer.first_name }} - {{item.reviewer.employee_id}}</div>
+                                </template>
+
+                                <!-- Updated Date -->
+                                <template v-slot:item.updated="{ item }">
+                                    <div>{{ moment(item.updated).format('MM/DD/YYYY HH:mm:ss') }}</div>
+                                </template>
+
+                            </v-data-table>
+                    </div>
+
 
                 </v-container>
 
@@ -568,12 +615,20 @@
                     </v-flex>
                     <v-flex>
                         <v-btn 
-                            v-if="!workorder.closed && myWorkorder"
+                            v-if="!workorder.closed && myWorkorder && !workorder.pending"
                             v-on:click="OpenSubmitWorkDoneDialog"
                             color="green white--text text-capitalize mb-4 mr-4 mt-4">
                                 <v-icon small>fa-wrench</v-icon>
                                 <span class="ml-2">Submit WorkDone</span>
                         </v-btn>
+                        <div v-if="workorder.pending && myWorkorder" class="pt-5 orange--text pending">
+                            <v-icon small class="orange--text pending pt-2">
+                                fa-spin fa-cog
+                            </v-icon>
+                            <span class="ml-1">
+                                Pending
+                            </span> 
+                        </div>
                     </v-flex>
                     <v-flex>
                         <v-btn 
@@ -585,6 +640,7 @@
                     </v-flex>
                 </v-layout>
             </div>
+
         </v-card>
     
         <div class="loading-card" v-if="!pageLoad || !extera">
@@ -624,6 +680,18 @@
             </v-card>
         </v-dialog>
 
+        <!-- Dynamic dialog -->
+        <!-- REVIEW DETAIL DIALOG -->
+        <v-dialog v-model="open_review" width="750">
+        <template v-slot:activator="{}"></template>
+            <v-card>
+                <ReviewDetail
+                    :review="review_detail"
+                    @close="open_review = !open_review"
+                ></ReviewDetail>
+            </v-card>
+        </v-dialog>
+
     </div>
 </template>
 
@@ -634,6 +702,7 @@ var moment = require('moment');
 
 import SubmitWorkDone from "./SubmitWorkDone";
 import WorkDoneDetail from "./WorkDoneDetail";
+import ReviewDetail from "./ReviewDetail";
 
 import { getColor } from "@/resources/helper";
 import { getPrimary } from "@/resources/helper";
@@ -654,7 +723,8 @@ export default {
 
     components: {
         SubmitWorkDone,
-        WorkDoneDetail
+        WorkDoneDetail,
+        ReviewDetail,
     },
 
     data() {
@@ -688,6 +758,13 @@ export default {
                 { text: "Estimated Hour", value: "estimated_hour" },
             ],
 
+            review_headers: [
+                { text: "SEEN", value: "seen" },
+                { text: "REVIEWER", value: "reviewer" },
+                { text: "APPROVED", value: "approved" },
+                { text: "UPDATED DATE", value: "updated" },
+            ],
+
             submitWorkDoneDialog: false,
             set_workdone: null,
 
@@ -696,6 +773,10 @@ export default {
 
             init_workdone: null,
             p_sheduler_type: null,
+
+            review: null,
+            review_detail: null,
+            open_review: false,
         }
     },
 
@@ -738,6 +819,11 @@ export default {
                 .then(response => {
                     this.workorder = response.workorder;
                     this.workdone = response.work_done;
+                    if (response.review) {
+                        this.review = response.review;
+                    } else {
+                        this.review = null;
+                    }
                     this.pageLoad = true;
                     this.extera = true;
                 })
@@ -835,7 +921,12 @@ export default {
 
         getPrimaryHere() {
             return getPrimary(this);
-        }
+        },
+
+        openDetailReview(item) {
+            this.open_review = true;
+            this.review_detail = item; 
+        },
     },
     
     created() {
@@ -883,5 +974,9 @@ export default {
 }
 .btns {
   width: 100%;
+}
+.pending {
+    font-weight: bold;
+    margin-top: 3px;
 }
 </style>

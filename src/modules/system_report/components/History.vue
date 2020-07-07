@@ -548,7 +548,11 @@ export default {
             var total = 0;
             for (let i = 0; i < arr.length; i++) {
                 if (arr[i].regular_hours != null) {
-                    total += arr[i].regular_hours * arr[i].employee.man_hour_cost;
+                    if (arr[i].man_hour_cost != null) {
+                        total += arr[i].regular_hours * arr[i].man_hour_cost;
+                    } else {
+                        total += arr[i].regular_hours * arr[i].employee.man_hour_cost;
+                    }
                 }
                 if (arr[i].over_time_one != null) {
                     total += arr[i].over_time_one * arr[i].over_time_one_rate; 
@@ -572,12 +576,18 @@ export default {
                 employee_data[employees[i].id] = employees[i];
             }
 
+
+            // Create the data{} object with employee id assigned to total labor cost
             for (let i = 0; i < arr.length; i++) {
                 if (data[arr[i].employee.id] == null) {
                     data[arr[i].employee.id] = 0;
                 }
                 if (arr[i].regular_hours) {
-                    data[arr[i].employee.id] += arr[i].employee.man_hour_cost * arr[i].regular_hours;
+                    if (arr[i].man_hour_cost) {
+                        data[arr[i].employee.id] += arr[i].man_hour_cost * arr[i].regular_hours;
+                    } else {
+                        data[arr[i].employee.id] += arr[i].employee.man_hour_cost * arr[i].regular_hours;
+                    }
                 }
                 if (arr[i].over_time_one) {
                     data[arr[i].employee.id] += arr[i].over_time_one * arr[i].over_time_one_rate

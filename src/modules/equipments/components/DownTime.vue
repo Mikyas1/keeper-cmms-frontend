@@ -42,9 +42,9 @@
         <h3 class="mt-4 ml-3 primary--text">Total downtime</h3>
         <p class="mt-3 ml-3">Seconds: {{downtime.total_downtime}}
             <br>
-            Minutes: {{downtime.total_downtime/60}}
+            Minutes: {{round_num(downtime.total_downtime/60)}}
             <br>
-            Hours: {{downtime.total_downtime/3600}}
+            Hours: {{round_num(downtime.total_downtime/3600)}}
         </p>
 
         <div class="small-divider mt-3"></div>
@@ -80,6 +80,10 @@ export default {
     methods: {
         getColorHere(val) {
             return getColor(val);
+        },
+        
+        round_num(val) {
+           return Math.round(val * 100) / 100; 
         },
     }
 }

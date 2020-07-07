@@ -441,14 +441,22 @@ export default {
 
             this.$store
                 .dispatch("workorder/create_work_done", formData)
-                .then(() => {
+                .then(response => {
                         this.loading = false;
                         // this.$emit("closeBothDialog");
-                        this.$store.commit("SET_SNACKBAR", {
-                            message: "Successfully Submited a Work Report.",
-                            value: true,
-                            status: "success"
-                        });
+                        if (response.review_created) {
+                            this.$store.commit("SET_SNACKBAR", {
+                                message: "Workorder Pending Review!",
+                                value: true,
+                                status: "success"
+                            });
+                        } else {
+                            this.$store.commit("SET_SNACKBAR", {
+                                message: "Successfully Submited a Work Report.",
+                                value: true,
+                                status: "success"
+                            });
+                        }
                         this.$emit('reloadWorkOrder', this.workorder.id);
                         this.closeSubmitWorkdone()
                     })
@@ -465,6 +473,14 @@ export default {
                     if (error.response.status === 400) {
                         this.$store.commit("SET_SNACKBAR", {
                             message: "Please Fill the form properly",
+                            value: true,
+                            status: "error"
+                        });
+                    }
+                    
+                    if (error.response.status === 406) {
+                        this.$store.commit("SET_SNACKBAR", {
+                            message: error.response.data.detail,
                             value: true,
                             status: "error"
                         });

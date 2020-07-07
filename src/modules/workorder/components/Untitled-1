@@ -111,4 +111,18 @@ xx    updated                     = models.DateTimeField(auto_now=True)
 
 ?? BUG
 
-xx fix is not active users from getting any access in the system.
+xxx fix not active users from getting any access in the system.
+
+xxx fix the PM workorders done_so_far issue (if they are closed and not rejected increment done_so_far).
+
+fix frontend workorder review rejecte icons
+
+fix backend workorder rejecte images and doucments (file upload)
+
+fix backend workorder rejecte reschedule
+
+fix the review seen icon in wokrorder detail popup
+
+note
+
+1) parts better management who added part who took (reduced (used for workorder)) part

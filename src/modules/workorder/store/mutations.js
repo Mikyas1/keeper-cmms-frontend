@@ -6,11 +6,13 @@ export default {
         state.workorder_choice = null;
         state.open_workorders = null;
         state.companies = null;
-        state.open_workorders_reload_fun = null;
-        state.workorder_list_reload_fun = null;
+        state.pending_review = null;
     },
     SET_OPEN_WORKORDERS: (state, data) => {
         state.open_workorders = data;
+    },
+    SET_PENDING_REVIEW: (state, data) => {
+        state.pending_review = data;
     },
     ADD_OPEN_WORKORDERS: (state, data) => {
         state.open_workorders.unshift(data);

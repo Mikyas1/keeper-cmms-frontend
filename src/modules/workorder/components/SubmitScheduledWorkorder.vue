@@ -164,6 +164,8 @@
                                 v-model="estimated_cost"
                             />
 
+                            <v-switch label="Request Review" v-model="request_review"></v-switch>
+
                         </v-flex>
                         
                     </v-layout>
@@ -398,6 +400,8 @@ export default {
 
             loading: false,
 
+            request_review: false,
+
         }
     },
 
@@ -486,6 +490,7 @@ export default {
             this.scheduler_errors = null;
             this.tasks = [];
             this.schedulers = [];
+            this.request_review = false;
         },
 
         submit() {
@@ -503,6 +508,7 @@ export default {
                                                  'start_date',
                                                  'end_date',
                                                  'multiple',
+                                                 'request_review',
                                                  'document',
                                                  'image',
                                                  'due_date',

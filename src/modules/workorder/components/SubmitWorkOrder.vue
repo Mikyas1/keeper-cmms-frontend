@@ -116,6 +116,8 @@
                         v-model="priority"
                       ></v-select>
 
+                      <v-switch label="Request Review" v-model="request_review"></v-switch>
+
                   </v-flex>
 
               </v-layout>
@@ -248,6 +250,7 @@ export default {
             image: null,
             estimated_cost: null,
             priority: null,
+            request_review: false,
             job_hazard: null,
             work_category: null,
             workorder_status: null,
@@ -316,6 +319,7 @@ export default {
         formData.append("name", this.name);
         formData.append("due_date", this.due_date);
         formData.append("description", this.description);
+        formData.append("request_review", this.request_review);
 
         if(this.workorder_status) {
           formData.append("workorder_status", this.workorder_status.id);
@@ -409,6 +413,7 @@ export default {
         this.image = null;
         this.estimated_cost = null;
         this.priority = this.report.priority;
+        this.request_review = true;
         this.job_hazard = null;
         this.work_category = null;
 
@@ -419,6 +424,7 @@ export default {
         this.assigned_to_errors = null;
         this.workorder_status = null;
         this.workorder_status_errors = null;
+        this.request_review = false;
       },
 
       getPrimaryHere() {

@@ -98,6 +98,11 @@
                                 <v-col>Created By:</v-col>
                                 <v-col><strong class="primary--text">{{pm_workorder.created_by.first_name}} - {{ pm_workorder.created_by.employee_id }}</strong></v-col>
                             </v-row>
+                            <div class="small-divider"></div> 
+                            <v-row no-gutters>
+                                <v-col>Review Required:</v-col>
+                                <v-col><strong class="primary--text">{{ pm_workorder.request_review ? 'Yes' : 'No' }}</strong></v-col>
+                            </v-row>
                             <div class="small-divider"></div>
                             <v-row no-gutters>
                                 <v-col>Created:</v-col>

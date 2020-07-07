@@ -279,7 +279,7 @@ export default {
         { text: "Description", value: "description" },
         { text: "Department", value: "department" },
         { text: "Location", value: "location.room_number" },
-        { text: "Creatation Time", value: "created" },
+        { text: "Creation Time", value: "created" },
         { text: "Update Time", value: "updated" },
         { text: "St.", value: "equipment_status" },
       ],

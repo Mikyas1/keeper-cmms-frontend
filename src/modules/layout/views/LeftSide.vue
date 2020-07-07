@@ -60,22 +60,18 @@
         </v-list-item-content>
       </v-list-item>
 
-      <v-list-group v-if="isAdministrator" prepend-icon="fa-cog" :value="false" no-action>
+      <!-- <v-list-group v-if="isAdministrator" prepend-icon="fa-cog" :value="false" no-action>
         <template v-slot:activator>
           <v-list-item-title>Facility Admin</v-list-item-title>
         </template>
 
         <v-list-item v-for="link in facility_admin" :key="link.text" router v-bind:to="link.url">
-          <!-- <v-list-item-icon>
-            <v-icon small v-text="link.icon"></v-icon>
-          </v-list-item-icon> -->
           <v-list-item-title>
             <v-icon class="mr-3" small v-text="link.icon"></v-icon>
             {{link.text}}
           </v-list-item-title>
-          <!-- <div></div> -->
         </v-list-item>
-      </v-list-group>
+      </v-list-group> -->
 
     </v-list>
 
