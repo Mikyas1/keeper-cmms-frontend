@@ -219,7 +219,7 @@ export default {
         })
         .then(() => {
           this.loading = false;
-          this.$router.push({ name: "enterprise_view" });
+          this.$router.push({ name: "user_list" });
           this.$store.commit("SET_SNACKBAR", {
             message: 'Successfully added a new User!!',
             value: true,

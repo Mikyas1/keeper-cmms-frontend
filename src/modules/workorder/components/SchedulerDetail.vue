@@ -24,7 +24,7 @@
                             <h1 class="title mb-2">SCHEDULER</h1>
                             <v-row no-gutters>
                                 <v-col>Name:</v-col>
-                                <v-col><strong class="primary--text">{{ scheduler.name }}</strong></v-col>
+                                <v-col><strong v-if="scheduler.name" class="primary--text">{{ scheduler.name }}</strong></v-col>
                             </v-row>
                             <div class="small-divider"></div>
                             <v-row no-gutters>
@@ -70,7 +70,7 @@
                             <div v-if="scheduler.scheduler_type == 'MN'">
                                 <v-row no-gutters>
                                     <v-col>On the:</v-col>
-                                    <v-col ><strong class="primary--text" v-if="scheduler.day_of_the_month != null">{{ get_month_days[scheduler.day_of_the_month].name }}</strong></v-col>
+                                    <v-col ><strong class="primary--text" v-if="scheduler.day_of_the_month != null">{{ getProperMonthDate(scheduler.day_of_the_month).name }}</strong></v-col>
                                 </v-row>
                                 <div class="small-divider"></div>
                                 <v-row no-gutters>
@@ -148,9 +148,6 @@ export default {
             return week_days;
         },
 
-        get_month_days() {
-            return month_days;
-        },
     },
 
     methods: {
@@ -170,6 +167,10 @@ export default {
 
         getPrimaryHere() {
             return getPrimary(this);
+        },
+
+        getProperMonthDate(val) {
+            return month_days.filter(x => val == x.id)[0];
         }
 
     },
