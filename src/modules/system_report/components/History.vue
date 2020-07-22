@@ -244,7 +244,7 @@
                             </tr>
                             <tr>
                                 <td>% PM Work Orders Completed On Time</td>
-                                <td>{{round_num((workorder_history_summary.pm.due / (workorder_history_summary.pm.overdue + workorder_history_summary.demand.due)) * 100)}}%</td>
+                                <td>{{round_num((workorder_history_summary.pm.due / (workorder_history_summary.pm.overdue + workorder_history_summary.pm.due)) * 100)}}%</td>
                             </tr>
                         </tbody>
                     </template>
