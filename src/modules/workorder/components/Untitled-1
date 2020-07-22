@@ -109,7 +109,7 @@ xx    created                     = models.DateTimeField(auto_now_add=True)
 xx    updated                     = models.DateTimeField(auto_now=True)
 
 
-?? BUG
+?? BUG ------------------------------------------------------------------------------
 
 xxx fix not active users from getting any access in the system.
 
@@ -117,16 +117,22 @@ xxx fix the PM workorders done_so_far issue (if they are closed and not rejected
 
 fix frontend workorder review rejecte icons
 
-fix backend workorder rejecte images and doucments (file upload)
+xxx fix backend workorder rejecte images and doucments (file upload)
 
 fix backend workorder rejecte reschedule
 
 fix the review seen icon in wokrorder detail popup
 
-note
+note --------------------------------------------------------------------------------
 
-1) parts better management who added part who took (reduced (used for workorder)) part
+1) add line management (line maintenance, equipments under line, equipments critical for line,
+    line downtime and maintenance cost)
 
+2) add "manager user type" and update user model with work order assignable flag
+
+xxx 3) add recording downtime when report is approved on equipment
+
+4) better part management who added part who took (reduced (used for workorder)) part
 
 
 ///// SET UP INFO /////

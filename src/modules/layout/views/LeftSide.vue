@@ -60,7 +60,7 @@
         </v-list-item-content>
       </v-list-item>
 
-      <!-- <v-list-group v-if="isAdministrator" prepend-icon="fa-cog" :value="false" no-action>
+      <v-list-group v-if="isAdministrator" prepend-icon="fa-cog" :value="false" no-action>
         <template v-slot:activator>
           <v-list-item-title>Facility Admin</v-list-item-title>
         </template>
@@ -71,7 +71,7 @@
             {{link.text}}
           </v-list-item-title>
         </v-list-item>
-      </v-list-group> -->
+      </v-list-group>
 
     </v-list>
 

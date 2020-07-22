@@ -186,7 +186,7 @@ export default {
             formData.append("workorder_request", this.review.id);
 
             if (this.description != null) {
-                formData.append("description", this.description);
+                formData.append("data.description", this.description);
             }
             
             if (this.image != null) {
@@ -218,8 +218,8 @@ export default {
                             value: true,
                             status: "success"
                         });
-                        // this.closeRejectDialog();
-                        // this.$emit("closeWorkorderReport");
+                        this.closeRejectDialog();
+                        this.$emit("closeWorkorderReport");
                     })
                 .catch(() => {
                     this.loading = true;

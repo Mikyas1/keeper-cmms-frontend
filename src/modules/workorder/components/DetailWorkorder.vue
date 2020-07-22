@@ -571,11 +571,11 @@
 
                      </v-data-table>
 
-                     <!-- REVIEWS -->
+                <!-- REVIEWS -->
+                <div v-if="review">
+                     <div v-if="review.length > 0" class="divider" :style="'background: ' + getPrimaryHere()"></div>
 
-                     <div v-if="review" class="divider" :style="'background: ' + getPrimaryHere()"></div>
-
-                     <div v-if="review">
+                     <div v-if="review.length > 0">
 
                         <h1 class="title mt-4 mb-2">REVIEW ({{ review.length }})</h1>
                         <v-data-table
@@ -601,6 +601,7 @@
 
                             </v-data-table>
                     </div>
+                </div>
 
 
                 </v-container>
