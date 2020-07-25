@@ -84,7 +84,7 @@
                             v-on:click="approve_request"
                             :loading="approve_loading"
                             color="green white--text text-capitalize mb-4 mr-4 mt-4">
-                                <v-icon small>fa-check</v-icon>
+                                <v-icon small>fa-check-square-o</v-icon>
                                 <span class="ml-2">Approve Request</span>
                         </v-btn>
                     </v-flex>
@@ -92,7 +92,7 @@
                         <v-btn 
                             v-on:click="reject_request"
                             color="red white--text text-capitalize mb-4 mr-4 mt-4">
-                                <v-icon small>fa-close</v-icon>
+                                <v-icon small>fa-thumbs-down</v-icon>
                                 <span class="ml-2">Reject</span>
                         </v-btn>
                     </v-flex>
@@ -141,6 +141,7 @@
                     :review="rejectReview"
                     @close="rejectDialog = !rejectDialog"
                     @closeWorkorderReport="closeThis"
+                    @created="setup_reject_dialog"
                 ></RejectDialog>
             </v-card>
         </v-dialog>
@@ -179,6 +180,8 @@ export default {
 
             // moment
             moment: moment,
+
+            reject_dialog_func: null,
         }
     },
     methods: {
@@ -244,12 +247,19 @@ export default {
         },
 
         reject_request() {
+            if (this.reject_dialog_func) {
+                this.reject_dialog_func();
+            }
             this.rejectReview = this.review;
             this.rejectDialog = true;
         },
 
         closeThis() {
             this.$emit("closeWorkorderReview");
+        },
+
+        setup_reject_dialog(func) {
+            this.reject_dialog_func = func;
         }
     },
     created() {

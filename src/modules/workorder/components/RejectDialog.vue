@@ -161,6 +161,15 @@ export default {
 
     methods: {
 
+        reset() {
+            this.description = null;
+            this.date = null;
+            this.image = null;
+            this.image_two = null;
+            this.document = null;
+            this.document_two = null;
+        },
+
         reduceText(text) {
             if (text) {
                 if (text.length < 21) {
@@ -222,10 +231,19 @@ export default {
                         this.$emit("closeWorkorderReport");
                     })
                 .catch(() => {
-                    this.loading = true;
+                    this.loading = false;
+                    this.$store.commit("SET_SNACKBAR", {
+                            message: "Something went wrong!",
+                            value: true,
+                            status: "error"
+                        });
                 })
         }
 
+    },
+
+    created() {
+        this.$emit("created", this.reset);
     }
 }
 </script>

@@ -62,6 +62,11 @@
                             </v-icon>
                         </span>
                         {{getProperStatus(workorder)}}
+                        <span v-if="workorder.review_rejected === true && !workorder.pending">
+                            <v-icon small class="red--text ml-2 mb-1">
+                                fa fa-warning
+                            </v-icon> Rejected
+                        </span>
                     </span>
                     <br/>
                     

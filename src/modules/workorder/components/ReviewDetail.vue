@@ -75,7 +75,15 @@
                         xs="12"
                         sm="6"
                     >
-                        <h1 class="title mb-2">REVIEW</h1>
+                        <h1 class="title mb-2">
+                            REVIEW
+                            <span v-if="review.rejected === true" class="red--text"> 
+                                <v-icon small class="red--text ml-2">
+                                    fa fa-warning
+                                </v-icon> Rejected
+                            </span>
+                        </h1>
+
                         <v-row no-gutters>
                             <v-col>Requested By:</v-col>
                             <v-col><strong class="primary--text">
@@ -121,11 +129,11 @@
                         sm="6"
                     >
                         <h1 class="title mb-2">DETAIL</h1>
-                        <v-row no-gutters>
+                        <v-row v-if="review.description" no-gutters>
                             <v-col>Description:</v-col>
                             <v-col><strong class="primary--text">{{ review.description }}</strong></v-col>
                         </v-row>
-                        <div class="small-divider"></div>
+                        <div v-if="review.description" class="small-divider"></div>
                         <v-row no-gutters>
                             <v-col>Updated:</v-col>
                             <v-col><strong class="primary--text">{{ moment(review.updated).fromNow() }}</strong></v-col>

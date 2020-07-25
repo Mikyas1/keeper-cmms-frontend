@@ -577,7 +577,15 @@
 
                      <div v-if="review.length > 0">
 
-                        <h1 class="title mt-4 mb-2">REVIEW ({{ review.length }})</h1>
+                        <h1 class="title mt-4 mb-2">
+                            REVIEW ({{ review.length }})
+                            <span v-if="workorder.review_rejected === true" class="red--text"> 
+                                <v-icon small class="red--text ml-2 mb-1">
+                                    fa fa-warning
+                                </v-icon> Rejected
+                            </span>
+                        </h1>
+                        
                         <v-data-table
                             class="mb-5"
                             :headers="review_headers"
@@ -589,9 +597,48 @@
                             :mobile-breakpoint="0"
                         >
 
+                                <!-- Seen -->
+                                <template v-slot:item.seen="{ item }">
+                                    <span v-if="item.seen">
+                                        <v-icon small class="green--text">
+                                            fa fa-check
+                                        </v-icon>
+                                        <v-icon small class="green--text seen-icon">
+                                            fa fa-check
+                                        </v-icon>
+                                    </span>
+                                    <span v-else>
+                                        <v-icon small class="orange--text">
+                                            fa fa-check
+                                        </v-icon>
+                                    </span>
+                                </template>
+
                                 <!-- Revewer -->
                                 <template v-slot:item.reviewer="{ item }">
                                     <div v-if="item.reviewer">{{ item.reviewer.first_name }} - {{item.reviewer.employee_id}}</div>
+                                </template>
+
+                                <!-- Approved -->
+                                <template v-slot:item.approved="{ item }">
+                                    <span>
+                                        <v-icon 
+                                            v-if="item.approved == true" 
+                                            small 
+                                            class="green--text">
+                                                fa fa-check
+                                        </v-icon>
+                                        <v-icon 
+                                            v-if="item.rejected == true" 
+                                            small 
+                                            class="red--text">
+                                                fa fa-close
+                                        </v-icon>
+                                        <span 
+                                            v-if="item.approved == null && item.rejected == null">
+                                             -
+                                        </span>
+                                    </span>
                                 </template>
 
                                 <!-- Updated Date -->
@@ -979,5 +1026,8 @@ export default {
 .pending {
     font-weight: bold;
     margin-top: 3px;
+}
+.seen-icon {
+    margin-left: -8px;
 }
 </style>

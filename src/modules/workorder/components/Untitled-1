@@ -132,7 +132,14 @@ note ---------------------------------------------------------------------------
 
 xxx 3) add recording downtime when report is approved on equipment
 
-4) better part management who added part who took (reduced (used for workorder)) part
+4) add line data and employee performance to system report
+
+5) better part management who added part who took (reduced (used for workorder)) part
+
+
+&&&& future better features
+
+update workdone as long as workorder is not closed
 
 
 ///// SET UP INFO /////
