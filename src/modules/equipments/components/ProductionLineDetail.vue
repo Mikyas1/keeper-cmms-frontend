@@ -178,7 +178,14 @@
                                         </strong></v-col>
                                 </v-row>
                                 <div class="small-divider"></div>
-                                <!-- {{production_line.equipments}} -->
+                                <v-row no-gutters>
+                                    <v-col>Total Equipments:</v-col>
+                                    <v-col><strong class="primary--text">
+                                        {{  production_line.equipments.length }}
+                                        </strong></v-col>
+                                </v-row>
+                                <div class="small-divider"></div>
+                                
                             </v-col>
                         </v-row>
 
@@ -192,7 +199,101 @@
                                 sm="12"
                                 class="pr-3"
                             >
-                                hi
+                                <v-timeline 
+                                    align-top 
+                                    :dense="$vuetify.breakpoint.smAndDown"
+                                >
+                                    <v-timeline-item
+                                        v-for="equipment in production_line.equipments"
+                                        :key="equipment.inventory_number"
+                                        color="primary"
+                                        :icon="getIcon(equipment.status_flag)"
+                                        :icon-color="getColorHere(equipment.status_flag.color)"
+                                        fill-dot
+                                    >
+                                    <v-card
+                                        color="primary"
+                                        dark
+                                    >
+                                        <v-card-title class="title">{{equipment.equipment_name}}</v-card-title>
+                                        <v-card-text class="white text--primary">
+                                            
+                                            <v-container>
+
+                                                <v-row
+                                                    align="center"
+                                                    justify="center"
+                                                    no-gutters
+                                                >
+                                                    <v-col
+                                                        cols="12"
+                                                        class=""
+                                                    >
+                                                        <v-row no-gutters>
+                                                            <v-col cols="6">Inventory No:</v-col>
+                                                            <v-col>
+                                                                <strong class="primary--text">
+                                                                    {{ equipment.inventory_number }}
+                                                                </strong>
+                                                            </v-col>
+                                                        </v-row>
+                                                        <div class="small-divider"></div>
+                                                        <v-row no-gutters>
+                                                            <v-col cols="6">Status:</v-col>
+                                                            <v-col>
+                                                                <strong class="primary--text">
+                                                                    {{ equipment.status_flag.name }}
+                                                                </strong>
+                                                            </v-col>
+                                                        </v-row>
+                                                        <div class="small-divider"></div>
+                                                        <v-row no-gutters>
+                                                            <v-col cols="6">Critical:</v-col>
+                                                            <v-col>
+                                                                <strong class="primary--text">
+                                                                    {{ equipment.production_line_critical ? 'yes' : 'No' }}
+                                                                </strong>
+                                                            </v-col>
+                                                        </v-row>
+                                                        <div class="small-divider"></div>
+                                                        <v-row no-gutters>
+                                                            <v-col cols="6">T Down Time:</v-col>
+                                                            <v-col>
+                                                                <strong class="primary--text">
+                                                                    {{ round_num(equipment.total_down_time / 60) }} (m)
+                                                                </strong>
+                                                            </v-col>
+                                                        </v-row>
+                                                        <div class="small-divider"></div>
+                                                        <v-row no-gutters>
+                                                            <v-col cols="6">T Maintenance Cost:</v-col>
+                                                            <v-col>
+                                                                <strong class="primary--text">
+                                                                    {{ equipment.maintenance_cost }} ETB
+                                                                </strong>
+                                                            </v-col>
+                                                        </v-row>
+                                                        <div class="small-divider"></div>
+
+                                                    </v-col>
+                                                </v-row>
+
+                                            </v-container>
+
+                                            <v-btn
+                                                depressed
+                                                color="primary text-capitalize"
+                                                dark
+                                                v-on:click="open_equipment(equipment.inventory_number)"
+                                            >
+                                                <v-icon small class="mr-2">fa-external-link</v-icon>
+                                                <span class="mr-2">Detail</span>
+                                            </v-btn>
+
+                                        </v-card-text>
+                                    </v-card>
+                                    </v-timeline-item>
+                                </v-timeline>
                             </v-col>
                         </v-row>
                     
@@ -228,11 +329,30 @@
             </div>
 
         </v-card>
+
+        <!-- Dynamic dialog -->
+        <!-- EQUIPMENT DETAIL DIALOG -->
+        <v-dialog v-model="equipmentDialog" width="750">
+            <template v-slot:activator="{}"></template>
+            <v-card>
+                <EquipmentDetailPopUp 
+                    :equipment_id="equipment_id" 
+                    @closeDialog="equipmentDialog=!equipmentDialog"
+                    @reset="equipmentDetailPopupInit"
+                    @created="setupGetEquipmentDetail"
+                ></EquipmentDetailPopUp>
+            </v-card>
+        </v-dialog>
+
+
     </div>
 </template>
 
 <script>
 import { getPrimary } from "@/resources/helper";
+import { getColor } from "@/resources/helper";
+
+import EquipmentDetailPopUp from "./EquipmentDetailPopUp";
 
 var moment = require('moment');
 
@@ -244,6 +364,11 @@ export default {
             type: Number
         }
     },
+
+    components: {
+        EquipmentDetailPopUp
+    },
+
     data() {
         return {
             pageLoad: false,
@@ -252,6 +377,12 @@ export default {
 
             // moment
             moment: moment,
+
+            equipmentDialog: false,
+            init_equipment_detail: null,
+            get_equipment_detail: null,
+            equipment_id: null,
+
         }
     },
     methods: {
@@ -274,7 +405,38 @@ export default {
 
         close() {
             this.$emit("close");
-        }
+        },
+
+        getIcon(val) {
+            return val.count_down_time ? 'fa-cog' : 'fa-cog fa-spin'
+        },
+
+        getColorHere(val) {
+            return getColor(val);
+        },
+
+        round_num(val) {
+           return Math.round(val * 100) / 100; 
+        },
+
+        open_equipment(id) {
+            if(this.init_equipment_detail) {
+                this.init_equipment_detail();
+            }
+            this.equipment_id = id;
+            if (this.get_equipment_detail) {
+                this.get_equipment_detail(id);
+            }
+            this.equipmentDialog = true;
+        },
+
+        equipmentDetailPopupInit(fun) {
+            this.init_equipment_detail = fun;
+        },
+
+        setupGetEquipmentDetail(func) {
+            this.get_equipment_detail = func;
+        },
 
     },
     created() {
