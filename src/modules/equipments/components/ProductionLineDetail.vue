@@ -157,8 +157,8 @@
                                 </v-row>
                                 <div class="small-divider"></div>
                                 <v-row no-gutters>
-                                    <v-col>Total Down Time (s):</v-col>
-                                    <v-col><strong class="primary--text">{{  production_line.production_line.total_down_time }}</strong></v-col>
+                                    <v-col>Total Down Time (m):</v-col>
+                                    <v-col><strong class="primary--text">{{  round_num(production_line.total_down_time / 60) }}</strong></v-col>
                                 </v-row>
                                 <div class="small-divider"></div>
                                 <v-row no-gutters>
