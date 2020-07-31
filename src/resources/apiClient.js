@@ -39,6 +39,10 @@ export default {
         
         department_activities() {
             return http.get(urls.department_activities);
+        },
+
+        department_detail(id) {
+            return http.get(urls.department_detail + id);
         }
     },
 
@@ -46,6 +50,10 @@ export default {
 
         get_equipments() {
             return http.get(urls.get_equipments);
+        },
+
+        get_equipment_detail(id) {
+            return http.get(urls.get_equipments + id + '/');
         },
 
         search_equipments(payload) {
@@ -62,6 +70,10 @@ export default {
 
         filter_equipments(url) {
             return http.get(urls.get_equipments + url);
+        },
+
+        get_production_line_detail(id) {
+            return http.get(urls.get_production_line_detail + id);
         }
     },
 

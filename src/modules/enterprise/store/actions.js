@@ -14,4 +14,17 @@ export default {
             })
         });
     },
+
+    department_detail: ({ commit }, id) => {
+        return new Promise((resolve, reject) => {
+            apiClient.enterprise.department_detail(id)
+            .then(response => {
+                commit("account/GODARK", null, { root: true });
+                resolve( response.data );
+            })
+            .catch(e => {
+                reject(e);
+            })
+        });
+    },
 };

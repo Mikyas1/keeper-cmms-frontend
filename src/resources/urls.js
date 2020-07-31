@@ -10,11 +10,13 @@ const urls = {
 
     // enterprise apis
     department_activities: 'enterprise/department-activities',
+    department_detail: 'enterprise/department-detail/',
 
     // equipment apis
     get_equipments: 'equipment/equipment/',
     search_equipments: 'equipment/equipment/?search=',
     get_equipment_filters: 'equipment/get-equipment-filters',
+    get_production_line_detail: 'equipment/production-line-detail/',
 
     get_open_reports: 'enterprise/open-reports',
     get_equipment_parts: 'equipment/equipment-parts/',

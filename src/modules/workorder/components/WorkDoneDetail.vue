@@ -123,7 +123,7 @@
                         xs="12"
                         sm="6"
                     >
-                        <h1 class="title mb-2">WorkOrder</h1>
+                        <h1 class="title mb-2">WORKORDER</h1>
                         <v-row no-gutters>
                             <v-col>WorkOrder Name:</v-col>
                             <v-col><strong class="primary--text">{{ work_done.work_done.workorder.name }}</strong></v-col>

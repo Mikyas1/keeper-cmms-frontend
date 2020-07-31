@@ -181,6 +181,11 @@ export default {
       },
       {
         url: { name: "parts" },
+        icon: "fa-sliders",
+        text: "Production Line"
+      },
+      {
+        url: { name: "parts" },
         icon: "fa-microchip",
         text: "Parts"
       },

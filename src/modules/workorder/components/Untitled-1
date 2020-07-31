@@ -134,7 +134,9 @@ xxx 3) add recording downtime when report is approved on equipment
 
 4) add line data and employee performance to system report
 
-5) better part management who added part who took (reduced (used for workorder)) part
+5) add adding workorder from scratch for admin users
+
+6) better part management who added part who took (reduced (used for workorder)) part
 
 
 &&&& future better features
@@ -145,3 +147,15 @@ update workdone as long as workorder is not closed
 ///// SET UP INFO /////
 
 dont forget to add scheduler data like -:> months
+
+1) add buildings
+
+2) add departments
+
+3) add locations
+
+4) add set up neccesory daya (down, working-----)
+
+6) add production lines
+
+5) add equipments

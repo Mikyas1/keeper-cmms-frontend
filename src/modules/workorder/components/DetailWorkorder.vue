@@ -16,7 +16,7 @@
                     - 
                 <span> {{reduceText(workorder.name)}} (id - {{workorder.id}})</span>
 
-                <span v-if="workorder.pending && myWorkorder" class="pt-5 ml-3 pending">
+                <span v-if="workorder.pending" class="pt-5 ml-3 pending">
                     <v-icon small class="pending pt-2">
                         fa-spin fa-cog
                     </v-icon>
@@ -453,7 +453,14 @@
                                 <div v-if="workorder.scheduler.scheduler_type == 'MN'">
                                     <v-row no-gutters>
                                         <v-col>On the:</v-col>
-                                        <v-col ><strong class="primary--text" v-if="workorder.scheduler.day_of_the_month != null">{{ get_month_days[workorder.scheduler.day_of_the_month].name }}</strong></v-col>
+                                        <v-col>
+                                            <strong 
+                                                class="primary--text" 
+                                                v-if="workorder.scheduler.day_of_the_month != null"
+                                            >
+                                                {{ getProperMonthDate(workorder.scheduler.day_of_the_month).name }}
+                                            </strong>
+                                        </v-col>
                                     </v-row>
                                     <div class="small-divider"></div>
                                     <v-row no-gutters>
@@ -853,9 +860,6 @@ export default {
             return week_days;
         },
 
-        get_month_days() {
-            return month_days;
-        },
     },
 
     methods: {
@@ -975,6 +979,10 @@ export default {
             this.open_review = true;
             this.review_detail = item; 
         },
+
+        getProperMonthDate(val) {
+            return month_days.filter(x => val == x.id)[0];
+        }
     },
     
     created() {

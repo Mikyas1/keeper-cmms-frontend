@@ -15,6 +15,19 @@ export default {
         });
     },
 
+    get_equipment_detail: ({ commit }, id) => {
+        return new Promise((resolve, reject) => {
+            apiClient.equipment.get_equipment_detail(id)
+            .then(response => {
+                commit("account/GODARK", null, { root: true });
+                resolve( response.data );
+            })
+            .catch(e => {
+                reject(e);
+            })
+        });
+    },
+
     search_equipments: ({ commit }, data) => {
         return new Promise((resolve, reject) => {
             apiClient.equipment.search_equipments(data)
@@ -57,6 +70,19 @@ export default {
     filter_equipments: ({commit}, url) => {
         return new Promise((resolve, reject) => {
             apiClient.equipment.filter_equipments(url)
+            .then(response => {
+                commit("account/GODARK", null, { root: true });
+                resolve( response.data );
+            })
+            .catch(e => {
+                reject(e);
+            })
+        });
+    },
+
+    get_production_line_detail: ({commit}, id) => {
+        return new Promise((resolve, reject) => {
+            apiClient.equipment.get_production_line_detail(id)
             .then(response => {
                 commit("account/GODARK", null, { root: true });
                 resolve( response.data );

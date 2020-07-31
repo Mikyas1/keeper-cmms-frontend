@@ -16,10 +16,13 @@
 
                         <v-card-text>
                         
-                            
                             <div class="subheading font-weight-regular">
                                <v-icon small class="mr-3 mb-2">fa-cubes</v-icon> Equipments: {{ activite.equipments }} 
                             </div>
+
+                            <div class="subheading font-weight-regular">
+                               <v-icon class="mr-3 mb-2">fa-sliders</v-icon> Production Lines: {{ activite.production_line }} 
+                            </div>                        
 
                             <div class="subheading font-weight-regular">
                               <v-icon class="mr-2 mb-2">fa-bell-o</v-icon>  Reports: {{ activite.reports }}
@@ -45,14 +48,15 @@
 
 
                         <v-card-actions class="justify-end">
-                            <!-- <v-btn
+                            <v-btn
                                 depressed
                                 color="primary text-capitalize"
                                 dark
+                                v-on:click="openDetail(activite.department.id)"
                             >
                                 <v-icon small class="mr-2">fa-external-link</v-icon>
                                 <span class="mr-2">Detail</span>
-                            </v-btn> -->
+                            </v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-flex>
@@ -69,6 +73,19 @@
             </v-main>
         </div>
 
+        <!-- Dynamic dialog -->
+        <!-- DETAIL DIALOG -->
+        <v-dialog v-model="detailDialog" width="750">
+            <template v-slot:activator="{}"></template>
+            <v-card>
+                <DepartmentDetail
+                    :departmentId="department_id"
+                    @created="setup_departmanet_detail"
+                    @close="detailDialog =! detailDialog">
+                </DepartmentDetail>
+            </v-card>
+        </v-dialog>
+
     </div>    
 </template>
 
@@ -78,17 +95,23 @@ import BodyNav from "@/components/BodyNav";
 
 import { getPrimary } from "@/resources/helper";
 
+import DepartmentDetail from "../components/DepartmentDetail";
+
 export default {
     name: "DepartmentActivities",
 
     components: {
-        BodyNav
+        BodyNav,
+        DepartmentDetail
     },
     
     data() {
         return {
             activites: null,
             pageLoad: false,
+            detailDialog: false,
+            department_id: null,
+            department_detail_func: null,
         }
     },
     methods: {
@@ -104,6 +127,18 @@ export default {
 
         getPrimaryHere() {
             return getPrimary(this);
+        },
+
+        openDetail(id) {
+            this.department_id = id;
+            if (this.department_detail_func) {
+                this.department_detail_func(id);
+            }
+            this.detailDialog = true;
+        },
+
+        setup_departmanet_detail(func) {
+            this.department_detail_func = func;
         }
     },
     created() {

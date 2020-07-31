@@ -111,6 +111,33 @@
             >Go</v-btn>
           </v-flex>
         </v-layout>
+
+        <v-layout>
+          <v-flex xs8 class="mt-1">
+            <v-layout row wrap>
+              <v-flex xs12 md4>
+                <v-select
+                  class="mt-0 mr-3 ml-2"
+                  label="Production Line"
+                  prepend-icon="fa-sliders"
+                  :items="get_options_here(equipment_filters, 'production_line')"
+                  v-model="production_line"
+                ></v-select>
+              </v-flex>
+            </v-layout>
+          </v-flex>
+          <!-- <v-flex xs1>
+            <v-btn
+              small
+              class="mt-4 ml-5"
+              color="primary white--text text-capitalize"
+              :loading="filter_btn"
+              v-on:click="filter"
+            >Go</v-btn>
+          </v-flex> -->
+        </v-layout>
+
+
       </v-card-title>
 
       <v-data-table
@@ -160,6 +187,12 @@
         <!-- room no -->
         <template v-slot:item.location.room_number="{ item }">
           <div class="c-td-room-no">{{ getRoomNo(item.location) }}</div>
+        </template>
+
+        <!-- production line -->
+        <template v-slot:item.production_line="{ item }">
+          <div v-if="item.production_line" class="c-td-equipment-name">{{ item.production_line.name }}</div>
+          <div v-else>-</div>
         </template>
 
         <!-- asset id -->
@@ -266,9 +299,10 @@
       <template v-slot:activator="{}"></template>
       <v-card>
         <EquipmentDetailPopUp 
-          :item="detailEquipment" 
+          :equipment_id="equipment_id" 
           @closeDialog="detailDialog=!detailDialog"
-          @created="equipmentDetailPopupInit"
+          @reset="equipmentDetailPopupInit"
+          @created="setupGetEquipmentDetail"
         ></EquipmentDetailPopUp>
       </v-card>
     </v-dialog>
@@ -305,6 +339,7 @@ export default {
         { text: "Status", value: "status_flag.name" },
         { text: "Department", value: "department.name" },
         { text: "Room NO", value: "location.room_number" },
+        { text: "Production Line", value: "production_line" },
         { text: "Asset ID", value: "inventory_number" },
         { text: "Type", value: "equipment_model.equipment_type.name" },
         { text: "Description", value: "description" },
@@ -322,7 +357,7 @@ export default {
       pageLoad: false,
       load_per_page: 10,
       detailDialog: false,
-      detailEquipment: null,
+      equipment_id: null,
       query: null,
       next_btn: false,
       previous_btn: false,
@@ -333,8 +368,10 @@ export default {
       filter_status: "",
       filter_department: "",
       filter_location: "",
+      production_line: "",
 
       init_equipment_detail: null,
+      get_equipment_detail: null,
     };
   },
   methods: {
@@ -343,6 +380,7 @@ export default {
       this.filter_status = "";
       this.filter_department = "";
       this.filter_location = "";
+      this.production_line = "";
       this.$store
         .dispatch("equipments/search_equipments", this.search)
         .then(response => {
@@ -358,8 +396,11 @@ export default {
       if(this.init_equipment_detail) {
         this.init_equipment_detail();
       }
+      this.equipment_id = item.inventory_number;
+      if (this.get_equipment_detail) {
+        this.get_equipment_detail(item.inventory_number);
+      }
       this.detailDialog = true;
-      this.detailEquipment = item;
     },
     getDepartmentName(val) {
       if (val) {
@@ -433,6 +474,10 @@ export default {
                         {
                           filter: 'status_flag',
                           value: this.filter_status,
+                        },
+                        {
+                          filter: 'production_line',
+                          value: this.production_line,
                         }
                     ]
 
@@ -468,6 +513,10 @@ export default {
 
     getPrimaryHere() {
       return getPrimary(this);
+    },
+
+    setupGetEquipmentDetail(func) {
+      this.get_equipment_detail = func;
     }
 
   },
