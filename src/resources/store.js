@@ -15,6 +15,7 @@ const vuexLocalStorage = new VuexPersist({
             reports: state.reports,
             equipments: state.equipments,
             workorder: state.workorder,
+            enterprise: state.enterprise,
         }
     ),
 })

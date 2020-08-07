@@ -303,7 +303,7 @@ export default {
         this.$emit('created', this.get_workdone);
         this.get_workdone(this.work_done_id);
         var url = process.env.VUE_APP_API_URL;
-        this.media_url = url.substring(0, url.length - 5);
+        this.media_url = url.substring(0, url.length - 4);
     }
 }
 </script>

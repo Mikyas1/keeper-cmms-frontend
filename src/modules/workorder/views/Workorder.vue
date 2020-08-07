@@ -177,7 +177,7 @@
                                 </v-flex>
                             </v-layout>
                             </v-flex>
-                            <v-flex xs1 class="mt-5 ml-5">
+                            <v-flex xs2 class="mt-5 ml-5">
                                 <v-btn
                                 small
                                 class=""
@@ -185,6 +185,20 @@
                                 :loading="filter_btn"
                                 v-on:click="filter"
                                 >Go</v-btn>
+                            </v-flex>
+                            <v-flex v-if="isAdministrator" xs1 class="mt-5 ml-1">
+                                <v-btn 
+                                    depressed 
+                                    outlined
+                                    fab
+                                    small
+                                    icon 
+                                    color="primary"
+                                    :class="{'mb-4': $vuetify.breakpoint.smAndDown}"
+                                    v-on:click="create_dm_workorder"
+                                    >
+                                    <v-icon>fa fa-plus</v-icon>
+                                </v-btn>
                             </v-flex>
                         </v-layout>
                         
@@ -354,6 +368,19 @@
             </v-card>
         </v-dialog>
 
+        <!-- Dynamic dialog -->
+        <!-- DETAIL DIALOG -->
+        <v-dialog v-model="create_workorder" width="900">
+        <template v-slot:activator="{}"></template>
+            <v-card>
+                <CreateWorkorder
+                    @close="create_workorder = !create_workorder"
+                    @reset_ready="set_up_reset_create_workorder"
+                    :equipment_select="null"
+                ></CreateWorkorder>
+            </v-card>
+        </v-dialog>
+
     </div>
 </template>
 
@@ -369,6 +396,7 @@ var moment = require('moment');
 
 import DetailWorkorder from "../components/DetailWorkorder";
 import BodyNav from "@/components/BodyNav";
+import CreateWorkorder from "../components/CreateWorkorder";
 
 export default {
     name: 'Workorder',
@@ -376,6 +404,7 @@ export default {
     components: {
         BodyNav,
         DetailWorkorder,
+        CreateWorkorder,
     },
 
     data() {
@@ -428,12 +457,16 @@ export default {
 
             setWorkorderId: null,
 
+            create_workorder: false,
+            reset_create_workorder: null,
+
         }
     },
     computed: {
 
         ...mapGetters({
             workorder_choice: "workorder/workorder_choice",
+            isAdministrator: "auth/isAdministrator"
         }),
 
         getQuery() {
@@ -653,6 +686,17 @@ export default {
 
         getPrimaryHere() {
             return getPrimary(this);
+        },
+
+        create_dm_workorder() {
+            if (this.reset_create_workorder) {
+                this.reset_create_workorder();
+            }
+            this.create_workorder = true;
+        },
+
+        set_up_reset_create_workorder(func) {
+            this.reset_create_workorder = func;
         }
 
     },

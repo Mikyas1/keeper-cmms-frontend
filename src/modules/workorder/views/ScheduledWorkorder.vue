@@ -150,7 +150,7 @@
                                 </v-flex>
                             </v-layout>
                             </v-flex>
-                            <v-flex xs2 md2 class="mt-5 ml-5">
+                            <v-flex xs2 class="mt-5 ml-5">
                                 <v-btn
                                 small
                                 class=""
@@ -159,7 +159,7 @@
                                 v-on:click="filter"
                                 >Go</v-btn>
                             </v-flex>
-                            <v-flex xs1 md1 class="mt-5 ml-1">
+                            <v-flex xs1 class="mt-5 ml-1">
                                 <v-btn 
                                     depressed 
                                     outlined

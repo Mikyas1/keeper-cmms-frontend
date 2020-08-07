@@ -381,28 +381,38 @@
 
             </v-card-text>
 
-                <!-- buttons -->
-                    <div class="btns" :style="'border-top: 1px solid ' + getPrimaryHere()">
-                        <v-layout>
-                            <v-flex md8>
-                            </v-flex>
-                            <v-flex>
-                                <v-btn
-                                    color="red white--text text-capitalize mb-4 mr-4 mt-4"
-                                    v-on:click="report"
-                                    >
-                                    <v-icon small>fa-bell</v-icon>
-                                    <span class="ml-2">Report</span>
-                                </v-btn>
-                            </v-flex>
-                            <v-flex>
-                                <v-btn color="primary white--text text-capitalize mb-4 mr-4 mt-4" v-on:click="closeDetail">
-                                    <v-icon small>fa-close</v-icon>
-                                    <span class="ml-2">Close</span>
-                                </v-btn>
-                            </v-flex>
-                        </v-layout>
-                    </div>
+            <!-- buttons -->
+            <div class="btns" :style="'border-top: 1px solid ' + getPrimaryHere()">
+                <v-layout>
+                    <v-flex md8>
+                    </v-flex>
+                    <v-flex>
+                        <v-btn
+                            color="red white--text text-capitalize mb-4 mr-4 mt-4"
+                            v-on:click="report"
+                            >
+                            <v-icon small>fa-bell</v-icon>
+                            <span class="ml-2">Report</span>
+                        </v-btn>
+                    </v-flex>
+                    <v-flex>
+                        <v-btn
+                            v-if="isAdministrator"
+                            color="green white--text text-capitalize mb-4 mr-4 mt-4"
+                            v-on:click="create_workorder"
+                            >
+                            <v-icon small>fa-wrench</v-icon>
+                            <span class="ml-2">Create Workorder</span>
+                        </v-btn>
+                    </v-flex>
+                    <v-flex>
+                        <v-btn color="primary white--text text-capitalize mb-4 mr-4 mt-4" v-on:click="closeDetail">
+                            <v-icon small>fa-close</v-icon>
+                            <span class="ml-2">Close</span>
+                        </v-btn>
+                    </v-flex>
+                </v-layout>
+            </div>
         </div>
 
       <div class="loading-card" v-else>
@@ -429,6 +439,20 @@
             ></CreateReport>
       </v-card>
     </v-dialog>
+
+    <!-- Dynamic dialog -->
+    <!-- DETAIL DIALOG -->
+    <v-dialog v-model="create_workorder_dialog" width="900">
+    <template v-slot:activator="{}"></template>
+        <v-card>
+            <CreateWorkorder
+                @close="create_workorder_dialog = !create_workorder_dialog"
+                @reset_ready="set_up_reset_create_workorder"
+                :equipment_select="item"
+            ></CreateWorkorder>
+        </v-card>
+    </v-dialog>
+    
   </div>
 </template>
 
@@ -438,6 +462,7 @@ import { getColor } from "@/resources/helper";
 import { getPrimary } from "@/resources/helper";
 
 import CreateReport from "../../reports/components/CreateReport";
+import CreateWorkorder from "../../workorder/components/CreateWorkorder";
 
 import { mapGetters } from "vuex";
 import Workorder from "./Workorder";
@@ -457,6 +482,7 @@ export default {
       Workorder,
       DownTime,
       PmWorkorder,
+      CreateWorkorder,
   },
   data() {
     return {
@@ -467,13 +493,16 @@ export default {
         currentWorkOrders: null,
         workOrdersHistory: null,
         downTimeHistory: null,
-        pmWorkorders: null
+        pmWorkorders: null,
+        create_workorder_dialog: false,
+        reset_create_workorder: null,
     };
   },
   computed: {
 
         ...mapGetters({
             isRegular: "auth/isRegular",
+            isAdministrator: "auth/isAdministrator",
         }),
     },
   methods: {
@@ -571,6 +600,17 @@ export default {
 
     getPrimaryHere() {
         return getPrimary(this);
+    },
+
+    create_workorder() {
+        if (this.reset_create_workorder) {
+            this.reset_create_workorder(this.item);
+        }
+        this.create_workorder_dialog = true;
+    },
+
+    set_up_reset_create_workorder(func) {
+        this.reset_create_workorder = func;
     }
 
   },

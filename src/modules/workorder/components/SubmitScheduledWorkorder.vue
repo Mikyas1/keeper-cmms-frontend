@@ -480,6 +480,10 @@ export default {
             
             this.due_date = null;
             this.estimated_cost = null;
+            this.request_review = false;
+            
+            this.tasks = [];
+            this.schedulers = [];
 
             this.name_errors = null;
             this.equipment_errors = null;
@@ -488,9 +492,7 @@ export default {
             this.assigned_to_errors = null;
             this.due_date_errors = null;
             this.scheduler_errors = null;
-            this.tasks = [];
-            this.schedulers = [];
-            this.request_review = false;
+            
         },
 
         submit() {
@@ -518,10 +520,10 @@ export default {
             self.complex_prepare_formdata(formData, ['workorder_status',
                                                      'work_category',
                                                      'job_hazard',
-                                                     'priority'], self)
+                                                     'priority'], self);
 
             self.complex_multiple_prepard_formdata(formData, ['equipment',
-                                                              'assigned_to'], self)
+                                                              'assigned_to'], self);
             formData.append('created_by', this.user.id);
 
             self.prepare_scheduler(formData, self.schedulers, ['name',
@@ -536,7 +538,7 @@ export default {
                                                       'description',
                                                       'estimated_cost',
                                                       'estimated_hour',
-                                                      ])
+                                                      ]);
 
             this.loading = true;
             this.$store

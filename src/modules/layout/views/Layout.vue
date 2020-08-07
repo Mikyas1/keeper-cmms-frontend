@@ -74,10 +74,16 @@
     <!-- <v-navigation-drawer v-model="right" fixed right temporary /> -->
 
     <v-footer app color="primary" class="white--text">
-      <span>KEEPER CMMS</span>
+      <span v-if="enterprise">
+        <v-icon color="white" class="pb-1" small>fa-industry</v-icon> 
+        <span class="ml-2">{{enterprise.enterprise_name}}</span>
+      </span>
+      <span v-else>
+        KEEPER CMMS
+      </span>
       <v-spacer />
-      TRIAL VERSION
-      <span class="mx-3">&copy; 2020</span>
+      <span>KEEPER CMMS</span>
+      <span class="mx-3">&copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
   </v-app>
 </template>
@@ -102,7 +108,8 @@ export default {
     drawerRight: null,
     right: false,
     left: false,
-    theme: false
+    theme: false,
+    // pageLoad: false,
   }),
   computed: {
       ...mapGetters({
@@ -112,6 +119,7 @@ export default {
         open_workorders: "workorder/open_workorders",
         open_dm_workorders: "workorder/open_dm_workorders",
         open_pm_workorders: "workorder/open_pm_workorders",
+        enterprise: "enterprise/enterprise"
       }),
   },
   methods: {
@@ -124,6 +132,18 @@ export default {
       return getPrimary(this);
     }
   },
+  created() {
+    if (this.enterprise == null) {
+      this.$store.dispatch("enterprise/get_enterprise")
+      // .then(() => {
+      //   this.pageLoad = true;
+      // })
+
+      // .catch(() => {
+      //   this.pageLoad =false;
+      // })
+    }
+  }
 };
 </script>
 

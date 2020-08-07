@@ -11,6 +11,7 @@ const urls = {
     // enterprise apis
     department_activities: 'enterprise/department-activities',
     department_detail: 'enterprise/department-detail/',
+    enterprise_detial: 'enterprise/enterprise-detail',
 
     // equipment apis
     get_equipments: 'equipment/equipment/',
@@ -29,7 +30,8 @@ const urls = {
 
     // workorder apis
     get_workorder_choice: 'workorder/workorder-choice-data',
-    create_dm_workorder: 'workorder/create-dm-wrokorder',
+    create_dm_from_report: 'workorder/create-dm-wrokorder-from-report',
+    create_dm_wrokorder: 'workorder/create-dm-wrokorder',
     get_workorder: 'workorder/workorder/',
     search_workorders: 'workorder/workorder/?search=',
     get_open_Workorders: 'workorder/get-open-Workorders',

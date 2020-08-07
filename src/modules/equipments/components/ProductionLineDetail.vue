@@ -441,7 +441,7 @@ export default {
     },
     created() {
         var url = process.env.VUE_APP_API_URL;
-        this.media_url = url.substring(0, url.length - 5);
+        this.media_url = url.substring(0, url.length - 4);
         this.get_production_line_detail(this.production_line_id);
         this.$emit('created', this.get_production_line_detail);
     }

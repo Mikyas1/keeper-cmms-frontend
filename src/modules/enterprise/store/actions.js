@@ -27,4 +27,17 @@ export default {
             })
         });
     },
+
+    get_enterprise: ({ commit },) => {
+        return new Promise((resolve, reject) => {
+            apiClient.enterprise.enterprise_detial()
+            .then(response => {
+                commit("SET_ENTERPRISE", response.data);
+                resolve( response.data );
+            })
+            .catch(e => {
+                reject(e);
+            })
+        });
+    },
 };

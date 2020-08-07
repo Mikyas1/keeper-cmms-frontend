@@ -364,7 +364,7 @@ export default {
         this.loading = true;
 
         this.$store
-          .dispatch("workorder/create_dm_workorder", formData)
+          .dispatch("workorder/create_dm_from_report", formData)
           .then(() => {
                 this.loading = false;
                 // this.$emit("closeBothDialog");

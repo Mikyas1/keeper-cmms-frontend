@@ -43,6 +43,10 @@ export default {
 
         department_detail(id) {
             return http.get(urls.department_detail + id);
+        },
+
+        enterprise_detial() {
+            return http.get(urls.enterprise_detial);
         }
     },
 
@@ -114,8 +118,12 @@ export default {
             return http.get(urls.get_workorder_choice);
         },
 
-        create_dm_workorder(payload) {
-            return http.post(urls.create_dm_workorder, payload, { headers: { 'Content-Type': 'multipart/form-data' } });
+        create_dm_from_report(payload) {
+            return http.post(urls.create_dm_from_report, payload, { headers: { 'Content-Type': 'multipart/form-data' } });
+        },
+
+        create_dm_wrokorder(payload) {
+            return http.post(urls.create_dm_wrokorder, payload, { headers: { 'Content-Type': 'multipart/form-data' } });
         },
 
         get_workorders() {

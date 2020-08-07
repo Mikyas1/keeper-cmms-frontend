@@ -9,6 +9,7 @@ export default {
         commit("reports/RESET", null, { root: true });
         commit("equipments/RESET", null, { root: true });
         commit("workorder/RESET", null, { root: true });
+        commit("enterprise/RESET", null, { root: true });
     },
 
     login: ({ commit }, data) => {

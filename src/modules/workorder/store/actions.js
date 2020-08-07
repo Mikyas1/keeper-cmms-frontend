@@ -17,9 +17,9 @@ export default {
         });
     },
 
-    create_dm_workorder: (context, data) => {
+    create_dm_from_report: (context, data) => {
         return new Promise((resolve, reject) => {
-            apiClient.workorder.create_dm_workorder(data)
+            apiClient.workorder.create_dm_from_report(data)
             .then(response => {
                 context.commit("reports/REMOVE_OPEN_REPORT", response.data.report.id, { root: true });
                 
@@ -34,11 +34,60 @@ export default {
                     context.commit("ADD_OPEN_WORKORDERS", response.data);
                 }
 
+                if (funs.open_workorder_reload_fun) {
+                    funs.open_workorder_reload_fun();
+                }
                 if (funs.workorder_list_reload_fun) {
                     funs.workorder_list_reload_fun();
                 }
+                if(funs.workorder_equipment_detail) {
+                    funs.workorder_equipment_detail();
+                }
                 if(funs.calander_reload_fun) {
                     funs.calander_reload_fun();
+                }
+                if(funs.pm_workorder_reload_fun) {
+                    funs.pm_workorder_reload_fun();
+                }
+
+                resolve(response); 
+            })
+            .catch(e => {
+                reject(e);
+            });
+        });
+    },
+
+    create_dm_wrokorder: (context, data) => {
+        return new Promise((resolve, reject) => {
+            apiClient.workorder.create_dm_wrokorder(data)
+            .then(response => {
+                
+                var user_id = context.rootState.auth.user.employee_id;
+                var add = false;
+                for (var index in response.data.assigned_to) {
+                    if (response.data.assigned_to[index].employee_id === user_id) {
+                        add = true;
+                    }
+                }
+                if (add) {
+                    context.commit("ADD_OPEN_WORKORDERS", response.data);
+                }
+
+                if (funs.open_workorder_reload_fun) {
+                    funs.open_workorder_reload_fun();
+                }
+                if (funs.workorder_list_reload_fun) {
+                    funs.workorder_list_reload_fun();
+                }
+                if(funs.workorder_equipment_detail) {
+                    funs.workorder_equipment_detail();
+                }
+                if(funs.calander_reload_fun) {
+                    funs.calander_reload_fun();
+                }
+                if(funs.pm_workorder_reload_fun) {
+                    funs.pm_workorder_reload_fun();
                 }
 
                 resolve(response); 
