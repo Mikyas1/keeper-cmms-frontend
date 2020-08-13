@@ -269,6 +269,21 @@
                                     <strong class="ml-5">{{ item.status_flag.name }}</strong>
                                 </v-col>
                             </v-row>
+                            <div v-if="item.status_flag.has_conditions">
+                                <div class="small-divider"></div>
+                                <v-row no-gutters>
+                                <v-col>Conditions:</v-col>
+                                <v-col>
+                                    <span
+                                    v-for="condition in item.conditions" 
+                                    :key="condition.id">
+                                    <strong class="primary--text">
+                                    - {{ condition.name }} <br/>
+                                    </strong>
+                                    </span>
+                                </v-col>
+                                </v-row>
+                            </div>
                         </v-col>
                     </v-row>
 
@@ -436,6 +451,7 @@
             :equipment="item" 
             @closeDialog="closeDialog"
             @closeBothDialog="closeBothDialogs"
+            @reset="resetReport"
             ></CreateReport>
       </v-card>
     </v-dialog>
@@ -496,6 +512,7 @@ export default {
         pmWorkorders: null,
         create_workorder_dialog: false,
         reset_create_workorder: null,
+        reset_report: null,
     };
   },
   computed: {
@@ -515,6 +532,9 @@ export default {
     },
 
     report() {
+        if (this.reset_report) {
+            this.reset_report();
+        }
         this.reportDialog = true;
     },
 
@@ -611,6 +631,10 @@ export default {
 
     set_up_reset_create_workorder(func) {
         this.reset_create_workorder = func;
+    },
+
+    resetReport(func) {
+        this.reset_report = func;
     }
 
   },

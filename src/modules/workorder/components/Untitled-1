@@ -123,6 +123,10 @@ xxx fix backend workorder rejecte reschedule
 
 xxx fix the review seen icon in wokrorder detail popup
 
+************************************************************************************************
+*****************************************         New            *******************************
+*****************************************         Thinking       *******************************
+************************************************************************************************
 note --------------------------------------------------------------------------------
 
 xxx 1) add line management (line maintenance, equipments under line, equipments critical for line,
@@ -134,15 +138,28 @@ xxx 3) add recording downtime when report is approved on equipment
 
 4) add line data and employee performance to system report
 
-5) add adding workorder from scratch for admin users
+xxx 5) add adding workorder from scratch for admin users
 
 ??? 6) better part management who added part who took (reduced (used for workorder)) part
 
+xxx 7) bug workorder make status change since optional
+
+8) make frontend unselectable
+
+9) add time senseitive software blocking
+
+10) add things learned from maintenance form from unique
+    10.1) add to create workorder from scratch what i did to report (conditions)
+
+11) add users cred for admin users
+
+12) better scheduled workorder editing specially change equipemnt assigned
 
 &&&& future better features
 
 update workdone as long as workorder is not closed
 
+add equipemnt part not spare part so they can report specific part
 
 ///// SET UP INFO /////
 

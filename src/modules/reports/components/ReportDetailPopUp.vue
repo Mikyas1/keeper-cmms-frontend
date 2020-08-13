@@ -97,6 +97,21 @@
                   <strong class="primary--text" style="margin-left: 10px;">{{ item.equipment_status.name }}</strong>
                 </v-col>
               </v-row>
+              <div v-if="item.equipment_status.has_conditions">
+                <div class="small-divider"></div>
+                <v-row no-gutters>
+                  <v-col>Conditions:</v-col>
+                  <v-col>
+                    <span
+                      v-for="condition in item.conditions" 
+                      :key="condition.id">
+                      <strong class="primary--text">
+                       - {{ condition.name }} <br/>
+                      </strong>
+                    </span>
+                  </v-col>
+                </v-row>
+              </div>
               <div class="small-divider"></div>
               <v-row no-gutters>
                 <v-col>Description:</v-col>

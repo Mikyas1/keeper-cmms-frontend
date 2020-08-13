@@ -36,6 +36,20 @@
                                     :error-messages="equipment_status_errors"
                                 ></v-select>
 
+                                <div v-if="equipment_status">
+                                    <div
+                                        v-if="equipment_status.has_conditions"
+                                        >
+                                        <v-select
+                                            multiple
+                                            label="Conditions"
+                                            prepend-icon="fa-dashboard"
+                                            :items="get_simple_options_here(equipment_filters, 'conditions')"
+                                            v-model="conditions"
+                                        ></v-select>
+                                    </div>
+                                </div>
+
                                 <v-menu
                                     ref="menu_status_changed_since"
                                     v-model="menu_status_changed_since"
@@ -48,7 +62,7 @@
                                     <template v-slot:activator="{ on }">
                                         <v-text-field
                                             v-model="status_changed_since"
-                                            label="* Status Changed Since"
+                                            label="Status Changed Since"
                                             prepend-icon="fa-hourglass-start"
                                             readonly
                                             v-on="on"
@@ -252,6 +266,7 @@
 <script>
 import { mapGetters } from "vuex";
 import { get_complex_options } from "@/resources/helper";
+import { get_options } from "@/resources/helper";
 import { getPrimary } from "@/resources/helper";
 
 export default {
@@ -290,6 +305,7 @@ export default {
             workorder_status: null,
             work_categories: null,
             equipment_status: null,
+            conditions: [],
 
             assigned_to: [],
 
@@ -362,10 +378,12 @@ export default {
         get_equipment_status() {
             let data = [];
             for (var index in this.equipment_filters.status_flag) {
-                data.push({
-                    value: this.equipment_filters.status_flag[index],
-                    text: this.equipment_filters.status_flag[index].name
-                })
+                if (this.equipment_filters.status_flag[index].reportable){
+                    data.push({
+                        value: this.equipment_filters.status_flag[index],
+                        text: this.equipment_filters.status_flag[index].name
+                    })
+                }
             }
             return data;
         }
@@ -395,6 +413,8 @@ export default {
             this.work_category = null;
             this.workorder_status = null;
             this.work_categories = null;
+            this.equipment_status = null;
+            this.conditions = [];
             
             this.assigned_to = [];
             
@@ -449,10 +469,19 @@ export default {
                 formData.append('equipment_status', this.equipment_status.id);
             }
 
+            for (var condition of this.conditions) {
+                formData.append('conditions', condition);
+            }
+
             if (this.equipment) {
                 formData.append('workorder.equipment', this.equipment.inventory_number);
-                formData.append('workorder.location', this.equipment.location);
-                formData.append('workorder.department', this.equipment.department);
+                if (this.equipment.location.id) {
+                    formData.append('workorder.location', this.equipment.location.id);
+                    formData.append('workorder.department', this.equipment.department.id);    
+                } else {
+                    formData.append('workorder.location', this.equipment.location);
+                    formData.append('workorder.department', this.equipment.department);
+                }
             }
 
             if (this.document_) {
@@ -505,6 +534,10 @@ export default {
 
         get_options_here(filter_data, filter_field) {
             return get_complex_options(filter_data, filter_field);
+        },
+
+        get_simple_options_here(filter_data, filter_field) {
+            return get_options(filter_data, filter_field);
         },
 
         equipmentsFilter (item, queryText) {

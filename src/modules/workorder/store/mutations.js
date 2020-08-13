@@ -23,4 +23,11 @@ export default {
     SET_COMPANIES: (state, data) => {
         state.companies = data;
     },
+    ADD_USER_TO_WORKORDER_CHOICE: (state, data) => {
+        if (state.workorder_choice != null) {
+            if (state.workorder_choice.assigne_to) {
+                state.workorder_choice.assigne_to.push(data);
+            }
+        }
+    },
 };

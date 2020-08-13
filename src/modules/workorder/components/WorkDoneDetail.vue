@@ -138,6 +138,21 @@
                             <v-col>Equipment status:</v-col>
                             <v-col><strong class="primary--text">{{ work_done.work_done.equipment_status.name }}</strong></v-col>
                         </v-row>
+                        <div class="small-divider"></div>
+                        <div v-if="work_done.work_done.equipment_status.has_conditions">
+                            <v-row no-gutters>
+                                <v-col>Reported Conditions:</v-col>
+                                <v-col>
+                                    <span
+                                        v-for="condition in work_done.work_done.conditions" 
+                                        :key="condition.id">
+                                        <strong class="primary--text">
+                                        - {{ condition.name }} <br/>
+                                        </strong>
+                                    </span>
+                                </v-col>
+                            </v-row>
+                        </div>
                     </v-col>
                 </v-row>
 

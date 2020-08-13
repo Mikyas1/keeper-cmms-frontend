@@ -27,15 +27,34 @@
                 <v-select
                     label="* Status"
                     prepend-icon="fa-fire"
-                    :items="get_options_here(filter_data, 'status_flag')"
+                    :items="get_reportable_stats(filter_data, 'status_flag')"
                     v-model="equipment_status"
                     :error-messages="equipment_status_errors"
                 ></v-select>
 
+                <div v-if="equipment_status">
+                  <v-layout 
+                    class="ml-3" 
+                    row wrap 
+                    v-if="equipment_status.has_conditions"
+                    >
+                      <v-flex sm4 md3 
+                        v-for="condition in filter_data.conditions" 
+                        :key="condition.id"
+                        >
+                          <v-checkbox
+                              v-model="conditions" 
+                              :label="condition.name" 
+                              :value="condition.id"
+                          ></v-checkbox>
+                      </v-flex>
+                  </v-layout>
+                </div>
+
                 <v-select
                     label="* Priority"
                     prepend-icon="fa-sort-amount-desc"
-                    :items="get_options_here(filter_data,'priorities')"
+                    :items="get_options_here(filter_data, 'priorities')"
                     v-model="priority"
                     :error-messages="priority_errors"
                 ></v-select>
@@ -134,11 +153,12 @@ export default {
 
       equipment_status: null,
       description: null,
+      priority: null,
+      conditions: [],
 
       // errors
       equipment_status_errors: null,
       description_errors: null,
-      priority: null,
       priority_errors: null,
 
       non_field_errors: [],
@@ -167,6 +187,18 @@ export default {
     get_options_here(filter_data, filter_field) {
       return get_options(filter_data, filter_field);
     },
+    get_reportable_stats(filter_data, filter_field) {
+      let data = [];
+      for (var index in filter_data[filter_field]) {
+        if (filter_data[filter_field][index].reportable){
+          data.push({
+            value: filter_data[filter_field][index],
+            text: filter_data[filter_field][index].name
+          });
+        }
+      }
+      return data;
+    },
     report() {
         this.equipment_status_errors = null;
         this.description_errors = null;
@@ -175,6 +207,7 @@ export default {
 
         var location = this.equipment.location ? this.equipment.location.id : null; 
         var department = this.equipment.department ? this.equipment.department.id : null; 
+        var status = this.equipment_status ? this.equipment_status.id : null;
 
         this.loading = true;
         this.$store
@@ -183,14 +216,16 @@ export default {
                 closed: false,
                 creater: this.user.id,
                 equipment: this.equipment.inventory_number,
-                equipment_status: this.equipment_status,
+                equipment_status: status,
                 location: location,
                 department: department,
                 priority: this.priority,
+                conditions: this.conditions,
             })
 
             .then(() => {
                 this.loading = false;
+                this.reset();
                 this.$emit("closeBothDialog");
                 this.description = null;
                 this.priority = null;
@@ -215,6 +250,19 @@ export default {
     },
     getPrimaryHere() {
       return getPrimary(this);
+    },
+    reset() {
+      this.equipment_status = null;
+      this.description = null;
+      this.priority = null;
+      this.conditions = [];
+
+      // errors
+      this.equipment_status_errors = null;
+      this.description_errors = null;
+      this.priority_errors = null;
+
+      this.non_field_errors = [];
     }
   },
   created() {
@@ -232,6 +280,7 @@ export default {
           this.pageLoad = false;
         });
     }
+    this.$emit('reset', this.reset);
   }
 };
 </script>

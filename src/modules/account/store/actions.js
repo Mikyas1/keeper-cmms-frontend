@@ -20,7 +20,9 @@ export default {
         return new Promise((resolve, reject) => {
             apiClient.account.create_profile(data)
             .then(response => {
-                commit("GODARK");
+                if (response.data.user_type != 'Regular') {
+                    commit("workorder/ADD_USER_TO_WORKORDER_CHOICE", response.data, { root: true });
+                }
                 resolve(response);
             })
             .catch(e => {

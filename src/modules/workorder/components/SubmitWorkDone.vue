@@ -56,10 +56,25 @@
                             <v-select
                                 label="* Equipment Status"
                                 prepend-icon="fa-fire"
-                                :items="get_options_here(equipment_filters, 'status_flag')"
+                                :items="get_stats(equipment_filters, 'status_flag')"
                                 v-model="equipment_status"
                                 :error-messages="equipment_status_errors"
                             ></v-select>
+
+
+                            <div v-if="equipment_status">
+                                <div
+                                    v-if="equipment_status.has_conditions"
+                                    >
+                                    <v-select
+                                        multiple
+                                        label="Conditions"
+                                        prepend-icon="fa-dashboard"
+                                        :items="get_options_here(equipment_filters, 'conditions')"
+                                        v-model="conditions"
+                                    ></v-select>
+                                </div>
+                            </div>
 
                             <v-file-input 
                                 label="Image One"
@@ -364,6 +379,7 @@ export default {
             title: null,
             workorder_status: null,
             equipment_status: null,
+            conditions: [],
             description: null,
             image: null,
             image_two: null,
@@ -398,6 +414,17 @@ export default {
             return get_options(filter_data, filter_field);
         },
 
+        get_stats(filter_data, filter_field) {
+            let data = [];
+            for (var index in filter_data[filter_field]) {
+                data.push({
+                    value: filter_data[filter_field][index],
+                    text: filter_data[filter_field][index].name
+                });
+            }
+            return data;
+        },
+
         submitWorkdone() {
             var self = this;
             
@@ -406,7 +433,6 @@ export default {
 
             var formData = self.prepareFormData(['title',
                                                  'workorder_status',
-                                                 'equipment_status',
                                                  'description',
                                                  'image',
                                                  'image_two',
@@ -414,10 +440,18 @@ export default {
                                                  'document_two',
                                                  'workorder_type',
                                              ], self);
+            
+            if (self.equipment_status != null) {
+                formData.append('work_done.equipment_status', self.equipment_status.id);
+            }
 
             formData.append("work_done.workorder_type", self.workorder.workorder_type);
             formData.append("work_done.workorder", self.workorder.id);
             formData.append("work_done.created_by", self.user.id);
+
+            for (var condition of self.conditions) {
+                formData.append("work_done.conditions", condition);
+            }
 
             self.prepareInvoice(formData, self.invoices, ['invoice_no', 
                                                           'po_no', 
@@ -556,11 +590,13 @@ export default {
             this.workorder_type = null;
             this.tasks = null;
 
-            this.workorder_status_errors = null;
-            this.equipment_status_errors = null;
             this.resources = [];
             this.invoices = [];
             this.parts = [];
+            this.conditions = [];
+
+            this.workorder_status_errors = null;
+            this.equipment_status_errors = null;
         },
 
         parts_init(fun) {

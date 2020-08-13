@@ -239,6 +239,21 @@
                             </v-col>
                         </v-row>
                         <div class="small-divider"></div>
+                        <div v-if="workorder.equipment.status_flag">
+                            <v-row no-gutters>
+                                <v-col>Conditions:</v-col>
+                                <v-col>
+                                    <span
+                                    v-for="condition in workorder.equipment.conditions" 
+                                    :key="condition.id">
+                                    <strong class="primary--text">
+                                    - {{ condition.name }} <br/>
+                                    </strong>
+                                    </span>
+                                </v-col>
+                            </v-row>
+                            <div class="small-divider"></div>
+                        </div>
                         <v-row no-gutters>
                             <v-col>Warranty Expires:</v-col>
                             <v-col>
@@ -316,6 +331,21 @@
                                     </v-col>
                                 </v-row>
                                 <div class="small-divider"></div>
+                                <div v-if="workorder.report.equipment_status.has_conditions">
+                                    <v-row no-gutters>
+                                        <v-col>Reported Conditions:</v-col>
+                                        <v-col>
+                                            <span
+                                                v-for="condition in workorder.report.conditions" 
+                                                :key="condition.id">
+                                                <strong class="primary--text">
+                                                - {{ condition.name }} <br/>
+                                                </strong>
+                                            </span>
+                                        </v-col>
+                                    </v-row>
+                                    <div class="small-divider"></div>
+                                </div>
                                 <v-row no-gutters>
                                     <v-col>Description:</v-col>
                                     <v-col>
