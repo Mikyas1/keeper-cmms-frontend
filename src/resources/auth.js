@@ -25,7 +25,7 @@ export function AdministratorRequired(to, from, next) {
 }
 
 export function NonRegularUserRequired(to, from, next) {
-    if (store.getters["auth/isAdministrator"] || store.getters["auth/isSupervisor"]) {
+    if (store.getters["auth/isAdministrator"] || store.getters["auth/isTechnician"]) {
         next();
         return;
     }

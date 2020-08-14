@@ -20,7 +20,7 @@
       </div>
 
       <div class="ml-5 mt-1" v-if="open_workorders && $vuetify.breakpoint.smAndUp">
-        <v-icon class="mr-1">fa-cogs</v-icon><span>{{open_pm_workorders.length}}</span>
+        <v-icon class="mr-1">fa-calendar-check-o</v-icon><span>{{open_pm_workorders.length}}</span>
       </div>
 
       <v-spacer />

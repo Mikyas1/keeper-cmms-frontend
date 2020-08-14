@@ -42,7 +42,7 @@
                 <div v-on:click="expand_pm" class="pa-3 c-report-header">
                     <v-layout class="my-1">
                         <v-flex xs11>
-                            <v-icon class="mr-1 primary--text">fa-cogs</v-icon>
+                            <v-icon class="mr-2 primary--text">fa-calendar-check-o</v-icon>
                                 <span class="reprot-title primary--text">
                                     <strong>({{ open_pm_workorders.length }})</strong> PM Workorders
                                 </span>
@@ -74,7 +74,7 @@
                 </div>
 
                 <!-- Pending Review -->
-                <div v-if="user.user_type == 'Administrator'">
+                <div v-if="isAdministrator">
                     <div v-on:click="expand_pending_review" class="pa-3 c-report-header">
                         <v-layout class="my-1">
                             <v-flex xs11>
@@ -200,7 +200,8 @@ export default {
             open_dm_workorders: "workorder/open_dm_workorders",
             open_pm_workorders: "workorder/open_pm_workorders",
             pending_review: "workorder/pending_review",
-            isSupervisor: "auth/isSupervisor",
+            isTechnician: "auth/isTechnician",
+            isAdministrator: "auth/isAdministrator",
         })
     },
     methods: {
@@ -256,7 +257,7 @@ export default {
 
     },
     created() {
-        if (this.isSupervisor) {
+        if (this.isTechnician) {
             this.show = true;
             this.show_pm = true;
         }

@@ -133,6 +133,13 @@ export default {
                     }
                     
                 }
+                if (error.response.status === 403) {
+                this.$store.commit("SET_SNACKBAR", {
+                    message: error.response.data,
+                    value: true,
+                    status: "error"
+                });
+              }
             })
         }
     },

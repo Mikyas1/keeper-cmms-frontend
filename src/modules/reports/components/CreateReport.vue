@@ -59,6 +59,22 @@
                     :error-messages="priority_errors"
                 ></v-select>
 
+                <v-select
+                    label="* Part"
+                    prepend-icon="fa-sort-amount-desc"
+                    :items="get_options_here(filter_data, 'priorities')"
+                    v-model="priority"
+                    :error-messages="priority_errors"
+                ></v-select>
+
+                <v-select
+                    label="* Operator"
+                    prepend-icon="fa-sort-amount-desc"
+                    :items="get_options_here(filter_data, 'priorities')"
+                    v-model="priority"
+                    :error-messages="priority_errors"
+                ></v-select>
+
                 <v-textarea
                     label="Description"
                     prepend-icon="fa-commenting-o"
@@ -86,22 +102,22 @@
         <div class="btns mt-5" :style="'border-top: 1px solid ' + getPrimaryHere()">
             <v-card>
             <v-layout>
-                <v-flex md7>
+                <v-flex md8>
                 </v-flex>
                 <v-flex md5>
+                    <v-btn color="red white--text text-capitalize mb-4 mr-4 mt-4"
+                        v-on:click="report"
+                        :loading="loading"  
+                    >
+                        <v-icon small>fa-bell</v-icon>
+                        <span class="ml-2">Submit</span>
+                    </v-btn>
                     <v-btn
-                        color="primary white--text text-capitalize mb-4 mr-4 mt-4 ml-5"
+                        color="primary white--text text-capitalize mb-4 mt-4"
                         v-on:click="closeDialog"
                     >
                         <v-icon small>fa-close</v-icon>
                         <span class="ml-2">Cancel</span>
-                    </v-btn>
-                    <v-btn color="primary white--text text-capitalize mb-4 mr-4 mt-4"
-                        v-on:click="report"
-                        :loading="loading"  
-                    >
-                        <v-icon small>fa-close</v-icon>
-                        <span class="ml-2">Submit</span>
                     </v-btn>
                 </v-flex>
             </v-layout>

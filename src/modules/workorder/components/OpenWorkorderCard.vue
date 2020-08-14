@@ -58,7 +58,7 @@
                     <span v-if="getProperStatus(workorder)">
                         <span v-if="workorder.pending">
                             <v-icon small class="pr-2">
-                                fa-spin fa-cog
+                                fa-spin fa-spinner
                             </v-icon>
                         </span>
                         {{getProperStatus(workorder)}}

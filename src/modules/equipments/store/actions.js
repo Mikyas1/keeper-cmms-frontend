@@ -93,5 +93,30 @@ export default {
         });
     },
 
+    assign_operator: ({ commit }, data) => {
+        return new Promise((resolve, reject) => {
+            apiClient.equipment.assign_operator(data.data, data.id)
+            .then(response => {
+                commit("account/GODARK", null, { root: true });
+                resolve(response);
+            })
+            .catch(e => {
+                reject(e);
+            })
+        });
+    },
+
+    remove_operator: ({ commit }, data) => {
+        return new Promise((resolve, reject) => {
+            apiClient.equipment.remove_operator(data.data, data.id)
+            .then(response => {
+                commit("account/GODARK", null, { root: true });
+                resolve(response);
+            })
+            .catch(e => {
+                reject(e);
+            })
+        });
+    },
     
 };

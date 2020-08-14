@@ -18,7 +18,7 @@
 
                 <span v-if="workorder.pending" class="pt-5 ml-3 pending">
                     <v-icon small class="pending pt-2">
-                        fa-spin fa-cog
+                        fa-spin fa-spinner
                     </v-icon>
                     <span class="ml-1">
                         Pending
@@ -708,7 +708,7 @@
                         </v-btn>
                         <div v-if="workorder.pending && myWorkorder" class="pt-5 orange--text pending">
                             <v-icon small class="orange--text pending pt-2">
-                                fa-spin fa-cog
+                                fa-spin fa-spinner
                             </v-icon>
                             <span class="ml-1">
                                 Pending

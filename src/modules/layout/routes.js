@@ -32,7 +32,7 @@ export default [
     {
         path: "/enterprise",
         component: Layout,
-        beforeEnter: NonRegularUserRequired,
+        beforeEnter: AuthRequired,
         children: [
             {
                 path: "",

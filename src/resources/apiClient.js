@@ -33,6 +33,10 @@ export default {
             return http.get(urls.user_list);
         },
 
+        get_operators() {
+            return http.get(urls.get_operators);
+        }
+
     },
 
     enterprise: {
@@ -78,7 +82,15 @@ export default {
 
         get_production_line_detail(id) {
             return http.get(urls.get_production_line_detail + id);
-        }
+        },
+
+        assign_operator(payload, id) {
+            return http.post(urls.assign_operator + id, payload);
+        },
+
+        remove_operator(payload, id) {
+            return http.post(urls.remove_operator + id, payload);
+        },
     },
 
     reports: {

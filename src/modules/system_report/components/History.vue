@@ -328,7 +328,10 @@
 
         </v-layout>
         <div>
-            <v-btn v-if="show_btn" class="primary dark ma-4 ml-5 text-capitalize" v-on:click="print">Print</v-btn>
+            <v-btn v-if="show_btn" class="primary dark ma-4 ml-5 text-capitalize" v-on:click="print">
+                <v-icon small class="mr-2">fa-print</v-icon>
+                Print
+            </v-btn>
         </div>
     </div>
     

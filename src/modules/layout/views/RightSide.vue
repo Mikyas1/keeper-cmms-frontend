@@ -2,7 +2,7 @@
     <div>
         <div class="spacer"></div>
         <OpenReportAlerts/>
-        <OpenWorkorders v-if="user.user_type !== 'Regular'"/>
+        <OpenWorkorders v-if="!isSupervisor"/>
     </div>    
 </template>
 
@@ -22,7 +22,7 @@ export default {
 
     computed: {
       ...mapGetters({
-        user: "auth/user",
+        isSupervisor: "auth/isSupervisor",
       })
   },
 }

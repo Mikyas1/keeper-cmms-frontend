@@ -134,7 +134,7 @@ export default {
       for (var index in this.registration_data.user_type) {
         data.push({
           value: this.registration_data.user_type[index][0],
-          text: this.registration_data.user_type[index][0]
+          text: this.registration_data.user_type[index][1]
         });
       }
       return data;

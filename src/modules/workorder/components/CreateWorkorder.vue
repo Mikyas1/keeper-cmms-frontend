@@ -299,7 +299,7 @@ export default {
             image: null,
             estimated_cost: null,
             priority: null,
-            request_review: false,
+            request_review: true,
             job_hazard: null,
             work_category: null,
             workorder_status: null,
@@ -408,7 +408,7 @@ export default {
             this.image = null;
             this.estimated_cost = null;
             this.priority = null;
-            this.request_review = false;
+            this.request_review = true;
             this.job_hazard = null;
             this.work_category = null;
             this.workorder_status = null;

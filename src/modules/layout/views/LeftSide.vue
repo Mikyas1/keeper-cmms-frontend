@@ -2,8 +2,7 @@
   <div>
     <v-list dense>
 
-      <v-list-item 
-        v-if="isSupervisor || isAdministrator"
+      <v-list-item
         router v-bind:to="{'name': 'enterprise_view'}">
         <v-list-item-action>
           <v-icon>fa-hospital-o</v-icon>
@@ -14,7 +13,7 @@
       </v-list-item>
 
       <v-list-item 
-       v-if="isSupervisor || isAdministrator"
+       v-if="isTechnician || isAdministrator"
        router v-bind:to="{'name': 'workorder'}">
         <v-list-item-action>
           <v-icon>fa-wrench</v-icon>
@@ -26,7 +25,7 @@
 
       <v-list-item v-if="isAdministrator" router v-bind:to="{'name': 'scheduled_workorder'}">
         <v-list-item-action>
-          <v-icon>fa-cogs</v-icon>
+          <v-icon>fa-calendar-check-o</v-icon>
         </v-list-item-action>
         <v-list-item-content>
           <v-list-item-title>Scheduled Work Orders</v-list-item-title>
@@ -44,7 +43,7 @@
       
       <v-list-item class="py-1" router v-bind:to="{'name': 'equipments'}">
         <v-list-item-action>
-          <v-icon small>fa-cubes</v-icon>
+          <v-icon>fa-cog</v-icon>
         </v-list-item-action>
         <v-list-item-content>
           <v-list-item-title>All Equipments</v-list-item-title>
@@ -60,7 +59,7 @@
         </v-list-item-content>
       </v-list-item>
 
-      <v-list-group v-if="isAdministrator" prepend-icon="fa-cog" :value="false" no-action>
+      <v-list-group v-if="isAdministrator" prepend-icon="fa-check-square-o" :value="false" no-action>
         <template v-slot:activator>
           <v-list-item-title>Facility Admin</v-list-item-title>
         </template>
@@ -121,8 +120,8 @@ export default {
   computed: {
     ...mapGetters({
       isAdministrator: "auth/isAdministrator",
+      isTechnician: "auth/isTechnician",
       isSupervisor: "auth/isSupervisor",
-      isRegular: "auth/isRegular",
     })
   },
 

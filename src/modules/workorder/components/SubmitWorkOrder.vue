@@ -250,7 +250,7 @@ export default {
             image: null,
             estimated_cost: null,
             priority: null,
-            request_review: false,
+            request_review: true,
             job_hazard: null,
             work_category: null,
             workorder_status: null,
@@ -424,7 +424,6 @@ export default {
         this.assigned_to_errors = null;
         this.workorder_status = null;
         this.workorder_status_errors = null;
-        this.request_review = false;
       },
 
       getPrimaryHere() {

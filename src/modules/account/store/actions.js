@@ -83,4 +83,18 @@ export default {
             });
         });
     },
+
+    get_operators: ({ commit }) => {
+        return new Promise((resolve, reject) => {
+            apiClient.account.get_operators()
+            .then(response => {
+                // update store profile
+                commit("GODARK");
+                resolve(response.data);
+            })
+            .catch(e => {
+                reject(e);
+            });
+        });
+    },
 };

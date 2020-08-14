@@ -7,6 +7,7 @@ const urls = {
     change_password: 'account/change-password',
     reset_password: 'account/reset-password',
     user_list: 'account/user-list',
+    get_operators: 'account/get-operators',
 
     // enterprise apis
     department_activities: 'enterprise/department-activities',
@@ -18,6 +19,8 @@ const urls = {
     search_equipments: 'equipment/equipment/?search=',
     get_equipment_filters: 'equipment/get-equipment-filters',
     get_production_line_detail: 'equipment/production-line-detail/',
+    assign_operator: 'equipment/assign-operator/',
+    remove_operator: 'equipment/remove-operator/',
 
     get_open_reports: 'enterprise/open-reports',
     get_equipment_parts: 'equipment/equipment-parts/',

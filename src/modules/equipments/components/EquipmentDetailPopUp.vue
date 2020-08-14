@@ -287,7 +287,7 @@
                         </v-col>
                     </v-row>
 
-                    <template v-if="!isRegular">
+                    <template>
                         <v-expansion-panels  v-model="panel" focusable multiple>
                             <v-expansion-panel :style="'border: 1px solid ' + getPrimaryHere()">
 
@@ -310,7 +310,7 @@
                                 </v-expansion-panel-content>
                             </v-expansion-panel>
 
-                            <v-expansion-panel :style="'border: 1px solid ' + getPrimaryHere()">
+                            <v-expansion-panel v-if="!isSupervisor" :style="'border: 1px solid ' + getPrimaryHere()">
                                 <v-expansion-panel-header v-on:click="getWorkOrdersHistory">WORK ORDER HISTORY</v-expansion-panel-header>
                                 <v-expansion-panel-content>
                                     
@@ -351,7 +351,7 @@
                                 </v-expansion-panel-content>
                             </v-expansion-panel>
 
-                            <v-expansion-panel :style="'border: 1px solid ' + getPrimaryHere()">
+                            <v-expansion-panel v-if="!isSupervisor" :style="'border: 1px solid ' + getPrimaryHere()">
                                 <v-expansion-panel-header v-on:click="getDownTimeHistory">EQUIPMENT DOWNTIME HISTORY</v-expansion-panel-header>
                                 <v-expansion-panel-content>
                                     
@@ -372,7 +372,7 @@
 
                             </v-expansion-panel>
 
-                            <v-expansion-panel :style="'border: 1px solid ' + getPrimaryHere()">
+                            <v-expansion-panel v-if="!isSupervisor" :style="'border: 1px solid ' + getPrimaryHere()">
                                 <v-expansion-panel-header v-on:click="getDownTimeHistory">TOTAL MAINTENANCE COST</v-expansion-panel-header>
                                 <v-expansion-panel-content>
                                     
@@ -380,6 +380,47 @@
                                     <p class="mt-3 ml-3">
                                         Total Cost: <strong class="primary--text">{{item.maintenance_cost}}</strong> ETB
                                     </p>
+
+                                </v-expansion-panel-content>
+
+                            </v-expansion-panel>
+
+                            <v-expansion-panel :style="'border: 1px solid ' + getPrimaryHere()">
+                                <v-expansion-panel-header>OPERATORS</v-expansion-panel-header>
+                                <v-expansion-panel-content>
+                                    
+                                    <h3 class="mt-5 ml-3 primary--text">RISPONSIBLE OPERATORS</h3>
+                                    <p class="mt-3 ml-3">
+                                        <span v-for="user in item.risponsible_individuals" :key="user.id">
+                                            <v-icon small color="green" class="mb-1 mr-2">fa-user</v-icon>
+                                            {{user.first_name}} {{user.last_name}} - {{user.employee_id}} 
+                                            <span class="ml-5" v-if="canAssignOperator">
+                                                <v-icon small class="mb-2 mr-1" color="red">fa-times</v-icon> 
+                                                <span class="remove-link" v-on:click="remove_operator(user.id)">Remove</span>
+                                            </span>
+                                            <br>
+                                        </span>
+                                        <span v-if="item.risponsible_individuals.length < 1">
+                                            <v-icon small class="mb-1 mr-2">fa-warning</v-icon>
+                                            No Operators assigned
+                                        </span>
+                                    </p>
+                                    
+                                    <div v-if="canAssignOperator" class="btns" :style="'border-top: 1px solid ' + getPrimaryHere()">
+                                       <v-layout>
+                                            <v-flex md8>
+                                            </v-flex>
+                                            <v-flex>
+                                                <v-btn
+                                                    color="green white--text text-capitalize mb-1 mr-4 mt-4"
+                                                    v-on:click="open_assign_operator"
+                                                    >
+                                                    <v-icon small>fa-user</v-icon>
+                                                    <span class="ml-2">Add Operator</span>
+                                                </v-btn>
+                                            </v-flex>
+                                       </v-layout> 
+                                    </div>
 
                                 </v-expansion-panel-content>
 
@@ -443,7 +484,7 @@
     </v-card>
 
     <!-- Dynamic dialog -->
-    <!-- DETAIL DIALOG -->
+    <!-- CREATE REPORT DIALOG -->
     <v-dialog v-model="reportDialog" width="700">
       <template v-slot:activator="{}"></template>
       <v-card>
@@ -457,7 +498,7 @@
     </v-dialog>
 
     <!-- Dynamic dialog -->
-    <!-- DETAIL DIALOG -->
+    <!-- CREATE WORKORDER DIALOG -->
     <v-dialog v-model="create_workorder_dialog" width="900">
     <template v-slot:activator="{}"></template>
         <v-card>
@@ -466,6 +507,20 @@
                 @reset_ready="set_up_reset_create_workorder"
                 :equipment_select="item"
             ></CreateWorkorder>
+        </v-card>
+    </v-dialog>
+
+    <!-- Dynamic dialog -->
+    <!-- AssigneOperator DIALOG -->
+    <v-dialog v-model="assigne_operator" width="500">
+    <template v-slot:activator="{}"></template>
+        <v-card>
+            <AssigneOperator
+                @close="assigne_operator = !assigne_operator"
+                @created="setup_assigne_operator"
+                :equipment="item"
+                @update="get_equipment_detail(item.inventory_number)"
+            ></AssigneOperator>
         </v-card>
     </v-dialog>
     
@@ -484,6 +539,7 @@ import { mapGetters } from "vuex";
 import Workorder from "./Workorder";
 import PmWorkorder from "./PmWorkorder";
 import DownTime from "./DownTime";
+import AssigneOperator from "./AssigneOperator";
 
 export default {
   name: "EquipmentDetailPopUp",
@@ -499,6 +555,7 @@ export default {
       DownTime,
       PmWorkorder,
       CreateWorkorder,
+      AssigneOperator,
   },
   data() {
     return {
@@ -513,13 +570,16 @@ export default {
         create_workorder_dialog: false,
         reset_create_workorder: null,
         reset_report: null,
+        assigne_operator: false,
+        assigne_operator_func: null,
     };
   },
   computed: {
 
         ...mapGetters({
-            isRegular: "auth/isRegular",
+            isSupervisor: "auth/isSupervisor",
             isAdministrator: "auth/isAdministrator",
+            canAssignOperator: "auth/canAssignOperator",
         }),
     },
   methods: {
@@ -635,6 +695,35 @@ export default {
 
     resetReport(func) {
         this.reset_report = func;
+    },
+
+    open_assign_operator() {
+        if(this.assigne_operator_func) {
+            this.assigne_operator_func()
+        }
+        this.assigne_operator = true;
+    },
+
+    setup_assigne_operator(func) {
+        this.assigne_operator_func = func;
+    },
+
+    remove_operator(id) {
+        this.$store.dispatch('equipments/remove_operator', {data: 
+                                                                {
+                                                                    operator: id
+                                                                }, 
+                                                            id: this.item.inventory_number})
+        .then(() => {
+            this.get_equipment_detail(this.item.inventory_number);
+        })
+        .catch(error => {
+            this.$store.commit("SET_SNACKBAR", {
+                message: error.response.data,
+                value: true,
+                status: "error"
+            });
+        });
     }
 
   },
@@ -691,5 +780,11 @@ export default {
 
 .loading-card {
     height: 600px;
+}
+
+.remove-link {
+    color: red;
+    text-decoration: underline;
+    cursor: pointer;
 }
 </style>

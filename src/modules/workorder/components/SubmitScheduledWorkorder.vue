@@ -400,7 +400,7 @@ export default {
 
             loading: false,
 
-            request_review: false,
+            request_review: true,
 
         }
     },
@@ -480,7 +480,7 @@ export default {
             
             this.due_date = null;
             this.estimated_cost = null;
-            this.request_review = false;
+            this.request_review = true;
             
             this.tasks = [];
             this.schedulers = [];

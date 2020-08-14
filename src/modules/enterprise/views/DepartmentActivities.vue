@@ -17,7 +17,7 @@
                         <v-card-text>
                         
                             <div class="subheading font-weight-regular">
-                               <v-icon small class="mr-3 mb-2">fa-cubes</v-icon> Equipments: {{ activite.equipments }} 
+                               <v-icon class="mr-3 mb-2">fa-spin fa-cog</v-icon> Equipments: {{ activite.equipments }} 
                             </div>
 
                             <div class="subheading font-weight-regular">
@@ -37,7 +37,7 @@
                             </div>
 
                             <div class="subheading font-weight-regular">
-                              <v-icon class="mr-2 mb-2">fa-spin fa-cog</v-icon>  Pending: {{ activite.pending }}
+                              <v-icon class="mr-2 mb-2">fa-spin fa-spinner</v-icon>  Pending: {{ activite.pending }}
                             </div>
 
                             <div class="subheading font-weight-regular">

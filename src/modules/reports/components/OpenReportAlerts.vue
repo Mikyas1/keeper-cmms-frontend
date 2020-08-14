@@ -141,7 +141,7 @@ export default {
     ...mapGetters({
       open_reports_from_store: "reports/open_reports",
       isAdministrator: "auth/isAdministrator",
-      isRegular: "auth/isRegular",
+      isSupervisor: "auth/isSupervisor",
     })
   },
   methods: {
@@ -160,7 +160,7 @@ export default {
     }
   },
   created() {
-    if (this.isAdministrator || this.isRegular) {
+    if (this.isAdministrator || this.isSupervisor) {
       this.show = true;
     }
     this.$store
