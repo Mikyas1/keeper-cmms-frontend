@@ -23,67 +23,112 @@
             <h4 class="title mt-4">Report Form</h4>
             
             <!-- forms -->
-            <div class="mr-5 mb-3">
-                <v-select
-                    label="* Status"
-                    prepend-icon="fa-fire"
-                    :items="get_reportable_stats(filter_data, 'status_flag')"
-                    v-model="equipment_status"
-                    :error-messages="equipment_status_errors"
-                ></v-select>
+            <v-container>
+              <v-layout row wrap>
+                  <v-flex xs12 md6 class="px-5">
+                    <v-select
+                        label="* Status"
+                        prepend-icon="fa-fire"
+                        :items="get_reportable_stats(filter_data, 'status_flag')"
+                        v-model="equipment_status"
+                        :error-messages="equipment_status_errors"
+                    ></v-select>
 
-                <div v-if="equipment_status">
-                  <v-layout 
-                    class="ml-3" 
-                    row wrap 
-                    v-if="equipment_status.has_conditions"
-                    >
-                      <v-flex sm4 md3 
-                        v-for="condition in filter_data.conditions" 
-                        :key="condition.id"
+                    <div v-if="equipment_status">
+                      <v-layout 
+                        class="mx-1" 
+                        row wrap 
+                        v-if="equipment_status.has_conditions"
                         >
-                          <v-checkbox
-                              v-model="conditions" 
-                              :label="condition.name" 
-                              :value="condition.id"
-                          ></v-checkbox>
-                      </v-flex>
-                  </v-layout>
-                </div>
+                          <v-select
+                              multiple
+                              label="Conditions"
+                              prepend-icon="fa-dashboard"
+                              :items="get_options_here(filter_data, 'conditions')"
+                              v-model="conditions"
+                          ></v-select>
+                      </v-layout>
+                    </div>
 
-                <v-select
-                    label="* Priority"
-                    prepend-icon="fa-sort-amount-desc"
-                    :items="get_options_here(filter_data, 'priorities')"
-                    v-model="priority"
-                    :error-messages="priority_errors"
-                ></v-select>
+                    <v-select
+                        label="* Priority"
+                        prepend-icon="fa-sort-amount-desc"
+                        :items="get_options_here(filter_data, 'priorities')"
+                        v-model="priority"
+                        :error-messages="priority_errors"
+                    ></v-select>
 
-                <v-select
-                    label="* Part"
-                    prepend-icon="fa-sort-amount-desc"
-                    :items="get_options_here(filter_data, 'priorities')"
-                    v-model="priority"
-                    :error-messages="priority_errors"
-                ></v-select>
+                    <v-select
+                        label="Operator"
+                        prepend-icon="fa-user"
+                        :items="get_operators"
+                        v-model="operator"
+                    ></v-select>
 
-                <v-select
-                    label="* Operator"
-                    prepend-icon="fa-sort-amount-desc"
-                    :items="get_options_here(filter_data, 'priorities')"
-                    v-model="priority"
-                    :error-messages="priority_errors"
-                ></v-select>
+                  </v-flex>
+                  <v-flex xs12 md6 class="px-5">
 
-                <v-textarea
-                    label="Description"
-                    prepend-icon="fa-commenting-o"
-                    auto-grow
-                    outlined
-                    v-model="description"
-                    :error-messages="description_errors"
-                ></v-textarea>
-            </div>
+                    <v-menu
+                          ref="menu"
+                          v-model="menu"
+                          :close-on-content-click="false"
+                          :return-value.sync="breackdown_since"
+                          transition="scale-transition"
+                          offset-y
+                          min-width="290px"
+                      >
+                          <template v-slot:activator="{ on }">
+                              <v-text-field
+                                  v-model="breackdown_since"
+                                  label="Breack Down time"
+                                  prepend-icon="fa-hourglass-start"
+                                  readonly
+                                  v-on="on"
+                                  :error-messages="breackdown_since_errors"
+                              ></v-text-field>
+                          </template>
+                        
+                              <v-card flat>
+                                  <v-date-picker 
+                                      v-model="breackdown_since_date" 
+                                      no-title scrollable>
+                                  </v-date-picker>
+                                  <v-time-picker 
+                                      v-model="breackdown_since_time"
+                                      format="24hr"
+                                      flat
+                                      scrollable
+                                  ></v-time-picker>
+                                  <div>
+                                      <v-layout row wrap class="py-2" :style="'border-top: 1px solid ' + getPrimaryHere()">
+                                          <v-flex xs8></v-flex>
+                                          <v-flex>
+                                              <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
+                                              <v-btn text color="primary" @click="set_breackdown_datetime">OK</v-btn>
+                                          </v-flex>
+                                      </v-layout>
+                                  </div>
+                              </v-card>
+                      </v-menu>
+                    <v-text-field
+                        label="Parts name"
+                        prepend-icon="fa-microchip"
+                        type="text"
+                        v-model="parts_name"
+                    />
+
+                    <v-textarea
+                        label="Description"
+                        prepend-icon="fa-commenting-o"
+                        auto-grow
+                        outlined
+                        v-model="description"
+                        :error-messages="description_errors"
+                    ></v-textarea>
+
+                  </v-flex>
+              </v-layout>
+            </v-container>
 
             <!-- display non field error -->
             <div v-for="error in non_field_errors" :key="error" class="red--text caption">
@@ -102,7 +147,7 @@
         <div class="btns mt-5" :style="'border-top: 1px solid ' + getPrimaryHere()">
             <v-card>
             <v-layout>
-                <v-flex md8>
+                <v-flex md10>
                 </v-flex>
                 <v-flex md5>
                     <v-btn color="red white--text text-capitalize mb-4 mr-4 mt-4"
@@ -144,6 +189,8 @@ import { getColor } from "@/resources/helper";
 import { get_options } from "@/resources/helper";
 
 import { getPrimary } from "@/resources/helper";
+import { getEmployeeName } from "@/resources/helper";
+import { prepareTime } from "@/resources/helper";
 
 import { mapGetters } from "vuex";
 
@@ -153,6 +200,10 @@ export default {
     equipment: {
       required: true,
       type: Object
+    },
+    operators: {
+      required: true,
+      type: Array
     }
   },
   computed: {
@@ -160,6 +211,19 @@ export default {
       user: "auth/user",
       equipment_filters_from_store: "equipments/equipment_filters",
     }),
+    get_operators() {
+      let data = [];
+      if (this.user.user_type == 'supervisor') {
+        data.push({value: this.user.id, text: getEmployeeName(this.user)});
+      }
+      for (var index in this.operators) {
+        data.push({
+            value: this.operators[index].id,
+            text: getEmployeeName(this.operators[index])
+        })
+      }
+      return data;
+    }
   },
   data() {
     return {
@@ -171,11 +235,19 @@ export default {
       description: null,
       priority: null,
       conditions: [],
+      breackdown_since: null,
+      breackdown_since_date: null,
+      breackdown_since_time: null,
+      parts_name: null,
+      operator: null,
+
+      menu: false,
 
       // errors
       equipment_status_errors: null,
       description_errors: null,
       priority_errors: null,
+      breackdown_since_errors: null,
 
       non_field_errors: [],
 
@@ -237,6 +309,9 @@ export default {
                 department: department,
                 priority: this.priority,
                 conditions: this.conditions,
+                operator: this.operator,
+                reported_parts: this.parts_name,
+                breakdown_time: this.breackdown_since ? prepareTime(this.breackdown_since_date, this.breackdown_since_time) : null,
             })
 
             .then(() => {
@@ -272,14 +347,33 @@ export default {
       this.description = null;
       this.priority = null;
       this.conditions = [];
+      this.menu = false;
+      this.breackdown_since = null;
+      this.breackdown_since_errors = null;
+
+      this.breackdown_since_date = null;
+      this.breackdown_since_time = null;
+      this.parts_name = null;
 
       // errors
       this.equipment_status_errors = null;
       this.description_errors = null;
       this.priority_errors = null;
-
       this.non_field_errors = [];
-    }
+    },
+
+    set_breackdown_datetime() {
+      if (this.breackdown_since_time == null || this.breackdown_since_date == null) {
+          this.$store.commit("SET_SNACKBAR", {
+              message: "Please sellect both date and time.",
+              value: true,
+              status: "error"
+          });
+      } else {
+          this.$refs.menu.save(this.breackdown_since_date + ' ' + this.breackdown_since_time);
+      }
+    },
+    
   },
   created() {
     if (this.equipment_filters_from_store !== null) {

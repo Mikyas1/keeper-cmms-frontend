@@ -371,6 +371,7 @@ export default {
                 { text: "Quantity On Hand", value: "part.quantity_on_hand" },
                 { text: "Quantity Used", value: "quantity_used" },
                 { text: "Price", value: "part.price" },
+                { text: "Old Returned", value: "used_returned" },
                 { text: "Action", value: "part.created" },
             ],
             parts: [],
@@ -558,9 +559,10 @@ export default {
         preparePartsUsed(formData, parts) {
             for (var index in parts) {
                 formData.append("parts_used[" + index + "]part", parts[index].part.id);
-                formData.append("parts_used[" + index + "]quantity_used", parts[index].quantity_used)
-                formData.append("parts_used[" + index + "]created_by", this.user.id)
-                formData.append("parts_used[" + index + "]workorder", this.workorder.id)
+                formData.append("parts_used[" + index + "]quantity_used", parts[index].quantity_used);
+                formData.append("parts_used[" + index + "]created_by", this.user.id);
+                formData.append("parts_used[" + index + "]workorder", this.workorder.id);
+                formData.append("parts_used[" + index + "]used_returned", parts[index].used_returned);
             }
         },
 

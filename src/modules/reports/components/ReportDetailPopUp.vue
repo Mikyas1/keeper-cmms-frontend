@@ -65,25 +65,18 @@
             </v-col>
 
             <v-col cols="12" xs="12" sm="6">
-              <h1 class="title mb-2">Reporter</h1>
+              <h1 class="title mb-2">Report</h1>
               <v-row no-gutters>
-                <v-col>First Name:</v-col>
+                <v-col>Supervisor:</v-col>
                 <v-col v-if="item.creater">
-                  <strong class="primary--text">{{ item.creater.first_name }}</strong>
+                  <strong class="primary--text">{{ item.creater.first_name }} - {{ item.creater.employee_id }}</strong>
                 </v-col>
               </v-row>
               <div class="small-divider"></div>
-              <v-row no-gutters>
-                <v-col>Employee Id:</v-col>
+              <v-row v-if="item.operator" no-gutters>
+                <v-col>Operator:</v-col>
                 <v-col v-if="item.creater">
-                  <strong class="primary--text">{{ item.creater.employee_id }}</strong>
-                </v-col>
-              </v-row>
-              <div class="small-divider"></div>
-              <v-row no-gutters>
-                <v-col>Phone NO:</v-col>
-                <v-col v-if="item.creater">
-                  <strong class="primary--text">{{ item.creater.phone_number }}</strong>
+                  <strong class="primary--text">{{ item.operator.first_name }} - {{ item.operator.employee_id }}</strong>
                 </v-col>
               </v-row>
               <div class="small-divider"></div>
@@ -121,38 +114,30 @@
               </v-row>
               <div class="small-divider"></div>
               <v-row no-gutters>
+                <v-col>Reported parts:</v-col>
+                <v-col>
+                  <strong class="primary--text">{{ item.reported_parts }}</strong>
+                </v-col>
+              </v-row>
+              <div class="small-divider"></div>
+              <v-row no-gutters>
                 <v-col>Priority:</v-col>
                 <v-col>
                   <strong class="primary--text">{{ item.priority.name }}</strong>
                 </v-col>
               </v-row>
               <div class="small-divider"></div>
-              
+              <v-row v-if="item.breakdown_time" no-gutters>
+                <v-col>BreackDown time:</v-col>
+                <v-col>
+                  <strong class="primary--text">{{ moment(item.breakdown_time).format('MM/DD/YYYY HH:mm:ss') }}</strong>
+                </v-col>
+              </v-row>
+              <div class="small-divider"></div>
               <v-row no-gutters>
                 <v-col>Report Created:</v-col>
                 <v-col v-if="item.created">
                   <strong class="primary--text">{{ moment(item.created).fromNow() }}</strong>
-                </v-col>
-              </v-row>
-              <div class="small-divider"></div>
-              <v-row no-gutters>
-                <v-col>User Type:</v-col>
-                <v-col v-if="item.creater">
-                  <strong class="primary--text">{{ item.creater.user_type }}</strong>
-                </v-col>
-              </v-row>
-              <div class="small-divider"></div>
-              <v-row no-gutters>
-                <v-col>Employee Position:</v-col>
-                <v-col v-if="item.creater && item.creater.employee_position">
-                  <strong class="primary--text">{{ item.creater.employee_position.position_name }}</strong>
-                </v-col>
-              </v-row>
-              <div class="small-divider"></div>
-              <v-row no-gutters>
-                <v-col>Education Level</v-col>
-                <v-col v-if="item.creater && item.creater.training_detail">
-                  <strong class="primary--text">{{ item.creater.training_detail.training_level }}</strong>
                 </v-col>
               </v-row>
             </v-col>

@@ -300,23 +300,16 @@
                         <div v-if="workorder.report && workorder.workorder_type === 'DM'">
                             <h1 class="title mb-2">Reporter</h1>
                                 <v-row no-gutters>
-                                    <v-col>First Name:</v-col>
+                                    <v-col>Supervisor:</v-col>
                                     <v-col v-if="workorder.report.creater">
-                                    <strong class="primary--text">{{ workorder.report.creater.first_name }}</strong>
+                                    <strong class="primary--text">{{ workorder.report.creater.first_name }} - {{ workorder.report.creater.employee_id }}</strong>
                                     </v-col>
                                 </v-row>
                                 <div class="small-divider"></div>
-                                <v-row no-gutters>
-                                    <v-col>Employee Id:</v-col>
-                                    <v-col v-if="workorder.report.creater">
-                                    <strong class="primary--text">{{ workorder.report.creater.employee_id }}</strong>
-                                    </v-col>
-                                </v-row>
-                                <div class="small-divider"></div>
-                                <v-row no-gutters>
-                                    <v-col>Phone NO:</v-col>
-                                    <v-col v-if="workorder.report.creater">
-                                    <strong class="primary--text">{{ workorder.report.creater.phone_number }}</strong>
+                                <v-row v-if="workorder.report.operator" no-gutters>
+                                    <v-col>Operator:</v-col>
+                                    <v-col>
+                                    <strong class="primary--text">{{ workorder.report.operator.first_name }} - {{ workorder.report.operator.employee_id }}</strong>
                                     </v-col>
                                 </v-row>
                                 <div class="small-divider"></div>
@@ -354,38 +347,30 @@
                                 </v-row>
                                 <div class="small-divider"></div>
                                 <v-row no-gutters>
+                                    <v-col>Reported parts:</v-col>
+                                    <v-col>
+                                    <strong class="primary--text">{{ workorder.report.reported_parts }}</strong>
+                                    </v-col>
+                                </v-row>
+                                <div class="small-divider"></div>
+                                <v-row no-gutters>
                                     <v-col>Priority:</v-col>
                                     <v-col>
                                     <strong class="primary--text">{{ workorder.report.priority.name }}</strong>
                                     </v-col>
                                 </v-row>
                                 <div class="small-divider"></div>
-                                
+                                <v-row v-if="workorder.report.breakdown_time" no-gutters>
+                                    <v-col>BreackDown time:</v-col>
+                                    <v-col>
+                                    <strong class="primary--text">{{ moment(workorder.report.breakdown_time).format('MM/DD/YYYY HH:mm:ss') }}</strong>
+                                    </v-col>
+                                </v-row>
+                                <div class="small-divider"></div>
                                 <v-row no-gutters>
                                     <v-col>Report Created:</v-col>
                                     <v-col v-if="workorder.report.created">
                                     <strong class="primary--text">{{ moment(workorder.report.created).fromNow() }}</strong>
-                                    </v-col>
-                                </v-row>
-                                <div class="small-divider"></div>
-                                <v-row no-gutters>
-                                    <v-col>User Type:</v-col>
-                                    <v-col v-if="workorder.report.creater">
-                                    <strong class="primary--text">{{ workorder.report.creater.user_type }}</strong>
-                                    </v-col>
-                                </v-row>
-                                <div class="small-divider"></div>
-                                <v-row no-gutters>
-                                    <v-col>Employee Position:</v-col>
-                                    <v-col v-if="workorder.report.creater && workorder.report.creater.employee_position">
-                                    <strong class="primary--text">{{ workorder.report.creater.employee_position.position_name }}</strong>
-                                    </v-col>
-                                </v-row>
-                                <div class="small-divider"></div>
-                                <v-row no-gutters>
-                                    <v-col>Education Level</v-col>
-                                    <v-col v-if="workorder.report.creater && workorder.report.creater.training_detail">
-                                    <strong class="primary--text">{{ workorder.report.creater.training_detail.training_level }}</strong>
                                     </v-col>
                                 </v-row>
                             </div>

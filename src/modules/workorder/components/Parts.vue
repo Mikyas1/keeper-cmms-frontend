@@ -3,8 +3,8 @@
         <v-card v-if="pageLoad">
             <v-toolbar color="primary" dark flat>
                 <v-toolbar-title>
-                <v-icon class="mx-2">fa-gears</v-icon> 
-                PARTS FOR "{{equipment_name}}"
+                <v-icon class="mx-2">fa-microchip</v-icon> 
+                ADD PARTS
                 </v-toolbar-title>
             </v-toolbar>
             <v-card-text>
@@ -30,6 +30,12 @@
                                 v-model="quantity_used"
                                 :error-messages="generate_part_quantity_error"
                             />
+
+                        </v-flex>
+
+                        <v-flex v-if="part && part.returnable" xs12 md5 class="px-5">
+
+                            <v-switch label="Old Returned" v-model="used_returned"></v-switch>
 
                         </v-flex>
 
@@ -171,6 +177,7 @@ export default {
             part: null,
             quantity_used: 0,
             equipment_name: null,
+            used_returned: false,
         }
     },
     computed: {
@@ -203,6 +210,7 @@ export default {
             this.part = null;
             this.quantity_used = 0;
             this.equipment_name = null;
+            this.used_returned = false;
         },
 
         get_equipment_parts() {
@@ -223,7 +231,8 @@ export default {
             if (this.part && this.quantity_used > 0 && !this.generate_part_quantity_error) {
                 var data = {
                     part: this.part,
-                    quantity_used: this.quantity_used
+                    quantity_used: this.quantity_used,
+                    used_returned: this.used_returned,
                 };
                 this.$emit('add_part_used', data);
                 this.close();

@@ -269,6 +269,8 @@ import { get_complex_options } from "@/resources/helper";
 import { get_options } from "@/resources/helper";
 import { getPrimary } from "@/resources/helper";
 
+import { prepareTime } from "@/resources/helper";
+
 export default {
     name: "CreateWorkorder",
 
@@ -462,7 +464,7 @@ export default {
                                                      'priority'], this)
 
             if (this.status_changed_since) {
-                formData.append('status_changed_since', this.status_changed_since);
+                formData.append('status_changed_since', prepareTime(this.status_changed_since_date, this.status_changed_since_time));
             }
 
             if (this.equipment_status) {

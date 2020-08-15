@@ -442,7 +442,7 @@
                 <v-layout>
                     <v-flex md8>
                     </v-flex>
-                    <v-flex>
+                    <v-flex v-if="canAssignOperator">
                         <v-btn
                             color="red white--text text-capitalize mb-4 mr-4 mt-4"
                             v-on:click="report"
@@ -485,7 +485,7 @@
 
     <!-- Dynamic dialog -->
     <!-- CREATE REPORT DIALOG -->
-    <v-dialog v-model="reportDialog" width="700">
+    <v-dialog v-model="reportDialog" width="900">
       <template v-slot:activator="{}"></template>
       <v-card>
         <CreateReport 
@@ -493,6 +493,7 @@
             @closeDialog="closeDialog"
             @closeBothDialog="closeBothDialogs"
             @reset="resetReport"
+            :operators="item ? item.risponsible_individuals: null"
             ></CreateReport>
       </v-card>
     </v-dialog>

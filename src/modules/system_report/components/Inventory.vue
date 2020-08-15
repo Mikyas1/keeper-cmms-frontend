@@ -32,6 +32,7 @@
                                 <th class="td-xl">Location</th>
                                 <th class="td-lg">Qty On Hand</th>
                                 <th class="td-lg">Qty To Order</th>
+                                <th class="td-lg">Qty Returned</th>
                                 <th class="td-lg">Supplier</th>
                                 <th class="td-lg">Unit Cost</th>
                             </tr>
@@ -46,6 +47,7 @@
                                     {{ inventory.location.floor }} - {{ inventory.location.room_number }}</span></td>
                                 <td>{{ inventory.quantity_on_hand }}</td>
                                 <td>{{ inventory.minimum_quantity }}</td>
+                                <td>{{ inventory.returned_quantity }}</td>
                                 <td><span v-if="inventory.supplier">{{ inventory.supplier.name }}</span></td>
                                 <td>{{ inventory.price }}</td>
                             </tr>
