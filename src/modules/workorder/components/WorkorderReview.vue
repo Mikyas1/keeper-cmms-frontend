@@ -82,7 +82,6 @@
                     <v-flex>
                         <v-btn 
                             v-on:click="approve_request"
-                            :loading="approve_loading"
                             color="green white--text text-capitalize mb-4 mr-4 mt-4">
                                 <v-icon small>fa-check-square-o</v-icon>
                                 <span class="ml-2">Approve Request</span>
@@ -139,10 +138,26 @@
             <v-card>
                 <RejectDialog 
                     :review="rejectReview"
+                    :operators="operators"
                     @close="rejectDialog = !rejectDialog"
                     @closeWorkorderReport="closeThis"
                     @created="setup_reject_dialog"
                 ></RejectDialog>
+            </v-card>
+        </v-dialog>
+
+        <!-- Dynamic dialog -->
+        <!-- APPROVE DIALOG -->
+        <v-dialog v-model="approveDialog" width="600">
+        <template v-slot:activator="{}"></template>
+            <v-card>
+                <ApproveReview 
+                    :review="approve_review"
+                    :operators="operators"
+                    @close="approveDialog = !approveDialog"
+                    @closeWorkorderReport="closeThis"
+                    @createdApprove="setup_approve_dialog"
+                ></ApproveReview>
             </v-card>
         </v-dialog>
 
@@ -153,6 +168,7 @@
 
 import DetailWorkorder from "../components/DetailWorkorder";
 import RejectDialog from "./RejectDialog"
+import ApproveReview from "./ApproveReview"
 import { getPrimary } from "@/resources/helper";
 var moment = require('moment');
 
@@ -162,6 +178,7 @@ export default {
     components: {
         DetailWorkorder,
         RejectDialog,
+        ApproveReview,
     },
 
     props: ['review_id'],
@@ -172,16 +189,21 @@ export default {
             detailDialog: false,
             detailDialogWorkorder: null,
 
+            operators: null,
+
             rejectDialog: false,
             rejectReview: null,
 
             setWorkorderId: null,
-            approve_loading: false,
+
+            approveDialog: false,
+            approve_review: null,
 
             // moment
             moment: moment,
 
             reject_dialog_func: null,
+            approve_dialog_func: null,
         }
     },
     methods: {
@@ -190,8 +212,15 @@ export default {
             this.$store
                 .dispatch("workorder/workorder_review_detail", id)
                 .then(response => {
+                    this.$store.dispatch("equipments/equipment_operators", response.workorder.equipment)
+                        .then((response) => {
+                            this.pageLoad = true;
+                            this.operators = response;
+                        })
+                        .catch(() => {
+                            this.pageLoad = false;
+                        });
                     this.review = response;
-                    this.pageLoad = true;
                 })
                     .catch(() => {
                         this.pageLoad = false;
@@ -225,21 +254,11 @@ export default {
         },
 
         approve_request() {
-            this.approve_loading = true;
-            this.$store
-                .dispatch("workorder/approve_workorder_review", {workorder_request: this.review.id})
-                .then(() => {
-                        this.approve_loading = false;
-                        this.$store.commit("SET_SNACKBAR", {
-                            message: "Approved Workorder Review!",
-                            value: true,
-                            status: "success"
-                        });
-                        this.closeWorkorderReview()
-                    })
-                .catch(() => {
-                    this.approve_loading = true;
-                })
+            if (this.approve_dialog_func) {
+                this.approve_dialog_func();
+            }
+            this.approve_review = this.review;
+            this.approveDialog = true;
         },
 
         closeWorkorderReview() {
@@ -260,6 +279,10 @@ export default {
 
         setup_reject_dialog(func) {
             this.reject_dialog_func = func;
+        },
+
+        setup_approve_dialog(func) {
+            this.approve_dialog_func = func;
         }
     },
     created() {

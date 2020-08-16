@@ -11,7 +11,7 @@
             <v-card-text>
                 <v-container>
 
-                    <!-- equipment image if there is any -->
+                <!-- equipment image if there is any -->
                 <v-row
                     align="center"
                     justify="center"
@@ -130,7 +130,7 @@
                     >
                         <h1 class="title mb-2">DETAIL</h1>
                         <v-row v-if="review.description" no-gutters>
-                            <v-col>Description:</v-col>
+                            <v-col>Supervisor Comment:</v-col>
                             <v-col><strong class="primary--text">{{ review.description }}</strong></v-col>
                         </v-row>
                         <div v-if="review.description" class="small-divider"></div>
@@ -152,23 +152,60 @@
                     </v-col>
                 </v-row>
 
-                </v-container>
-            </v-card-text>
+                <v-row
+                    align="center"
+                    justify="center"
+                    no-gutters
+                    class="mb-5"
+                    v-if="review.operator"
+                >
+                    <v-col
+                        cols="12"
+                        xs="12"
+                        sm="6"
+                    >
+                        <h1 class="title mb-2">OPERATOR</h1>
+                        <v-row no-gutters>
+                            <v-col>Operator:</v-col>
+                            <v-col><strong class="primary--text">
+                                    {{ review.operator.first_name }} - 
+                                    {{ review.operator.employee_id }}
+                                </strong></v-col>
+                        </v-row>
+                        <div class="small-divider"></div>
+                        <v-row no-gutters>
+                            <v-col>Operator Comment:</v-col>
+                            <v-col><strong class="primary--text">
+                                {{review.operator_review}}
+                                </strong></v-col>
+                        </v-row>
 
-            <!-- buttons -->
-            <div :style="'border-top: 1px solid ' + getPrimaryHere()">
-                <v-layout :wrap="$vuetify.breakpoint.smAndDown">
-                    <v-flex sm10></v-flex>
-                    <v-flex>
-                        <v-btn 
-                            v-on:click="close"
-                            color="primary white--text text-capitalize mb-4 mr-4 mt-4">
-                                <v-icon small>fa-close</v-icon>
-                                <span class="ml-2">Close</span>
-                        </v-btn>
-                    </v-flex>
-                </v-layout>
-            </div>
+                    </v-col>
+                    <v-col
+                        cols="12"
+                        xs="12"
+                        sm="6"
+                    >
+                    </v-col>
+                </v-row>
+
+            </v-container>
+        </v-card-text>
+
+        <!-- buttons -->
+        <div :style="'border-top: 1px solid ' + getPrimaryHere()">
+            <v-layout :wrap="$vuetify.breakpoint.smAndDown">
+                <v-flex sm10></v-flex>
+                <v-flex>
+                    <v-btn 
+                        v-on:click="close"
+                        color="primary white--text text-capitalize mb-4 mr-4 mt-4">
+                            <v-icon small>fa-close</v-icon>
+                            <span class="ml-2">Close</span>
+                    </v-btn>
+                </v-flex>
+            </v-layout>
+        </div>
 
         </v-card>
     </div>
@@ -216,7 +253,7 @@ export default {
     },
     created() {
         var url = process.env.VUE_APP_API_URL;
-        this.media_url = url.substring(0, url.length - 4);
+        this.media_url = url.substring(0, url.length - 5);
     }
 }
 </script>

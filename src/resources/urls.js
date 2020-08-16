@@ -21,6 +21,7 @@ const urls = {
     get_production_line_detail: 'equipment/production-line-detail/',
     assign_operator: 'equipment/assign-operator/',
     remove_operator: 'equipment/remove-operator/',
+    equipment_operators: 'equipment/equipment-operators/',
 
     get_open_reports: 'enterprise/open-reports',
     get_equipment_parts: 'equipment/equipment-parts/',

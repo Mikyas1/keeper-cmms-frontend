@@ -91,6 +91,10 @@ export default {
         remove_operator(payload, id) {
             return http.post(urls.remove_operator + id, payload);
         },
+
+        equipment_operators(id) {
+            return http.get(urls.equipment_operators + id);
+        }
     },
 
     reports: {
@@ -243,7 +247,7 @@ export default {
         },
 
         approve_workorder_review(payload) {
-            return http.post(urls.approve_workorder_review, payload);
+            return http.post(urls.approve_workorder_review, payload, { headers: { 'Content-Type': 'multipart/form-data' } });
         },
 
         reject_workorder_review(payload) {

@@ -3,13 +3,13 @@
         <v-card>
             <v-toolbar color="primary" dark flat>
                 <v-toolbar-title>
-                    <v-icon class="mx-2">fa-times-rectangle-o</v-icon> 
-                    Reject: {{reduceText(review.workorder.name)}} (id - {{review.workorder.id}})
+                    <v-icon class="mx-2">fa-check-square-o</v-icon> 
+                    Approve: {{reduceText(review.workorder.name)}} (id - {{review.workorder.id}})
                 </v-toolbar-title>
             </v-toolbar>
-
             <v-card-text>
                 <v-container>
+                    
                     <v-layout row wrap>
 
                         <v-flex xs12 md8 class="px-5">
@@ -21,31 +21,6 @@
                                 outlined
                                 v-model="description"
                             ></v-textarea>
-
-                            <v-menu
-                                ref="reschedule_date"
-                                v-model="reschedule_date"
-                                :close-on-content-click="false"
-                                :return-value.sync="date"
-                                transition="scale-transition"
-                                offset-y
-                                min-width="290px"
-                                >
-                                <template v-slot:activator="{ on }">
-                                    <v-text-field
-                                    v-model="date"
-                                    :label="`Reschedule Workorder, was ` + review.workorder.due_date"
-                                    prepend-icon="fa-calendar-check-o"
-                                    readonly
-                                    v-on="on"
-                                    ></v-text-field>
-                                </template>
-                                <v-date-picker v-model="date" no-title scrollable>
-                                    <v-spacer></v-spacer>
-                                    <v-btn text color="primary" @click="reschedule_date = false">Cancel</v-btn>
-                                    <v-btn text color="primary" @click="$refs.reschedule_date.save(date)">OK</v-btn>
-                                </v-date-picker>
-                            </v-menu>
 
                             <v-autocomplete
                                 prepend-icon="fa-user"
@@ -68,7 +43,7 @@
                         <v-flex xs12 md4 class="px-5">
                             <p> 
                                <v-icon color="blue" small>fa-info</v-icon> 
-                                Reject ("{{review.requested_by.first_name}} - {{review.requested_by.employee_id}}" is 
+                                Approve ("{{review.requested_by.first_name}} - {{review.requested_by.employee_id}}" is 
                                 requesting workorder: "{{ review.workorder.name }}" to be 
                                 "{{ review.workorder_status.name }}").   
                             </p>
@@ -120,25 +95,26 @@
                         
                     </v-layout>
 
+                    
                 </v-container>
             </v-card-text>
 
             <!-- buttons -->
             <div :style="'border-top: 1px solid ' + getPrimaryHere()">
                 <v-layout :wrap="$vuetify.breakpoint.smAndDown">
-                    <v-flex sm9></v-flex>
+                    <v-flex sm7></v-flex>
                     <v-flex>
                         <v-btn 
-                            v-on:click="submit_reject"
+                            v-on:click="approve"
                             :loading="loading"
-                            color="red white--text text-capitalize mb-4 mr-4 mt-4">
-                                <v-icon small>fa-times-rectangle-o</v-icon>
-                                <span class="ml-2">Reject</span>
+                            color="green white--text text-capitalize mb-4 mr-4 mt-4">
+                                <v-icon small>fa-check-square-o</v-icon>
+                                <span class="ml-2">Approve</span>
                         </v-btn>
                     </v-flex>
                     <v-flex>
                         <v-btn 
-                            v-on:click="closeRejectDialog"
+                            v-on:click="close"
                             color="primary white--text text-capitalize mb-4 mr-4 mt-4">
                                 <v-icon small>fa-close</v-icon>
                                 <span class="ml-2">Close</span>
@@ -146,8 +122,9 @@
                     </v-flex>
                 </v-layout>
             </div>
-            
+
         </v-card>
+
     </div>
 </template>
 
@@ -156,23 +133,11 @@ import { getPrimary } from "@/resources/helper";
 import { getEmployeeName } from "@/resources/helper";
 
 export default {
-    name: "RejectDialog",
-    props: {
-        review: {
-            required: true,
-            type: Object,
-        },
-        operators: {
-            required: true,
-            type: Array,
-        }
-    },
-
+    name: "ApproveReview",
+    props: ['review', 'operators'],
     data() {
         return {
             description: null,
-            reschedule_date: false,
-            date: null,
             image: null,
             image_two: null,
             document: null,
@@ -182,7 +147,6 @@ export default {
             operator_comment: null,
         }
     },
-
     computed: {
         get_operators() {
           let data = [];
@@ -195,19 +159,7 @@ export default {
           return data;
       }
     },
-
     methods: {
-
-        reset() {
-            this.description = null;
-            this.date = null;
-            this.image = null;
-            this.image_two = null;
-            this.document = null;
-            this.document_two = null;
-            this.selected_operator = null;
-            this.operator_comment = null;
-        },
 
         reduceText(text) {
             if (text) {
@@ -223,13 +175,9 @@ export default {
             return getPrimary(this);
         },
 
-        closeRejectDialog() {
-            this.$emit("close");
-        },
-
-        submit_reject() {
+        approve() {
             this.loading = true;
-            
+
             let formData = new FormData();
             formData.append("workorder_request", this.review.id);
 
@@ -261,30 +209,38 @@ export default {
                 formData.append("document_two", this.document_two);
             }
 
-            if (this.date !== null) {
-                formData.append("reschedule_date", this.date);
-            }
-            
             this.$store
-                .dispatch("workorder/reject_workorder_review", formData)
+                .dispatch("workorder/approve_workorder_review", formData)
                 .then(() => {
                         this.loading = false;
                         this.$store.commit("SET_SNACKBAR", {
-                            message: "Rejected Workorder Review successfully!",
+                            message: "Approved Workorder Review!",
                             value: true,
                             status: "success"
                         });
-                        this.closeRejectDialog();
-                        this.$emit("closeWorkorderReport");
+                        this.closeWorkorderReview()
                     })
                 .catch(() => {
                     this.loading = false;
-                    this.$store.commit("SET_SNACKBAR", {
-                            message: "Something went wrong!",
-                            value: true,
-                            status: "error"
-                        });
                 })
+        },
+
+        reset() {
+            this.description = null;
+            this.image = null;
+            this.image_two = null;
+            this.document = null;
+            this.document_two = null;
+            this.selected_operator = null;
+            this.operator_comment = null;
+        },
+
+        close() {
+            this.$emit('close');
+        },
+
+        closeWorkorderReview() {
+            this.$emit('closeWorkorderReport');
         },
 
         operatorsFilter (item, queryText) {
@@ -293,28 +249,13 @@ export default {
 
             return textOne.indexOf(searchText) > -1
         },
-
     },
-
     created() {
-        this.$emit("created", this.reset);
+        this.$emit('createdApprove', this.reset);
     }
 }
 </script>
 
 <style scoped>
-
-.divider {
-    height: 1px;
-    margin-top: 4px;
-    margin-bottom: 10px;
-}
-.small-divider {
-    background: rgba(0, 0, 0, 0.08);
-    height: 1px;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    margin-right: 15px;
-}
 
 </style>

@@ -3,7 +3,7 @@
     <v-card v-if="pageLoad">
       <v-toolbar color="primary" dark flat>
         <v-toolbar-title>
-          <v-icon>fa-user</v-icon>
+          <v-icon>fa-user-plus</v-icon>
           <span class="ml-3">ASSIGN OPERATORS</span>
         </v-toolbar-title>
       </v-toolbar>
@@ -34,7 +34,7 @@
                 color="green white--text text-capitalize mb-4 mr-4 mt-4" 
                 v-on:click="submit"
                 :loading="loading">
-              <v-icon small>fa-user</v-icon>
+              <v-icon small>fa-user-plus</v-icon>
               <span class="ml-2">Submit</span>
             </v-btn>
           </v-flex>
@@ -64,6 +64,7 @@
 
 <script>
 import { getPrimary } from "@/resources/helper";
+import { getEmployeeName } from "@/resources/helper";
 
 export default {
   name: "AssigneOperator",
@@ -128,10 +129,7 @@ export default {
           for (var index in this.operators) {
               data.push({
                   value: this.operators[index].id,
-                  text: ((this.operators[index].user_type == 'supervisor' ? 'S-Op: ' : 'Op: ') +
-                            " " + this.operators[index].first_name + 
-                            (this.operators[index].last_name ? " " + this.operators[index].last_name : "") + 
-                            " - " + this.operators[index].employee_id)
+                  text: (getEmployeeName(this.operators[index])),
               })
           }
           return data;

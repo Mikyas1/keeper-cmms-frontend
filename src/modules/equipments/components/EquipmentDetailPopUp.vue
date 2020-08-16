@@ -415,7 +415,7 @@
                                                     color="green white--text text-capitalize mb-1 mr-4 mt-4"
                                                     v-on:click="open_assign_operator"
                                                     >
-                                                    <v-icon small>fa-user</v-icon>
+                                                    <v-icon small>fa-user-plus</v-icon>
                                                     <span class="ml-2">Add Operator</span>
                                                 </v-btn>
                                             </v-flex>

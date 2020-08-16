@@ -118,5 +118,18 @@ export default {
             })
         });
     },
+
+    equipment_operators: ({ commit }, id) => {
+        return new Promise((resolve, reject) => {
+            apiClient.equipment.equipment_operators(id)
+            .then(response => {
+                commit("account/GODARK", null, { root: true });
+                resolve( response.data );
+            })
+            .catch(e => {
+                reject(e);
+            })
+        });
+    },
     
 };
