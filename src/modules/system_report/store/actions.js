@@ -40,5 +40,18 @@ export default {
             })
         });
     },
+
+    report_workorder: ({commit}, id) => {
+        return new Promise((resolve, reject) => {
+            apiClient.system_report.report_workorder(id)
+            .then(response => {
+                commit("account/GODARK", null, { root: true });
+                resolve( response.data );
+            })
+            .catch(e => {
+                reject(e);
+            })
+        });
+    },
     
 };

@@ -14,6 +14,7 @@ import ScheduledWorkorder from "../workorder/views/ScheduledWorkorder";
 import SystemReport from "../system_report/views/SystemReport";
 import SummaryReport from "../system_report/views/SummaryReport";
 import InventoryReport from "../system_report/views/InventoryReport";
+import WorkorderPrint from "../system_report/views/WorkorderPrint";
 import History from "../system_report/components/History";
 import Buildings from "../facility_admin/views/Buildings";
 import Departments from "../facility_admin/views/Departments";
@@ -244,6 +245,12 @@ export default [
         path: "/system-report/workorder-history-summary/:start/:end",
         name: 'workorder_history_summary',
         component: History,
+        beforeEnter: AdministratorRequired,
+    },
+    {
+        path: "/system-report/workorder/:id",
+        name: 'workorder_report',
+        component: WorkorderPrint,
         beforeEnter: AdministratorRequired,
     },
 

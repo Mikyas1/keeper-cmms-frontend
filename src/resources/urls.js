@@ -64,6 +64,7 @@ const urls = {
     report_current_workorders: 'system-report/report-current-workorders',
     report_workorder_history: 'system-report/report-workorder-history',
     get_parts: '/system-report/report-inventory',
+    report_workorder: '/system-report/report-workorder/',
 
     // facility admin
     get_buildings: '/enterprise/building/',

@@ -270,6 +270,10 @@ export default {
             return http.get(urls.get_parts);  
         },
 
+        report_workorder(id) {
+            return http.get(urls.report_workorder + id);
+        }
+
     },
 
     facility_admin: {

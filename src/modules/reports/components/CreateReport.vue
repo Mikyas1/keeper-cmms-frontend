@@ -354,6 +354,7 @@ export default {
       this.breackdown_since_date = null;
       this.breackdown_since_time = null;
       this.parts_name = null;
+      this.operator = null;
 
       // errors
       this.equipment_status_errors = null;

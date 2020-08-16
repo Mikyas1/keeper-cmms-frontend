@@ -683,6 +683,15 @@
                 <v-layout>
                     <v-flex md8>
                     </v-flex>
+                    <v-flex v-if="isAdministrator">
+                        <v-btn
+                            color="blue white--text text-capitalize mb-4 mr-4 mt-4"
+                            v-on:click="print"
+                            >
+                            <v-icon small>fa-print</v-icon>
+                            <span class="ml-2">Print</span>
+                        </v-btn>
+                    </v-flex>
                     <v-flex>
                         <v-btn 
                             v-if="!workorder.closed && myWorkorder && !workorder.pending"
@@ -854,6 +863,7 @@ export default {
         
         ...mapGetters({
             user: "auth/user",
+            isAdministrator: "auth/isAdministrator",
         }),
 
         workorderAsArray() {
@@ -997,6 +1007,11 @@ export default {
 
         getProperMonthDate(val) {
             return month_days.filter(x => val == x.id)[0];
+        },
+
+        print() {
+            let routeData = this.$router.resolve({name: 'workorder_report', params: {id: this.workorder.id}});            
+            window.open(routeData.href, '_blank');
         }
     },
     

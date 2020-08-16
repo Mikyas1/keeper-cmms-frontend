@@ -161,6 +161,10 @@ update workdone as long as workorder is not closed
 
 add equipemnt part not spare part so they can report specific part
 
+change workorder closed date to date time
+
+add work_done to workorder_review model and create a BooleanField to work_done called approved to simbolize the workdone is approved
+
 ///// SET UP INFO /////
 
 dont forget to add scheduler data like -:> months
