@@ -7,9 +7,14 @@
 
 <script>
 import Snackbar from "@/components/Snackbar";
-  export default {
-    components: {
-      Snackbar,
+export default {
+  components: {
+    Snackbar,
+  },
+  data() {
+    return {
+      data: null,
     }
-  }
+  },
+}
 </script>

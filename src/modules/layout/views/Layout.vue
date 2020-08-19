@@ -61,10 +61,18 @@
       <v-container fluid>
         <v-row justify="center" align="center">
           <v-col>
-            
+
+            <v-alert
+              type="error"
+              v-if="warn"
+            >
+              {{days_left}} days left befour Your Keeper CMMS Subscription is up. Please call your
+              Keeper's support team at {{contact_info}} to renew your Subscription.
+            </v-alert>
+
             <!-- Center content injection -->
             <Center/>
-
+            
           </v-col>
         </v-row>
       </v-container>
@@ -110,6 +118,9 @@ export default {
     left: false,
     theme: false,
     // pageLoad: false,
+    warn: false,
+    days_left: null,
+    contact_info: null,
   }),
   computed: {
       ...mapGetters({
@@ -135,13 +146,12 @@ export default {
   created() {
     if (this.enterprise == null) {
       this.$store.dispatch("enterprise/get_enterprise")
-      // .then(() => {
-      //   this.pageLoad = true;
-      // })
-
-      // .catch(() => {
-      //   this.pageLoad =false;
-      // })
+    }
+    var data = document.getElementById("app_info") ? JSON.parse(document.getElementById("app_info").textContent) : null;
+    if (data.warning) {
+      this.warn = true;
+      this.days_left = data.days_left;
+      this.contact_info = data.contact_info;
     }
   }
 };

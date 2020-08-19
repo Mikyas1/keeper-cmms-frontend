@@ -169,17 +169,6 @@
                                     <td>{{workorder.workorder.closed_date}} </td>
                                 </tr>
                                 <tr>
-                                    <td>ያገኞው ችግር</td>
-                                    <td>
-                                        <span v-for="workdone in workorder.work_done" :key="workdone.id">
-                                            <span v-if="workdone.description">
-                                                - {{workdone.description}}
-                                                <br/>
-                                            </span>
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr>
                                     <td>የቀየረው እቃ ስም</td>
                                     <td>
                                         <span v-for="part in workorder.parts_used" :key="part.id">
@@ -201,6 +190,17 @@
                                         <span v-for="review in workorder.review" :key="review.id">
                                             <span v-if="review.approved">
                                                 {{review.operator_review}}
+                                            </span>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>የሰራው ባለሞያው  አስተያየት</td>
+                                    <td>
+                                        <span v-for="workdone in workorder.work_done" :key="workdone.id">
+                                            <span v-if="workdone.description">
+                                                - {{workdone.description}}
+                                                <br/>
                                             </span>
                                         </span>
                                     </td>
