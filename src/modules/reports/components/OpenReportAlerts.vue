@@ -8,7 +8,7 @@
           <v-flex xs11>
             <v-icon class="mr-2 primary--text">fa-bell-o</v-icon>
             <span class="reprot-title primary--text">
-              <strong>({{ open_reports_from_store.length }})</strong> All Reports 
+              <strong>({{ open_reports_from_store.length }})</strong> WO Requests 
             </span>
           </v-flex>
 
@@ -34,7 +34,7 @@
           v-on:click="openReport(report)"
         >
           <v-card-title class="pt-2 pb-2 mb-2" :style="'border-bottom: 1px solid ' + getPrimaryHere()">
-              <v-icon>fa-bell-o</v-icon><span class="title ml-2"> Report</span>
+              <v-icon>fa-bell-o</v-icon><span class="title ml-2">Request</span>
           </v-card-title>
 
           <v-card-text>
@@ -83,7 +83,7 @@
         <!-- If no Reports to show -->
         <div v-if="open_reports_from_store.length === 0" class="ml-5 mb-3">
           <v-icon class="mr-2">fa-thumbs-o-up</v-icon> 
-            No Reports to show.
+            No WO Requists to show.
         </div>
 
       </div>

@@ -313,8 +313,8 @@
                         <p class="body-2 pl-3 ml-3">
                             Total
                             <strong class="primary--text">{{workorders.count}}</strong>
-                            Items, Showing maximum of
-                            <strong class="primary--text">{{ load_per_page }}</strong> Items per page.
+                            Records, Showing maximum of
+                            <strong class="primary--text">{{ load_per_page }}</strong> Records per page.
                         </p>
                         </v-flex>
                         <v-flex xs12 md3 class="mb-3" :class="{'ml-5': $vuetify.breakpoint.smAndDown}">

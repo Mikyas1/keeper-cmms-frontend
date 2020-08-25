@@ -447,8 +447,8 @@
                             color="red white--text text-capitalize mb-4 mr-4 mt-4"
                             v-on:click="report"
                             >
-                            <v-icon small>fa-bell</v-icon>
-                            <span class="ml-2">Report</span>
+                            <v-icon small>fa-wrench</v-icon>
+                            <span class="ml-2">Request Workorder</span>
                         </v-btn>
                     </v-flex>
                     <v-flex>

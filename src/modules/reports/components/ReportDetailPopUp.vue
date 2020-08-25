@@ -7,7 +7,7 @@
             class="small-circle"
             :style="`margin-right: 0px; background: ${getColorHere(item.equipment_status.color)}`"
           ></div>
-          <span class="ml-2">Report on "{{item.equipment.equipment_name}}" By {{item.creater.employee_id}}</span>
+          <span class="ml-2">WO Request on "{{item.equipment.equipment_name}}" By {{item.creater.employee_id}}</span>
         </v-toolbar-title>
       </v-toolbar>
 
@@ -20,7 +20,10 @@
               <v-row no-gutters>
                 <v-col>Name:</v-col>
                 <v-col>
-                  <strong class="primary--text">{{ item.equipment.equipment_name }}</strong>
+                  <v-icon small>fa-link</v-icon>
+                  <strong v-on:click="openEquipment(item.equipment.inventory_number)" class="primary--text link">
+                    {{ item.equipment.equipment_name }}
+                  </strong>
                 </v-col>
               </v-row>
               <div class="small-divider"></div>
@@ -65,7 +68,7 @@
             </v-col>
 
             <v-col cols="12" xs="12" sm="6">
-              <h1 class="title mb-2">Report</h1>
+              <h1 class="title mb-2">WO Request</h1>
               <v-row no-gutters>
                 <v-col>Supervisor:</v-col>
                 <v-col v-if="item.creater">
@@ -151,7 +154,9 @@
               <h1 class="title mb-2">Location</h1>
               <v-row no-gutters>
                   <v-col>Name:</v-col>
-                  <v-col v-if="item.location"><strong class="primary--text">{{ item.location.name }}</strong></v-col>
+                  <v-col v-if="item.location">
+                    <strong class="primary--text">{{ item.location.name }}</strong>
+                  </v-col>
               </v-row>
               <div class="small-divider"></div>
               <v-row no-gutters>
@@ -237,6 +242,14 @@
 
               <div class="small-divider"></div>
               <v-row no-gutters>
+                <v-col>User Type:</v-col>
+                <v-col v-if="item.closed_by">
+                  <strong class="primary--text">{{ item.closed_by.user_type }}</strong>
+                </v-col>
+              </v-row>
+
+              <div class="small-divider"></div>
+              <v-row no-gutters>
                 <v-col>Report Closed:</v-col>
                 <v-col v-if="item.updated">
                   <strong class="primary--text">{{ moment(item.updated).fromNow() }}</strong>
@@ -247,36 +260,23 @@
               <v-row no-gutters>
                 <v-col>Report Ignored:</v-col>
                 <v-col>
-                  <strong class="primary--text">{{ item.ignored }}</strong>
+                  <strong class="primary--text">{{ item.ignored ? 'Yes' : 'No' }}</strong>
                 </v-col>
               </v-row>
 
-              <div class="small-divider"></div>
-              <v-row no-gutters>
-                <v-col>User Type:</v-col>
-                <v-col v-if="item.closed_by">
-                  <strong class="primary--text">{{ item.closed_by.user_type }}</strong>
+              <div v-if="item.ignored" class="small-divider"></div>
+              <v-row v-if="item.ignored" no-gutters>
+                <v-col>Ignoring Reason:</v-col>
+                <v-col>
+                  <strong class="primary--text">{{ item.ignored_description }}</strong>
                 </v-col>
               </v-row>
-              <div class="small-divider"></div>
-              <v-row no-gutters>
-                <v-col>Employee Position:</v-col>
-                <v-col v-if="item.closed_by && item.closed_by.employee_position">
-                  <strong class="primary--text">{{ item.closed_by.employee_position.position_name }}</strong>
-                </v-col>
-              </v-row>
-              <div class="small-divider"></div>
-              <v-row no-gutters>
-                <v-col>Education Level</v-col>
-                <v-col v-if="item.closed_by && item.closed_by.training_detail">
-                  <strong class="primary--text">{{ item.closed_by.training_detail.training_level }}</strong>
-                </v-col>
-              </v-row>
+
             </v-col>
 
             <!-- report open -->
             <v-col v-if="!item.closed" cols="12" xs="12" sm="6">
-              <h1 class="title mb-2">Report Status</h1>
+              <h1 class="title mb-2">WO Request Status</h1>
 
               <v-row no-gutters>
                 <v-col>Report Status:</v-col>
@@ -311,7 +311,6 @@
               
               <v-btn 
                 v-on:click="reject"
-                :loading="reject_btn"
                 color="red white--text text-capitalize mb-4 mr-4 mt-4">
                     <v-icon small>fa-warning</v-icon>
                     <span class="ml-2">Reject</span>
@@ -343,7 +342,7 @@
       </div>
       
       <!-- Dynamic dialog -->
-      <!-- DETAIL DIALOG -->
+      <!-- APPROVE WORKORDER REQUEST DIALOG -->
       <v-dialog v-model="openWorkOrderForm" width="900">
         <template v-slot:activator="{}"></template>
           <SubmitWorkOrder 
@@ -354,6 +353,32 @@
           ></SubmitWorkOrder>
       </v-dialog>
     
+      <!-- Dynamic dialog -->
+      <!-- REJECT WORKORDER REQUEST DIALOG -->
+      <v-dialog v-model="rejectdialog" width="400">
+        <template v-slot:activator="{}"></template>
+          <IgnoreReport 
+            :report="item" 
+            v-on:close="rejectdialog = !rejectdialog"
+            v-on:closeBothDialogs="closeBothDialogs"
+            v-on:ignore_ready="acceptIgnoreReset"
+          ></IgnoreReport>
+      </v-dialog>
+
+      <!-- Dynamic dialog -->
+      <!-- EQUIPMENT DIALOG -->
+      <v-dialog v-model="detailDialog" width="750">
+        <template v-slot:activator="{}"></template>
+        <v-card>
+          <EquipmentDetailPopUp 
+            :equipment_id="equipment_id" 
+            @closeDialog="detailDialog=!detailDialog"
+            @reset="equipmentDetailPopupInit"
+            @created="setupGetEquipmentDetail"
+          ></EquipmentDetailPopUp>
+        </v-card>
+      </v-dialog>
+    
     </v-card>
   </div>
 </template>
@@ -361,18 +386,20 @@
 <script>
 var moment = require("moment");
 import { getColor } from "@/resources/helper"; 
+import { mapGetters } from "vuex";
+import { getPrimary } from "@/resources/helper";
 
 import SubmitWorkOrder from  '../../workorder/components/SubmitWorkOrder';
-
-import { mapGetters } from "vuex";
-
-import { getPrimary } from "@/resources/helper";
+import IgnoreReport from './IgnoreReport';
+import EquipmentDetailPopUp from '../../equipments/components/EquipmentDetailPopUp';
 
 export default {
   name: "ReportDetailPopUp",
   
   components: {
     SubmitWorkOrder,
+    IgnoreReport,
+    EquipmentDetailPopUp,
   },
 
   computed: {
@@ -391,9 +418,14 @@ export default {
     return {
       // moment
       moment: moment,
-      reject_btn: false,
       openWorkOrderForm: false,
-      resetWorkorder: null
+      resetWorkorder: null,
+      ignoreReportFunc: null,
+      rejectdialog: false,
+      equipment_id: null,
+      init_equipment_detail: null,
+      get_equipment_detail: null,
+      detailDialog: false,
     };
   },
   methods: {
@@ -406,30 +438,18 @@ export default {
     closeDialog() {
       this.$emit("closeDialog");
     },
+    acceptIgnoreReset(fun) {
+      this.ignoreReportFunc = fun;
+    },
     reject() {
-      this.reject_btn = true;
-      this.$store
-        .dispatch("reports/ignore_report", this.item.id)
-        .then(response => {
-          this.reject_btn = false;
-          this.$store.commit("SET_SNACKBAR", {
-              message: response.message,
-              value: true,
-              status: "success"
-          });
-          this.closeDialog();
-        })
-        .catch(error => {
-          this.reject_btn = false;
-          this.$store.commit("SET_SNACKBAR", {
-              message: error.detail,
-              value: true,
-              status: "error"
-          });
-        })
+      if (this.ignoreReportFunc) {
+        this.ignoreReportFunc();
+      } 
+      this.rejectdialog = true;
     },
     closeBothDialogs() {
       this.openWorkOrderForm = false;
+      this.rejectdialog = false;
       this.closeDialog();
     },
     openWorkOrderDialog() {
@@ -450,6 +470,22 @@ export default {
             return 'red';
         }
     },
+    openEquipment(id) {
+      if(this.init_equipment_detail) {
+        this.init_equipment_detail();
+      }
+      this.equipment_id = id;
+      if (this.get_equipment_detail) {
+        this.get_equipment_detail(id);
+      }
+      this.detailDialog = true;
+    },
+    equipmentDetailPopupInit(fun) {
+      this.init_equipment_detail = fun;
+    },
+    setupGetEquipmentDetail(func) {
+      this.get_equipment_detail = func;
+    }
   }
 };
 </script>
@@ -493,5 +529,11 @@ export default {
 }
 .height {
   height: 60px;
+}
+.link {
+  text-decoration: underline;
+}
+.link:hover{
+  cursor: pointer;
 }
 </style>

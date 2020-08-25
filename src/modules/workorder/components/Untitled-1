@@ -146,7 +146,7 @@ xxx 7) bug workorder make status change since optional
 
 8) make frontend unselectable
 
-9) add time senseitive software blocking
+xxx 9) add time senseitive software blocking
 
 10) add things learned from maintenance form from unique
 xxx    10.1) add to create workorder from scratch what i did to report (conditions)
@@ -180,3 +180,34 @@ dont forget to add scheduler data like -:> months
 6) add production lines
 
 5) add equipments
+
+
+///// feedback from gash jemal ////////
+
+xxx change equipment report to workorder request.
+xxx for report ignoring provide resoning.
+xxx in approving report quick access to equipment detail page.
+
+on workorder duedate should be with time not date. (this changes many things).
+
+add part management adding updating for the technic head (and also part requesting).
+
+comment of operetor should be by technician.
+
+more data on workorder review card. like how much it took and used parts and equipment condition.
+
+name corrections (resource == employee (lebor))
+
+approving and rejecting workorder review should be done on the same popup (no new popup for them).
+
+for printing workorder add total time spent on the workdone.
+
+Reporting make the table first and make it to sort by employee and equipment at the bottom of the table add rows for total and avarage ((make relavent data.))
+
+Annual, monthly reports (with divations from last year of month).
+
+manager report (simple concise and chowable reports for managers).
+
+Remember to add somekind of communication (like chat if possible).
+
+parts parts parts by that i mean part management should be done properly no negative quantity of parts.

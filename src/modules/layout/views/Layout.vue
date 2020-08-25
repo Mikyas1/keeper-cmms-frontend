@@ -148,7 +148,7 @@ export default {
       this.$store.dispatch("enterprise/get_enterprise")
     }
     var data = document.getElementById("app_info") ? JSON.parse(document.getElementById("app_info").textContent) : null;
-    if (data.warning) {
+    if (data && data.warning) {
       this.warn = true;
       this.days_left = data.days_left;
       this.contact_info = data.contact_info;

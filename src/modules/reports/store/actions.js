@@ -80,11 +80,11 @@ export default {
         });
     },
 
-    ignore_report: ({commit}, id) => {
+    ignore_report: ({commit}, data) => {
         return new Promise((resolve, reject) => {
-            apiClient.reports.ignore_report(id)
+            apiClient.reports.ignore_report(data.id, data.data)
             .then(response => {
-                commit("REMOVE_OPEN_REPORT", id);
+                commit("REMOVE_OPEN_REPORT", data.id);
                 resolve( response.data );
             })
             .catch(e => {

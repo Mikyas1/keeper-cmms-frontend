@@ -123,8 +123,8 @@ export default {
             return http.post(urls.report_equipment, payload);
         },
 
-        ignore_report(id) {
-            return http.post(urls.ignore_report + id);
+        ignore_report(id, payload) {
+            return http.post(urls.ignore_report + id, payload);
         },
     },
 

@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <BodyNav :page_title="'Reports'"></BodyNav>
+    <BodyNav :page_title="'Work-order Requests'"></BodyNav>
 
     <v-card raised v-if="pageLoad" :style="'border: 2px solid ' + getPrimaryHere()">
       <v-card-title class="c-title" :style="'border-bottom: 2px solid ' +  getPrimaryHere()">
@@ -14,7 +14,7 @@
                 prepend-icon="fa-search"
                 label="Search..."
                 persistent-hint
-                hint="Search reports by (Equipment name, Serial number, Reporter Id, Room Number)"
+                hint="Search Work-order Requests by (Equipment name, Serial number, Requister Id, Room Number)"
               ></v-text-field>
             </v-flex>
             <v-flex xs12 md1></v-flex>
@@ -40,7 +40,7 @@
               Query:
               <strong class="primary--text">{{getQuery}}</strong>
               <br />Found:
-              <strong class="primary--text">{{reports.count}}</strong> Reports.
+              <strong class="primary--text">{{reports.count}}</strong> Work-order Requests.
             </p>
           </v-flex>
           <v-flex xs12 md3 class="mb-3">
@@ -159,6 +159,11 @@
           <div class="c-td-closed">{{ getReportStat(item.closed) }}</div>
         </template>
 
+        <!-- closed -->
+        <template v-slot:item.ignored="{ item }">
+          <div class="c-td-closed">{{ item.ignored ? 'Yes' : 'No' }}</div>
+        </template>
+
         <!-- description -->
         <template v-slot:item.description="{ item }">
           <div class="c-td-equipment-description">{{ reduceText(item.description) }}</div>
@@ -192,8 +197,8 @@
           <p class="body-2 pl-3 ml-3">
             Total
             <strong class="primary--text">{{reports.count}}</strong>
-            Items, Showing maximum of
-            <strong class="primary--text">{{ load_per_page }}</strong> Items per page.
+            Records, Showing maximum of
+            <strong class="primary--text">{{ load_per_page }}</strong> Records per page.
           </p>
         </v-flex>
         <v-flex xs12 md3 class="mb-3" :class="{'ml-5': $vuetify.breakpoint.smAndDown}">
@@ -479,7 +484,7 @@ export default {
     },
     getQuery() {
       if (this.query === "") {
-        return "All Reports";
+        return "All Work-order Requests";
       } else {
         return this.query;
       }
