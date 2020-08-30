@@ -41,7 +41,7 @@
                           :value="report.location.building.name + ' (' + report.location.room_number + ')'"
                       />
 
-                      <v-menu
+                      <!-- <v-menu
                         ref="menu"
                         v-model="menu"
                         :close-on-content-click="false"
@@ -65,7 +65,33 @@
                           <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
                           <v-btn text color="primary" @click="$refs.menu.save(due_date)">OK</v-btn>
                         </v-date-picker>
-                      </v-menu>
+                      </v-menu> -->
+
+                      <v-layout>
+                        <v-flex>
+                            <v-text-field
+                            label="Estimated Days"
+                            prepend-icon="fa-calendar"
+                            type="number"
+                            v-model="estimated_days"
+                            :error-messages="estimated_hours_errors"
+                        />
+                        </v-flex>
+                        <v-flex>
+                            <v-text-field
+                            label="Estimated Hours"
+                            prepend-icon="fa-clock-o"
+                            type="text"
+                            v-model="estimated_hours"
+                            :error-messages="estimated_hours_errors"
+                        />
+                        </v-flex>
+                      </v-layout>
+
+                      <p v-if="estimated_time_errors" class="ml-3" style="color: red">
+                        <v-icon color="red" small class="mb-1 mr-1">fa-warning</v-icon> 
+                        The minimum estimated time is 1 Hour.
+                      </p>
 
                       <v-text-field
                         label="Estimated Cost"
@@ -239,12 +265,15 @@ export default {
         return {
             pageLoad: false,
             
-            menu: false,
+            // menu: false,
             loading: false,
 
             // workorder data
             name: "",
-            due_date: null,
+            // due_date: null,
+            estimated_hours: 0,
+            estimated_days: 0,
+
             description: null,
             document: null,
             image: null,
@@ -261,7 +290,8 @@ export default {
             due_date_errors: null,
             assigned_to_errors: null,
             workorder_status_errors: null,
-
+            estimated_hours_errors: "",
+            estimated_time_errors: false,
         }
     },
     props: {
@@ -304,6 +334,10 @@ export default {
       }
     },
     methods: {
+      prepare_estimated_time(hour, days) {
+        // null is casted to 0;
+        return (days * 24) + hour;
+      },
       get_options_here(filter_data, filter_field) {
         return get_complex_options(filter_data, filter_field);
       },
@@ -313,11 +347,26 @@ export default {
         this.name_errors = null;
         this.assigned_to_errors = null;
         this.workorder_status_errors = null;
+        this.estimated_hours_errors = null;
+        this.estimated_time_errors = false;
 
         let formData = new FormData();
 
         formData.append("name", this.name);
-        formData.append("due_date", this.due_date);
+        
+        var due_date = this.prepare_estimated_time(this.estimated_hours, this.estimated_days);
+        if (due_date <= 0) {
+          this.estimated_hours_errors = " ";
+          this.estimated_time_errors = true;
+          this.$store.commit("SET_SNACKBAR", {
+              message: "Please Fill the form properly",
+              value: true,
+              status: "error"
+          });
+          return;
+        }
+        
+        formData.append("estimated_hours", due_date);
         formData.append("description", this.description);
         formData.append("request_review", this.request_review);
 
@@ -407,7 +456,10 @@ export default {
 
       reset() {
         this.name = "";
-        this.due_date = null;
+        // this.due_date = null;
+
+        this.estimated_hours = 0;
+        this.estimated_days = 0;
         this.description = this.report.description;
         this.document = null;
         this.image = null;
@@ -424,6 +476,8 @@ export default {
         this.assigned_to_errors = null;
         this.workorder_status = null;
         this.workorder_status_errors = null;
+        this.estimated_hours_errors = null;
+        this.estimated_time_errors = false;
       },
 
       getPrimaryHere() {

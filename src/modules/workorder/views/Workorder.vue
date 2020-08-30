@@ -128,55 +128,71 @@
                         </v-layout>
 
                         <v-layout>
-                        <v-flex xs9 class="mt-1">
-                            <v-layout row wrap>
-                                <v-flex xs12 md4>
-                                    <v-select
-                                    class="mt-0 mr-3 ml-2"
-                                    label="Status"
-                                    prepend-icon="fa-check-square-o"
-                                    :items="get_options_here(workorder_choice, 'workorder_status')"
-                                    v-model="workorder_status"
-                                    ></v-select>
-                                </v-flex>
-                                <v-flex xs12 md4>
-                                    <v-select
-                                    class="mt-0 mr-3 ml-2"
-                                    label="Priority"
-                                    prepend-icon="fa-sort-amount-desc"
-                                    :items="get_options_here(workorder_choice, 'priorities')"
-                                    v-model="priority"
-                                    ></v-select>
-                                </v-flex>
-                                <v-flex xs12 md4 class="px-3">
-                                    <v-menu
-                                        ref="menu"
-                                        v-model="menu"
-                                        :close-on-content-click="false"
-                                        :return-value.sync="due_date"
-                                        transition="scale-transition"
-                                        offset-y
-                                        min-width="290px"
-                                        >
-                                        <template v-slot:activator="{ on }">
-                                            <v-text-field
-                                            v-model="due_date"
-                                            label="Due Date"
-                                            prepend-icon="fa-calendar"
-                                            readonly
-                                            v-on="on"
-                                            ></v-text-field>
-                                        </template>
-                                        <v-date-picker v-model="due_date" no-title scrollable>
-                                            <v-spacer></v-spacer>
-                                            <v-btn text color="primary" @click="$refs.menu.save(null)">Clear</v-btn>                                           
-                                            <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
-                                            <v-btn text color="primary" @click="$refs.menu.save(due_date)">OK</v-btn>
-                                        </v-date-picker>
-                                    </v-menu>
-                                </v-flex>
-                            </v-layout>
+                            <v-flex xs9 class="mt-1">
+                                <v-layout row wrap>
+                                    <v-flex xs12 md4>
+                                        <v-select
+                                        class="mt-0 mr-3 ml-2"
+                                        label="Status"
+                                        prepend-icon="fa-check-square-o"
+                                        :items="get_options_here(workorder_choice, 'workorder_status')"
+                                        v-model="workorder_status"
+                                        ></v-select>
+                                    </v-flex>
+                                    <v-flex xs12 md4>
+                                        <v-select
+                                        class="mt-0 mr-3 ml-2"
+                                        label="Priority"
+                                        prepend-icon="fa-sort-amount-desc"
+                                        :items="get_options_here(workorder_choice, 'priorities')"
+                                        v-model="priority"
+                                        ></v-select>
+                                    </v-flex>
+                                    <v-flex xs12 md4 class="px-3">
+                                        <!-- <v-menu
+                                            ref="menu"
+                                            v-model="menu"
+                                            :close-on-content-click="false"
+                                            :return-value.sync="due_date"
+                                            transition="scale-transition"
+                                            offset-y
+                                            min-width="290px"
+                                            >
+                                            <template v-slot:activator="{ on }">
+                                                <v-text-field
+                                                v-model="due_date"
+                                                label="Due Date"
+                                                prepend-icon="fa-calendar"
+                                                readonly
+                                                v-on="on"
+                                                ></v-text-field>
+                                            </template>
+                                            <v-date-picker v-model="due_date" no-title scrollable>
+                                                <v-spacer></v-spacer>
+                                                <v-btn text color="primary" @click="$refs.menu.save(null)">Clear</v-btn>                                           
+                                                <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
+                                                <v-btn text color="primary" @click="$refs.menu.save(due_date)">OK</v-btn>
+                                            </v-date-picker>
+                                        </v-menu> -->
+
+                                        <v-select
+                                            class="mt-0"
+                                            label="Closed"
+                                            prepend-icon="fa-hourglass-end"
+                                            :items='[
+                                                { value: "", text: "---------------" },
+                                                { value: {id: true, name: "Closed"}, text: "Yes" },
+                                                { value: {id: false, name: "Not Closed"}, text: "No" },
+                                            ]'
+                                            v-model="closed"
+                                        ></v-select>
+                                    
+                                    </v-flex>
+                                    
+                                </v-layout>
+
                             </v-flex>
+
                             <v-flex xs2 class="mt-5 ml-5">
                                 <v-btn
                                 small
@@ -200,6 +216,7 @@
                                     <v-icon>fa fa-plus</v-icon>
                                 </v-btn>
                             </v-flex>
+                            
                         </v-layout>
                         
 
@@ -268,6 +285,13 @@
                         </div>
                     </template>
 
+                    <!-- Estimated houre -->
+                    <template v-slot:item.estimated_hours="{ item }">
+                        <div class="c-td-status">
+                            <span >{{ item.estimated_hours }} hours</span>
+                        </div>
+                    </template>
+
                     <!-- created -->
                     <template v-slot:item.created="{ item }">
                         <div class="c-td-date-time">{{ moment(item.created).format('MM/DD/YYYY HH:mm:ss') }}</div>
@@ -276,21 +300,21 @@
                     <!-- started_date -->
                     <template v-slot:item.started_date="{ item }">
                         <div class="c-td-date-time">
-                            <span v-if="item.started_date">{{ moment(item.started_date).format('MM/DD/YYYY') }}</span>
+                            <span v-if="item.started_date">{{ moment(item.started_date).format('MM/DD/YYYY  HH:mm:ss') }}</span>
                         </div>
                     </template>
 
                     <!-- closed_date -->
                     <template v-slot:item.closed_date="{ item }">
                         <div class="c-td-date-time">
-                            <span v-if="item.closed_date">{{ moment(item.closed_date).format('MM/DD/YYYY') }}</span>
+                            <span v-if="item.closed_date">{{ moment(item.closed_date).format('MM/DD/YYYY HH:mm:ss') }}</span>
                         </div>
                     </template>
 
                     <!-- due_date -->
                     <template v-slot:item.due_date="{ item }">
                         <div class="c-td-date-time">
-                            <span v-if="item.due_date">{{ moment(item.due_date).format('MM/DD/YYYY') }}</span>
+                            <span v-if="item.due_date">{{ moment(item.due_date).format('MM/DD/YYYY HH:mm:ss') }}</span>
                         </div>
                     </template>
 
@@ -418,10 +442,11 @@ export default {
                 { text: "Demand/PM", value: "workorder_type"},
                 { text: "Priority", value: "priority.name"},
                 { text: "Work Category", value: "work_category.name"},
-                { text: "Associations", value: "equipment.equipment_name"},
-                { text: "Created", value: "created"},
-                { text: "Start", value: "started_date"},
-                { text: "Closed", value: "closed_date"},
+                { text: "Machine", value: "equipment.equipment_name"},
+                { text: "Estimated Hours", value: "estimated_hours"},
+                { text: "Created Time", value: "created"},
+                { text: "Start Time", value: "started_date"},
+                { text: "Closed Time", value: "closed_date"},
                 { text: "Due", value: "due_date"},
                 { text: "Resources", value: "assigned_to"},
                 { text: "St.", align: "right", value: "over_due" },
@@ -438,13 +463,14 @@ export default {
             next_btn: false,
             previous_btn: false,
 
-            menu: false,
-            due_date: null,
+            // menu: false,
+            // due_date: null,
             // due_date: new Date().toISOString().substr(0, 10),
             assigned_to: null,
             priority: null,
             workorder_status: null,
             over_due: null,
+            closed: null,
             workorder_type: null,
             rejected: null,
 
@@ -563,6 +589,10 @@ export default {
                     value: this.over_due
                 },
                 {
+                    filter: 'closed',
+                    value: this.closed
+                },
+                {
                     filter: 'workorder_type',
                     value: this.workorder_type
                 },
@@ -582,15 +612,15 @@ export default {
                 },);
             }
 
-            if (this.due_date) {
-                filters.push({
-                    filter: 'due_date',
-                    value: {
-                        id: this.due_date,
-                        name: this.due_date,
-                    }
-                },);
-            }
+            // if (this.due_date) {
+            //     filters.push({
+            //         filter: 'due_date',
+            //         value: {
+            //             id: this.due_date,
+            //             name: this.due_date,
+            //         }
+            //     },);
+            // }
 
             this.$store
                 .dispatch("workorder/filter_workorders", this.get_filter_query_here(filters).query)

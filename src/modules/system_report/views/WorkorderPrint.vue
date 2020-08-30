@@ -123,9 +123,22 @@
                                         {{ moment(workorder.workorder.created).format('MM/DD/YYYY HH:mm:ss')}}
                                     </td>
                                 </tr>
+                                <tr v-if="workorder.workorder.workorder_type == 'DM' && workorder.workorder.report">
+                                    <td>እንዲሰራ ከተጠየቀበት አሰከ ትዛዙን የተሰጠበት ሰአት</td>
+                                    <td>
+                                        <span v-if="workorder.workorder.report.created && workorder.workorder.created">
+                                            <span v-if="moment(workorder.workorder.created).diff(moment(workorder.workorder.report.created), 'hours') > 0">
+                                                {{moment(workorder.workorder.created).diff(moment(workorder.workorder.report.created), 'hours')}} hours
+                                            </span>
+                                            <span v-else>
+                                                {{moment(workorder.workorder.created).diff(moment(workorder.workorder.report.created), 'minutes') }} minutes
+                                            </span>
+                                        </span>
+                                    </td>
+                                </tr>
                                 <tr>
-                                    <td>ስራው የሚፈጀው ቀን</td>
-                                    <td>{{ moment(workorder.workorder.due_date).format('MM/DD/YYYY')}} </td>
+                                    <td>ስራው የሚፈጀው ሰአት</td>
+                                    <td>{{ workorder.workorder.estimated_hours }} </td>
                                 </tr>
                             </tbody>
                             </template>
@@ -159,14 +172,44 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>ስራውን የጀመረበት ቀን</td>
-                                    <td v-if="workorder.work_done.length > 0">
-                                        {{moment(workorder.work_done[workorder.work_done.length - 1].created).format('MM/DD/YYYY HH:mm:ss') }} 
+                                    <td>ስራውን የጀመረበት ሰአት</td>
+                                    <td v-if="workorder.workorder.started_date">
+                                        {{moment(workorder.workorder.started_date).format('MM/DD/YYYY HH:mm:ss') }} 
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>ስራውን የጨረሰበት ቀን</td>
-                                    <td>{{workorder.workorder.closed_date}} </td>
+                                    <td>ስራው ክተሰጠበት እስክ ጀመረበት ሰአት</td>
+                                    <td>
+                                        <span v-if="workorder.workorder.started_date">
+                                            <span v-if="moment(workorder.workorder.started_date).diff(moment(workorder.workorder.created), 'hours') > 0">
+                                                {{moment(workorder.workorder.started_date).diff(moment(workorder.workorder.created), 'hours')}} hours
+                                            </span>
+                                            <span v-else>
+                                                {{moment(workorder.workorder.started_date).diff(moment(workorder.workorder.created), 'minutes') }} minutes
+                                            </span>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>ስራውን የጨረሰበት ሰአት</td>
+                                    <td>
+                                        <span v-if="workorder.workorder.closed_date">
+                                            {{moment(workorder.workorder.closed_date).format('MM/DD/YYYY HH:mm:ss') }}
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>ስራውን የፈጀው ሰአት</td>
+                                    <td>
+                                        <span v-if="workorder.workorder.closed_date && workorder.workorder.started_date">
+                                            <span v-if="moment(workorder.workorder.closed_date).diff(moment(workorder.workorder.started_date), 'hours') > 0">
+                                                {{moment(workorder.workorder.closed_date).diff(moment(workorder.workorder.started_date), 'hours')}} hours
+                                            </span>
+                                            <span v-else>
+                                                {{moment(workorder.workorder.closed_date).diff(moment(workorder.workorder.started_date), 'minutes') }} minutes
+                                            </span>
+                                        </span>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>የቀየረው እቃ ስም</td>

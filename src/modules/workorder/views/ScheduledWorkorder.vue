@@ -251,13 +251,12 @@
                         </div>
                     </template>
 
-                    <!-- day to complete -->
-                    <template v-slot:item.due_date="{ item }">
-                        <div class="c-td-small">
-                            <span>{{ item.due_date }}</span>
+                    <!-- Estimated houre -->
+                    <template v-slot:item.estimated_hours="{ item }">
+                        <div class="c-td-status">
+                            <span >{{ item.estimated_hours }} hours</span>
                         </div>
                     </template>
-
 
                     <!-- tasks -->
                     <template v-slot:item.tasks="{ item }">
@@ -462,7 +461,7 @@ export default {
                 { text: "Work Category", value: "work_category.name"},
                 { text: "Schedule", value: "scheduler"},
                 { text: "Schedule Type", value: "scheduler.scheduler_type"},
-                { text: "Days TO Complete", value: "due_date"},
+                { text: "Estimated Hours", value: "estimated_hours"},
                 { text: "Tasks", value: "tasks"},
                 { text: "Resources", value: "assigned_to"},
                 { text: "Job Hazard", value: "job_hazard"},

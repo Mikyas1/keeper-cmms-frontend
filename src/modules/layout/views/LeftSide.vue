@@ -153,36 +153,36 @@ export default {
       },
     ],
     facility_admin: [
-      {
-        url: { name: "buildings" },
-        icon: "fa-building-o",
-        text: "Buildings"
-      },
-      {
-        url: { name: "departments" },
-        icon: "fa-institution",
-        text: "Departments"
-      },
-      {
-        url: { name: "locations" },
-        icon: "fa-map-o",
-        text: "Locations"
-      },
-      {
-        url: { name: "user_list" },
-        icon: "fa-cube",
-        text: "Equipment Models"
-      },
-      {
-        url: {'name': 'equipments'},
-        icon: "fa-cog",
-        text: "Equipments"
-      },
-      {
-        url: { name: "parts" },
-        icon: "fa-sliders",
-        text: "Production Line"
-      },
+      // {
+      //   url: { name: "buildings" },
+      //   icon: "fa-building-o",
+      //   text: "Buildings"
+      // },
+      // {
+      //   url: { name: "departments" },
+      //   icon: "fa-institution",
+      //   text: "Departments"
+      // },
+      // {
+      //   url: { name: "locations" },
+      //   icon: "fa-map-o",
+      //   text: "Locations"
+      // },
+      // {
+      //   url: { name: "user_list" },
+      //   icon: "fa-cube",
+      //   text: "Equipment Models"
+      // },
+      // {
+      //   url: {'name': 'equipments'},
+      //   icon: "fa-cog",
+      //   text: "Equipments"
+      // },
+      // {
+      //   url: { name: "parts" },
+      //   icon: "fa-sliders",
+      //   text: "Production Line"
+      // },
       {
         url: { name: "parts" },
         icon: "fa-microchip",

@@ -95,7 +95,7 @@
                                 </v-menu>
 
 
-                                <v-menu
+                                <!-- <v-menu
                                     ref="menu"
                                     v-model="menu"
                                     :close-on-content-click="false"
@@ -119,7 +119,33 @@
                                     <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
                                     <v-btn text color="primary" @click="$refs.menu.save(due_date)">OK</v-btn>
                                     </v-date-picker>
-                                </v-menu>
+                                </v-menu> -->
+
+                                <v-layout>
+                                    <v-flex>
+                                        <v-text-field
+                                        label="Estimated Days"
+                                        prepend-icon="fa-calendar"
+                                        type="number"
+                                        v-model="estimated_days"
+                                        :error-messages="estimated_hours_errors"
+                                    />
+                                    </v-flex>
+                                    <v-flex>
+                                        <v-text-field
+                                        label="Estimated Hours"
+                                        prepend-icon="fa-clock-o"
+                                        type="text"
+                                        v-model="estimated_hours"
+                                        :error-messages="estimated_hours_errors"
+                                    />
+                                    </v-flex>
+                                </v-layout>
+
+                                <p v-if="estimated_time_errors" class="ml-3" style="color: red">
+                                    <v-icon color="red" small class="mb-1 mr-1">fa-warning</v-icon> 
+                                    The minimum estimated time is 1 Hour.
+                                </p>
 
                                 <v-text-field
                                     label="Estimated Cost"
@@ -287,12 +313,15 @@ export default {
             equipment_filters: null,
 
             // workorder data
-            menu: false,
+            // menu: false,
             menu_status_changed_since: false,
 
             name: "",
             equipment: null,
-            due_date: null,
+            // due_date: null,
+            estimated_hours: 0,
+            estimated_days: 0,
+
             status_changed_since: null,
             status_changed_since_time: null,
             status_changed_since_date: null,
@@ -312,12 +341,14 @@ export default {
             assigned_to: [],
 
             name_errors: null,
-            due_date_errors: null,
+            // due_date_errors: null,
             status_changed_since_errors: null,
             assigned_to_errors: null,
             workorder_status_errors: null,
             equipment_errors: null,
             equipment_status_errors: null,
+            estimated_hours_errors: "",
+            estimated_time_errors: false,
 
             loading: false,
 
@@ -394,14 +425,19 @@ export default {
 
     methods: {
 
+        prepare_estimated_time(hour, days) {
+            // null is casted to 0;
+            return (days * 24) + hour;
+        },
+
         reset(equipment) {
 
-            this.menu = false;
+            // this.menu = true;
             this.menu_status_changed_since = false;
 
             this.name = "";
             this.equipment = null;
-            this.due_date = null;
+            // this.due_date = null;
             this.status_changed_since = null;
             this.status_changed_since_time = null;
             this.status_changed_since_date = null;          
@@ -417,6 +453,9 @@ export default {
             this.work_categories = null;
             this.equipment_status = null;
             this.conditions = [];
+
+            this.estimated_hours = 0;
+            this.estimated_days = 0;
             
             this.assigned_to = [];
             
@@ -429,12 +468,14 @@ export default {
 
         reset_errors() {
             this.name_errors = null;
-            this.due_date_errors = null;
+            // this.due_date_errors = null;
             this.status_changed_since_errors = null;
             this.assigned_to_errors = null;
             this.workorder_status_errors = null;
             this.equipment_errors = null;
             this.equipment_status_errors = null;
+            this.estimated_hours_errors = null;
+            this.estimated_time_errors = false;
         },
 
         getPrimaryHere() {
@@ -447,14 +488,12 @@ export default {
 
         create_workorder() {
             this.reset_errors();
-            this.loading = true;
-
+            
             var formData = this.prepareFormData(['name',
                                                  'due_date',
                                                  'description',
                                                  'request_review',
                                                  'image',
-                                                 'due_date',
                                                  'estimated_cost',
                                                  ], this)
 
@@ -462,6 +501,19 @@ export default {
                                                      'work_category',
                                                      'job_hazard',
                                                      'priority'], this)
+
+            var due_date = this.prepare_estimated_time(this.estimated_hours, this.estimated_days);
+            if (due_date <= 0) {
+                this.estimated_hours_errors = " ";
+                this.estimated_time_errors = true;
+                this.$store.commit("SET_SNACKBAR", {
+                    message: "Please Fill the form properly",
+                    value: true,
+                    status: "error"
+                });
+                return;
+            }
+            formData.append("workorder.estimated_hours", due_date);
 
             if (this.status_changed_since) {
                 formData.append('status_changed_since', prepareTime(this.status_changed_since_date, this.status_changed_since_time));
@@ -493,6 +545,8 @@ export default {
             this.complex_multiple_prepard_formdata(formData, ['assigned_to'], this);
 
             formData.append('workorder.created_by', this.user.id);
+
+            this.loading = true;
 
             this.$store
                 .dispatch("workorder/create_dm_wrokorder", formData)

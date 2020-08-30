@@ -126,6 +126,11 @@
                             </v-row>
                             <div class="small-divider"></div>                           
                             <v-row no-gutters>
+                                <v-col>Estimated Hours:</v-col>
+                                <v-col ><strong class="primary--text">{{ workorder.estimated_hours }} Hours</strong></v-col>
+                            </v-row>
+                            <div class="small-divider"></div> 
+                            <v-row no-gutters>
                                 <v-col>Document:</v-col>
                                 <v-col ><strong class="primary--text" v-if="workorder.document">
                                     <a target="_blank" :href="workorder.document">document</a>
@@ -152,6 +157,13 @@
                                 <v-col>Status:</v-col>
                                 <v-col ><strong class="primary--text">{{ getProperStatus(workorder) }}</strong></v-col>
                             </v-row>
+                            <div v-if="workorder.closed == false">
+                                <div class="small-divider"></div>
+                                <v-row no-gutters>
+                                    <v-col>Started:</v-col>
+                                    <v-col><strong class="primary--text">{{ workorder.started ? 'Yes' : 'No' }}</strong></v-col>
+                                </v-row>
+                            </div>
                             <div class="small-divider"></div>
                             <v-row no-gutters>
                                 <v-col>Closed:</v-col>
@@ -180,7 +192,7 @@
                             <div v-if="workorder.closed" class="small-divider"></div>
                             <v-row no-gutters>
                                 <v-col>Due Date:</v-col>
-                                <v-col><strong class="primary--text">{{ workorder.due_date }}</strong></v-col>
+                                <v-col><strong class="primary--text">{{ moment(workorder.due_date).fromNow() }}</strong></v-col>
                             </v-row>
                             <div class="small-divider"></div>
                             <v-row no-gutters>
@@ -557,41 +569,45 @@
 
                      </v-data-table>
 
-                     <div class="divider" :style="'background: ' + getPrimaryHere()"></div>
 
-                    <h1 class="title mt-4 mb-2">WORK DONE ({{ workdone.length }})</h1>
-                    <v-data-table
-                        class="mb-5"
-                        :headers="work_done_headers"
-                        :items="workdone"
-                        item-key="id"
-                        :hide-default-footer="workdone.length <= 10"
-                        v-if="workdone.length > 0"
-                        @click:row="openDetailWorkDone"
-                        :mobile-breakpoint="0"
-                    >
+                    <div v-if="workdone.length > 0">
 
-                        <!-- created_by -->
-                        <template v-slot:item.created_by.first_name="{ item }">
-                            <div >{{ item.created_by.first_name }} - {{item.created_by.employee_id}}</div>
-                        </template>
+                        <div class="divider" :style="'background: ' + getPrimaryHere()"></div>
 
-                        <!-- workorder_status -->
-                        <template v-slot:item.workorder_status.name="{ item }">
-                            <div >{{ item.workorder_status.name }}</div>
-                        </template>
+                        <h1 class="title mt-4 mb-2">WORK DONE ({{ workdone.length }})</h1>
 
-                        <!-- equipment status -->
-                        <template v-slot:item.equipment_status.name="{ item }">
-                            <div >{{ item.equipment_status.name }}</div>
-                        </template>
+                        <v-data-table
+                            class="mb-5"
+                            :headers="work_done_headers"
+                            :items="workdone"
+                            item-key="id"
+                            :hide-default-footer="workdone.length <= 10"
+                            @click:row="openDetailWorkDone"
+                            :mobile-breakpoint="0"
+                        >
 
-                        <!-- created -->
-                        <template v-slot:item.created="{ item }">
-                            <div >{{ moment(item.created).fromNow() }}</div>
-                        </template>
+                            <!-- created_by -->
+                            <template v-slot:item.created_by.first_name="{ item }">
+                                <div >{{ item.created_by.first_name }} - {{item.created_by.employee_id}}</div>
+                            </template>
 
-                     </v-data-table>
+                            <!-- workorder_status -->
+                            <template v-slot:item.workorder_status.name="{ item }">
+                                <div >{{ item.workorder_status.name }}</div>
+                            </template>
+
+                            <!-- equipment status -->
+                            <template v-slot:item.equipment_status.name="{ item }">
+                                <div >{{ item.equipment_status.name }}</div>
+                            </template>
+
+                            <!-- created -->
+                            <template v-slot:item.created="{ item }">
+                                <div >{{ moment(item.created).fromNow() }}</div>
+                            </template>
+
+                        </v-data-table>
+                    </div>
 
                 <!-- REVIEWS -->
                 <div v-if="review">

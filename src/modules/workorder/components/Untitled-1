@@ -165,6 +165,8 @@ change workorder closed date to date time
 
 add work_done to workorder_review model and create a BooleanField to work_done called approved to simbolize the workdone is approved
 
+send web socket info to update open workorders (right side) when workorder overdued, updated, created and closed.
+
 ///// SET UP INFO /////
 
 dont forget to add scheduler data like -:> months
@@ -188,19 +190,21 @@ xxx change equipment report to workorder request.
 xxx for report ignoring provide resoning.
 xxx in approving report quick access to equipment detail page.
 
-on workorder duedate should be with time not date. (this changes many things).
+xxx on workorder duedate should be with time not date. (this changes many things).
 
 add part management adding updating for the technic head (and also part requesting).
+
+parts parts parts by that i mean part management should be done properly no negative quantity of parts.
 
 comment of operetor should be by technician.
 
 more data on workorder review card. like how much it took and used parts and equipment condition.
 
-name corrections (resource == employee (lebor))
+xxx name corrections (resource == employee (lebor))
 
 approving and rejecting workorder review should be done on the same popup (no new popup for them).
 
-for printing workorder add total time spent on the workdone.
+xxx for printing workorder add total time spent on the workdone. (workorder start time should be first workorder seen time)
 
 Reporting make the table first and make it to sort by employee and equipment at the bottom of the table add rows for total and avarage ((make relavent data.))
 
@@ -210,4 +214,4 @@ manager report (simple concise and chowable reports for managers).
 
 Remember to add somekind of communication (like chat if possible).
 
-parts parts parts by that i mean part management should be done properly no negative quantity of parts.
+add system info in the login page

@@ -16,9 +16,9 @@ import SummaryReport from "../system_report/views/SummaryReport";
 import InventoryReport from "../system_report/views/InventoryReport";
 import WorkorderPrint from "../system_report/views/WorkorderPrint";
 import History from "../system_report/components/History";
-import Buildings from "../facility_admin/views/Buildings";
-import Departments from "../facility_admin/views/Departments";
-import Locations from "../facility_admin/views/Locations";
+// import Buildings from "../facility_admin/views/Buildings";
+// import Departments from "../facility_admin/views/Departments";
+// import Locations from "../facility_admin/views/Locations";
 import Parts from "../facility_admin/views/Parts";
 
 // import { NonAuthRequired } from '@/resources/auth';
@@ -197,10 +197,6 @@ export default [
             }
         ],
     },
-    // 
-    // SYSTEM REPORT PATHS
-    // 
-
     {
         path: "/scheduled-workorders",
         component: Layout,
@@ -215,6 +211,9 @@ export default [
             }
         ],
     },
+    // 
+    // SYSTEM REPORT PATHS
+    // 
     {
         path: "/system-report",
         component: Layout,
@@ -258,48 +257,48 @@ export default [
     // FACILITY ADMIN PATHS
     // 
 
-    {
-        path: "/buildings",
-        component: Layout,
-        beforeEnter: AdministratorRequired,
-        children: [
-            {
-                path: "",
-                name: "buildings",
-                components: {
-                    default: Buildings,
-                }
-            }
-        ],
-    },
-    {
-        path: "/departments",
-        component: Layout,
-        beforeEnter: AdministratorRequired,
-        children: [
-            {
-                path: "",
-                name: "departments",
-                components: {
-                    default: Departments,
-                }
-            }
-        ],
-    },
-    {
-        path: "/locations",
-        component: Layout,
-        beforeEnter: AdministratorRequired,
-        children: [
-            {
-                path: "",
-                name: "locations",
-                components: {
-                    default: Locations,
-                }
-            }
-        ],
-    },
+    // {
+    //     path: "/buildings",
+    //     component: Layout,
+    //     beforeEnter: AdministratorRequired,
+    //     children: [
+    //         {
+    //             path: "",
+    //             name: "buildings",
+    //             components: {
+    //                 default: Buildings,
+    //             }
+    //         }
+    //     ],
+    // },
+    // {
+    //     path: "/departments",
+    //     component: Layout,
+    //     beforeEnter: AdministratorRequired,
+    //     children: [
+    //         {
+    //             path: "",
+    //             name: "departments",
+    //             components: {
+    //                 default: Departments,
+    //             }
+    //         }
+    //     ],
+    // },
+    // {
+    //     path: "/locations",
+    //     component: Layout,
+    //     beforeEnter: AdministratorRequired,
+    //     children: [
+    //         {
+    //             path: "",
+    //             name: "locations",
+    //             components: {
+    //                 default: Locations,
+    //             }
+    //         }
+    //     ],
+    // },
     {
         path: "/parts",
         component: Layout,

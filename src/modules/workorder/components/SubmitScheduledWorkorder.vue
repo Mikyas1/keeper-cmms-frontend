@@ -149,13 +149,39 @@
                                 :error-messages="assigned_to_errors"
                             ></v-select>
 
-                            <v-text-field
+                            <!-- <v-text-field
                                 label="* Days To Complete"
                                 prepend-icon="fa-cogs"
                                 type="number"
                                 v-model="due_date"
                                 :error-messages="due_date_errors"
-                            />
+                            /> -->
+
+                            <v-layout>
+                                <v-flex>
+                                    <v-text-field
+                                    label="Estimated Days"
+                                    prepend-icon="fa-calendar"
+                                    type="number"
+                                    v-model="estimated_days"
+                                    :error-messages="estimated_hours_errors"
+                                />
+                                </v-flex>
+                                <v-flex>
+                                    <v-text-field
+                                    label="Estimated Hours"
+                                    prepend-icon="fa-clock-o"
+                                    type="text"
+                                    v-model="estimated_hours"
+                                    :error-messages="estimated_hours_errors"
+                                />
+                                </v-flex>
+                            </v-layout>
+
+                            <p v-if="estimated_time_errors" class="ml-3" style="color: red">
+                                <v-icon color="red" small class="mb-1 mr-1">fa-warning</v-icon> 
+                                The minimum estimated time is 1 Hour.
+                            </p>
 
                             <v-text-field
                                 label="Estimated Cost"
@@ -387,7 +413,10 @@ export default {
             job_hazard: null,
             priority: null,
             assigned_to: [],
-            due_date: null,
+            // due_date: null,
+            estimated_hours: 0,
+            estimated_days: 0,
+
             estimated_cost: null,
 
             name_errors: null,
@@ -395,8 +424,11 @@ export default {
             start_date_errors: null,
             workorder_status_errors: null,
             assigned_to_errors: null,
-            due_date_errors: null,
+            // due_date_errors: null,
             scheduler_errors: null,
+
+            estimated_hours_errors: "",
+            estimated_time_errors: false,
 
             loading: false,
 
@@ -406,6 +438,12 @@ export default {
     },
 
     methods: {
+        
+        prepare_estimated_time(hour, days) {
+            // null is casted to 0;
+            return (days * 24) + hour;
+        },
+
         closeSubmitScheduledWorkorder() {
             this.$emit('closeSubmitScheduledWorkorder');
         },
@@ -485,25 +523,26 @@ export default {
             this.tasks = [];
             this.schedulers = [];
 
+            this.reset_errors();
+            
+        },
+
+        reset_errors() {
             this.name_errors = null;
             this.equipment_errors = null;
             this.start_date_errors = null;
             this.workorder_status_errors = null;
             this.assigned_to_errors = null;
-            this.due_date_errors = null;
             this.scheduler_errors = null;
-            
+
+            this.estimated_hours_errors = null;
+            this.estimated_time_errors = false;
         },
 
         submit() {
             var self = this;
 
-            this.name_errors = null;
-            this.equipment_errors = null;
-            this.start_date_errors = null;
-            this.workorder_status_errors = null;
-            this.assigned_to_errors = null;
-            this.due_date_errors = null;
+            this.reset_errors();
 
             var formData = self.prepareFormData(['name',
                                                  'description',
@@ -513,9 +552,21 @@ export default {
                                                  'request_review',
                                                  'document',
                                                  'image',
-                                                 'due_date',
                                                  'estimated_cost',
                                              ], self);
+
+            var due_date = this.prepare_estimated_time(this.estimated_hours, this.estimated_days);
+            if (due_date <= 0) {
+                this.estimated_hours_errors = " ";
+                this.estimated_time_errors = true;
+                this.$store.commit("SET_SNACKBAR", {
+                    message: "Please Fill the form properly",
+                    value: true,
+                    status: "error"
+                });
+                return;
+            }
+            formData.append("estimated_hours", due_date);
 
             self.complex_prepare_formdata(formData, ['workorder_status',
                                                      'work_category',

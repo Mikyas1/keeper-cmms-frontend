@@ -56,6 +56,9 @@
                     </v-btn>
                   </template>
                   <v-list>
+                    <v-list-item @click="type = 'day'">
+                      <v-list-item-title>Day</v-list-item-title>
+                    </v-list-item>
                     <v-list-item @click="type = 'week'">
                       <v-list-item-title>Week</v-list-item-title>
                     </v-list-item>
@@ -85,7 +88,7 @@
             :short-months="$vuetify.breakpoint.smAndDown"
             :short-weekdays="$vuetify.breakpoint.smAndDown"
             :class="{'mt-5': $vuetify.breakpoint.smAndDown}"
-          >
+            >
           </v-calendar>
         </v-sheet>
       </v-col>
@@ -123,6 +126,7 @@
 import DetailWorkorder from "../components/DetailWorkorder";
 import BodyNav from "@/components/BodyNav";
 import { set_calander_reload_fun } from "../store/functions";
+var moment = require("moment");
 
 export default {
   name: "calander",
@@ -133,6 +137,10 @@ export default {
   },
 
   data: () => ({
+
+    // moment
+    moment: moment,
+
     pageLoad: false,
 
     today: new Date().toISOString().substr(0, 10),
@@ -196,10 +204,7 @@ export default {
     }
   },
   methods: {
-    test() {
-      alert("ok")
-    },
-
+    
     get_calendar_events() {
       // this.workorder = null;
       this.pageLoad = false;
@@ -237,8 +242,8 @@ export default {
         data.push({
           id: element.id,
           name: element.workorder_type + ' - ' + element.name,
-          start: element.created.substr(0, 10),
-          end: element.due_date,
+          start: moment(element.created).format('YYYY-MM-DD hh:mm'),
+          end: moment(element.due_date).format('YYYY-MM-DD hh:mm'),
           workorder_status: element.workorder_status,
           started: element.started,
           over_due: element.over_due,

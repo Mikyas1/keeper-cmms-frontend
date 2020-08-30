@@ -61,7 +61,6 @@
                                 :error-messages="equipment_status_errors"
                             ></v-select>
 
-
                             <div v-if="equipment_status">
                                 <div
                                     v-if="equipment_status.has_conditions"
@@ -99,7 +98,7 @@
                     <div class="divider" :style="'background: ' +  getPrimaryHere()"></div>
 
                     <!-- Resources -->
-                    <h1 class="title mb-3 mt-5">RESOURCES</h1>
+                    <h1 class="title mb-3 mt-5">TECHNICIANS</h1>
                      <v-data-table
                         class="mb-5"
                         :headers="resource_headers"
@@ -139,7 +138,7 @@
                         class="mb-4 primary white--text text-capitalize"
                      >
                       <v-icon small class="mr-2">fa fa-male</v-icon> 
-                      Add Resource
+                      Add Technician
                      </v-btn>
 
                      <div class="divider" :style="'background: ' +  getPrimaryHere()"></div>
@@ -582,8 +581,8 @@ export default {
 
         reset() {
             this.title = null;
-            this.workorder_status = null;
-            this.equipment_status = null;
+            this.workorder_status = this.workorder.workorder_status.id;
+            this.equipment_status = this.workorder.equipment.status_flag;
             this.description = null;
             this.image = null;
             this.image_two = null;
@@ -595,7 +594,13 @@ export default {
             this.resources = [];
             this.invoices = [];
             this.parts = [];
-            this.conditions = [];
+
+            // conditions
+            if (this.equipment_status.has_conditions) {
+                this.conditions = this.workorder.equipment.conditions.map(x => x.id);
+            } else {
+                this.conditions = [];
+            }
 
             this.workorder_status_errors = null;
             this.equipment_status_errors = null;
@@ -664,6 +669,7 @@ export default {
 
     },
     created() {
+        this.reset();
 
         this.pageLoad = false;
         if (this.equipment_filters === null) {

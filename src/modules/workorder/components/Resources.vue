@@ -4,7 +4,7 @@
             <v-toolbar color="primary" dark flat>
                 <v-toolbar-title>
                 <v-icon class="mx-2">fa-male</v-icon> 
-                RESOURCES
+                TECHNICIAN
                 </v-toolbar-title>
             </v-toolbar>
             <v-card-text>
@@ -15,7 +15,7 @@
                         <v-flex xs12 md6 class="px-5">
 
                             <v-select
-                                label="* Resource"
+                                label="* Technician"
                                 prepend-icon="fa-male"
                                 :items="resources"
                                 v-model="employee"

@@ -33,7 +33,7 @@
                     <v-icon :color="getOverDueColor(workorder)" class="mr-2" small>
                     fa-hourglass-end
                     </v-icon>
-                    {{ workorder.due_date }}
+                    {{moment(workorder.due_date).fromNow()}}
                     <br />
 
                     <v-icon :color="getOverDueColor(workorder)" v-if="workorder.work_category" class="mr-2" small>
@@ -80,11 +80,14 @@
 <script>
 import { getPrimary } from "@/resources/helper";
 
+var moment = require("moment");
+
 export default {
     name: "OpenWorkorderCard",
     data() {
         return {
-            
+            // moment
+            moment: moment,
         }
     },
     props: {

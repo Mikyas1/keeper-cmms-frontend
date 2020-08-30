@@ -155,8 +155,6 @@
 <script>
 import { set_open_workorder_reload } from "../store/functions";
 
-var moment = require("moment");
-
 import DetailWorkorder from "./DetailWorkorder";
 import WorkorderReview from "./WorkorderReview";
 import OpenWorkorderCard from "./OpenWorkorderCard";
@@ -183,8 +181,6 @@ export default {
 
             show_pending_review: true,
          
-            // moment
-            moment: moment,
             detailDialog: false,
             detailDialogWorkorder: null,
 

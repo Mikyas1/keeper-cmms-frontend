@@ -81,6 +81,11 @@ const getEmployeeName = function(val) {
 }
 
 // a function to substract 3 hours from selected time.
+/**
+ * 
+ * USED A GODDAMN MOMENT TO DO THIS SHIT
+ * 
+ */
 // try to find a better solution.
 const prepareTime = function(date, time) {
   var houre = Number(time.slice(0,-3)) - 3;

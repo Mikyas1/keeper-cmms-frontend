@@ -155,10 +155,10 @@
                             </v-row>
                             <div class="small-divider"></div>
                             <v-row no-gutters>
-                                <v-col>Days to complete:</v-col>
-                                <v-col ><strong class="primary--text">{{ pm_workorder.due_date }} days</strong></v-col>
+                                <v-col>Estimated Hours:</v-col>
+                                <v-col ><strong class="primary--text">{{ pm_workorder.estimated_hours }} Hours</strong></v-col>
                             </v-row>
-                            <div class="small-divider"></div>
+                            <div class="small-divider"></div> 
                             <v-row no-gutters>
                                 <v-col>Multiple:</v-col>
                                 <v-col>
