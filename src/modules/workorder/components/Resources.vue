@@ -4,7 +4,7 @@
             <v-toolbar color="primary" dark flat>
                 <v-toolbar-title>
                 <v-icon class="mx-2">fa-male</v-icon> 
-                TECHNICIAN
+                LABOR
                 </v-toolbar-title>
             </v-toolbar>
             <v-card-text>

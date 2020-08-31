@@ -37,8 +37,34 @@
                             <div class="small-divider"></div>
                             <v-row no-gutters>
                                 <v-col cols="4">Status:</v-col>
-                                <v-col cols="8" ><strong class="primary--text">{{ review.workorder_status.name }}</strong></v-col>
+                                <v-col cols="8"><strong class="primary--text">{{ review.workorder_status.name }}</strong></v-col>
                             </v-row>
+                            <div class="small-divider"></div>
+                            <v-row no-gutters>
+                                <v-col cols="4">Equipment Status:</v-col>
+                                <v-col cols="8" v-if="review.equipment_status">
+                                    <div class="small-circle" 
+                                        :style="`margin-right: 0px; background: ${getColorHere(review.equipment_status.color)}`"
+                                        > 
+                                    </div> - 
+                                    <strong class="ml-5">{{ review.equipment_status.name }}</strong>
+                                </v-col>
+                            </v-row>
+                            <div v-if="review.equipment_status.has_conditions">
+                                <div class="small-divider"></div>
+                                <v-row no-gutters>
+                                    <v-col cols="4">Equipment Conditions:</v-col>
+                                    <v-col cols="8">
+                                        <span
+                                        v-for="condition in review.conditions" 
+                                        :key="condition.id">
+                                        <strong class="primary--text">
+                                        - {{ condition.name }} <br/>
+                                        </strong>
+                                        </span>
+                                    </v-col>
+                                </v-row>
+                            </div>
                             <div class="small-divider"></div>
                             <v-row no-gutters>
                                 <v-col cols="4">Requested by:</v-col>
@@ -69,9 +95,75 @@
                                     - {{ moment(review.created).format('MM/DD/YYYY HH:mm:ss') }}
                                 </strong></v-col>
                             </v-row>
+                            <div class="small-divider"></div>
+                            <v-row no-gutters>
+                                <v-col cols="4">Total time taken:</v-col>
+                                <v-col cols="8"><strong class="primary--text">
+                                    - <span>
+                                        <span v-if="moment(review.created).diff(moment(review.workorder.created), 'hours') > 0">
+                                            {{moment(review.created).diff(moment(review.workorder.created), 'hours')}} hours
+                                        </span>
+                                        <span v-else>
+                                            {{moment(review.created).diff(moment(review.workorder.created), 'minutes') }} minutes
+                                        </span>
+                                    </span>
+                                </strong></v-col>
+                            </v-row>
+                            <div class="small-divider"></div>
+                            <v-row no-gutters>
+                                <v-col cols="4">Labor:</v-col>
+                                <v-col cols="8"><strong class="primary--text">
+                                    <span v-for="labor in labors" :key="labor.id">
+                                        - Technician: {{labor.employee.first_name}}
+                                        {{labor.employee.last_name}}
+                                        {{labor.employee.employee_id}}
+                                        <br>
+                                        <span v-if="labor.regular_hours">
+                                            - Regular hours: {{labor.regular_hours}} Hours / {{labor.employee.man_hour_cost}} ETB
+                                            <br>
+                                        </span>
+                                        <span v-if="labor.over_time_one > 0">
+                                            - Over Time One: {{labor.over_time_one}} Hours / {{labor.over_time_one_rate}} ETB
+                                            <br>
+                                        </span>
+                                        <span v-if="labor.over_time_two > 0">
+                                            - Over Time One: {{labor.over_time_two}} Hours / {{labor.over_time_two_rate}} ETB
+                                            <br>
+                                        </span>
+                                        <span v-if="labor.over_time_three > 0">
+                                            - Over Time One: {{labor.over_time_three}} Hours / {{labor.over_time_three_rate}} ETB
+                                            <br>
+                                        </span>
+                                        <br>
+                                    </span>
+                                        - Total: {{review.workorder.total_man_hour_cost}} ETB
+                                        <br>
+                                </strong></v-col>
+                            </v-row>
+                            <div class="small-divider"></div>
+                            <v-row no-gutters>
+                                <v-col cols="4">Parts Used:</v-col>
+                                <v-col cols="8"><strong class="primary--text">
+                                    <span v-for="part in parts" :key="part.id">
+                                        - Name: {{part.part.name}}
+                                        <br>
+                                        - Code: {{part.part.part_number}}
+                                        <br>
+                                        - Quantity: {{part.quantity_used}}
+                                        <br>
+                                        - Old Returned: {{part.used_returned ? 'Yes' : 'No'}}
+                                        <br>
+                                        - Price: {{part.part.price}} ETB
+                                        <br>
+                                        <br>
+                                    </span>
+                                    - Total: {{review.workorder.total_parts_cost}} ETB
+                                    <br>
+                                </strong></v-col>
+                            </v-row>
                         </v-col>
                     </v-row>
-                    <!-- {{review}} -->
+                    
                 </v-container>
             </v-card-text>
 
@@ -170,6 +262,8 @@ import DetailWorkorder from "../components/DetailWorkorder";
 import RejectDialog from "./RejectDialog"
 import ApproveReview from "./ApproveReview"
 import { getPrimary } from "@/resources/helper";
+import { getColor } from "@/resources/helper";
+
 var moment = require('moment');
 
 export default {
@@ -186,6 +280,8 @@ export default {
         return {
             pageLoad: false,
             review: null,
+            labors: null,
+            parts: null,
             detailDialog: false,
             detailDialogWorkorder: null,
 
@@ -212,15 +308,17 @@ export default {
             this.$store
                 .dispatch("workorder/workorder_review_detail", id)
                 .then(response => {
-                    this.$store.dispatch("equipments/equipment_operators", response.workorder.equipment)
-                        .then((response) => {
+                    this.$store.dispatch("equipments/equipment_operators", response.workorder_review.workorder.equipment)
+                        .then((r) => {
                             this.pageLoad = true;
-                            this.operators = response;
+                            this.operators = r;
                         })
                         .catch(() => {
                             this.pageLoad = false;
                         });
-                    this.review = response;
+                    this.review = response.workorder_review;
+                    this.labors = response.man_hour;
+                    this.parts = response.parts_used;
                 })
                     .catch(() => {
                         this.pageLoad = false;
@@ -283,7 +381,11 @@ export default {
 
         setup_approve_dialog(func) {
             this.approve_dialog_func = func;
-        }
+        },
+
+        getColorHere(val) {
+            return getColor(val);
+        },
     },
     created() {
         this.get_review(this.review_id);
@@ -313,6 +415,13 @@ export default {
 }
 .workorder-name:hover {
     cursor: pointer;
+}
+.small-circle {
+  height: 20px;
+  border-radius: 50%;
+  width: 20px;
+  cursor: pointer;
+  position: absolute;
 }
 
 </style>

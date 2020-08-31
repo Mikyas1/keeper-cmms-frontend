@@ -189,8 +189,8 @@ dont forget to add scheduler data like -:> months
 //
 xxx add final equipment status and condition to workorder model.
 
-fix pm workorders (upcoming calander)
-fix rejecting workorer rescheduling
+xxx fix pm workorders (upcoming calander)
+xxx fix rejecting workorer rescheduling
 //
 
 xxx change equipment report to workorder request.
@@ -203,13 +203,13 @@ add part management adding updating for the technic head (and also part requesti
 
 parts parts parts by that i mean part management should be done properly no negative quantity of parts.
 
-comment of operetor should be by technician.
+x comment of operetor should be by technician.
 
-more data on workorder review card. like how much it took and used parts and equipment condition.
+xxx more data on workorder review card. like how much it took and used parts and equipment condition.
 
 xxx name corrections (resource == employee (lebor))
 
-approving and rejecting workorder review should be done on the same popup (no new popup for them).
+x approving and rejecting workorder review should be done on the same popup (no new popup for them).
 
 xxx for printing workorder add total time spent on the workdone. (workorder start time should be first workorder seen time)
 

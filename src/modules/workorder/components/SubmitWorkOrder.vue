@@ -336,7 +336,7 @@ export default {
     methods: {
       prepare_estimated_time(hour, days) {
         // null is casted to 0;
-        return (days * 24) + hour;
+        return (Number(days) * 24) + Number(hour);
       },
       get_options_here(filter_data, filter_field) {
         return get_complex_options(filter_data, filter_field);

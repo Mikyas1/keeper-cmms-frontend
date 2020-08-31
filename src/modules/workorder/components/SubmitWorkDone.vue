@@ -98,7 +98,7 @@
                     <div class="divider" :style="'background: ' +  getPrimaryHere()"></div>
 
                     <!-- Resources -->
-                    <h1 class="title mb-3 mt-5">TECHNICIANS</h1>
+                    <h1 class="title mb-3 mt-5">LABOR</h1>
                      <v-data-table
                         class="mb-5"
                         :headers="resource_headers"
@@ -138,7 +138,7 @@
                         class="mb-4 primary white--text text-capitalize"
                      >
                       <v-icon small class="mr-2">fa fa-male</v-icon> 
-                      Add Technician
+                      Add Labor
                      </v-btn>
 
                      <div class="divider" :style="'background: ' +  getPrimaryHere()"></div>

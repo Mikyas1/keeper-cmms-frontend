@@ -22,7 +22,7 @@
                                 v-model="description"
                             ></v-textarea>
 
-                            <v-menu
+                            <!-- <v-menu
                                 ref="reschedule_date"
                                 v-model="reschedule_date"
                                 :close-on-content-click="false"
@@ -45,7 +45,26 @@
                                     <v-btn text color="primary" @click="reschedule_date = false">Cancel</v-btn>
                                     <v-btn text color="primary" @click="$refs.reschedule_date.save(date)">OK</v-btn>
                                 </v-date-picker>
-                            </v-menu>
+                            </v-menu> -->
+
+                            <v-layout>
+                                <v-flex>
+                                    <v-text-field
+                                    label="Add Days"
+                                    prepend-icon="fa-calendar"
+                                    type="number"
+                                    v-model="estimated_days"
+                                />
+                                </v-flex>
+                                <v-flex>
+                                    <v-text-field
+                                    label="Add Hours"
+                                    prepend-icon="fa-clock-o"
+                                    type="text"
+                                    v-model="estimated_hours"
+                                />
+                                </v-flex>
+                            </v-layout>
 
                             <v-autocomplete
                                 prepend-icon="fa-user"
@@ -171,8 +190,11 @@ export default {
     data() {
         return {
             description: null,
-            reschedule_date: false,
-            date: null,
+            // reschedule_date: false,
+            // date: null,
+            estimated_hours: null,
+            estimated_days: null,
+
             image: null,
             image_two: null,
             document: null,
@@ -198,15 +220,21 @@ export default {
 
     methods: {
 
+        prepare_estimated_time(hour, days) {
+            return (Number(days) * 24) + Number(hour);
+        },
+
         reset() {
             this.description = null;
-            this.date = null;
+            // this.date = null;
             this.image = null;
             this.image_two = null;
             this.document = null;
             this.document_two = null;
             this.selected_operator = null;
             this.operator_comment = null;
+            this.estimated_hours = null;
+            this.estimated_days = null;
         },
 
         reduceText(text) {
@@ -261,8 +289,9 @@ export default {
                 formData.append("document_two", this.document_two);
             }
 
-            if (this.date !== null) {
-                formData.append("reschedule_date", this.date);
+            var due_date_time = this.prepare_estimated_time(this.estimated_hours, this.estimated_days);
+            if (due_date_time > 0) {
+                formData.append("reschedule_date_time", due_date_time);
             }
             
             this.$store

@@ -427,7 +427,7 @@ export default {
 
         prepare_estimated_time(hour, days) {
             // null is casted to 0;
-            return (days * 24) + hour;
+            return (Number(days) * 24) + Number(hour);
         },
 
         reset(equipment) {
