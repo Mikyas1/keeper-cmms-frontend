@@ -186,6 +186,13 @@ dont forget to add scheduler data like -:> months
 
 ///// feedback from gash jemal ////////
 
+//
+xxx add final equipment status and condition to workorder model.
+
+fix pm workorders (upcoming calander)
+fix rejecting workorer rescheduling
+//
+
 xxx change equipment report to workorder request.
 xxx for report ignoring provide resoning.
 xxx in approving report quick access to equipment detail page.

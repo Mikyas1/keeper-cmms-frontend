@@ -259,8 +259,8 @@ export default {
         data.push({
           id: null,
           name: element.type + ' - ' + element.name,
-          start: element.start,
-          end: element.end,
+          start: moment(element.start).format('YYYY-MM-DD hh:mm'),
+          end: moment(element.end).format('YYYY-MM-DD hh:mm'),
           // workorder_status: element.workorder_status,
           started: false,
           over_due: false,
