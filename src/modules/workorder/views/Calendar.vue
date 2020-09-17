@@ -227,8 +227,8 @@ export default {
           .dispatch("workorder/up_coming_events")
           .then(response => {
               this.events = this.prepart_up_coming_events(response);
-              this.today = response.today;
-              this.focus = response.today;
+              // this.today = response.today;
+              // this.focus = response.today;
               this.pageLoad = true;
           })
           .catch(() => {

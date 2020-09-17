@@ -53,5 +53,18 @@ export default {
             })
         });
     },
+
+    get_managerial_report: ({commit}, data) => {
+        return new Promise((resolve, reject) => {
+            apiClient.system_report.monthly_and_annualy_report(data)
+            .then(response => {
+                commit("account/GODARK", null, { root: true });
+                resolve( response.data );
+            })
+            .catch(e => {
+                reject(e);
+            })
+        });
+    },
     
 };

@@ -95,7 +95,6 @@
                                   </v-date-picker>
                                   <v-time-picker 
                                       v-model="breackdown_since_time"
-                                      format="24hr"
                                       flat
                                       scrollable
                                   ></v-time-picker>

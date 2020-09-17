@@ -1,14 +1,29 @@
 <template>
-    <v-app id="inspire">
-    <v-main>
+    <!-- <v-app id="inspire">
+    <v-main class="red">
       <v-container
         class="fill-height"
         fluid
       >
-        <v-row
-          align="center"
-          justify="center"
-        >
+        <v-row no-gutters>
+
+        <v-col
+            v-if="$vuetify.breakpoint.mdAndUp"
+            cols="7"
+          >
+            <div class="rounded-0 blured-background fixedd" flat>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis, soluta illum velit ab vero molestiae porro, beatae voluptate sequi eaque iure facilis pariatur labore dolores eligendi laudantium accusantium non officia!</p>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis, soluta illum velit ab vero molestiae porro, beatae voluptate sequi eaque iure facilis pariatur labore dolores eligendi laudantium accusantium non officia!</p>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis, soluta illum velit ab vero molestiae porro, beatae voluptate sequi eaque iure facilis pariatur labore dolores eligendi laudantium accusantium non officia!</p>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis, soluta illum velit ab vero molestiae porro, beatae voluptate sequi eaque iure facilis pariatur labore dolores eligendi laudantium accusantium non officia!</p>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis, soluta illum velit ab vero molestiae porro, beatae voluptate sequi eaque iure facilis pariatur labore dolores eligendi laudantium accusantium non officia!</p>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis, soluta illum velit ab vero molestiae porro, beatae voluptate sequi eaque iure facilis pariatur labore dolores eligendi laudantium accusantium non officia!</p>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis, soluta illum velit ab vero molestiae porro, beatae voluptate sequi eaque iure facilis pariatur labore dolores eligendi laudantium accusantium non officia!</p>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis, soluta illum velit ab vero molestiae porro, beatae voluptate sequi eaque iure facilis pariatur labore dolores eligendi laudantium accusantium non officia!</p>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis, soluta illum velit ab vero molestiae porro, beatae voluptate sequi eaque iure facilis pariatur labore dolores eligendi laudantium accusantium non officia!</p>
+            </div>
+          </v-col>
+          
           <v-col
             cols="12"
             sm="8"
@@ -45,7 +60,6 @@
                   />
                   <v-card-actions>
 
-                      <!-- display non field error -->
                       <div 
                         v-for="error in non_field_errors" 
                         :key="error"
@@ -77,13 +91,94 @@
         </v-row>
       </v-container>
     </v-main>
-  </v-app>   
+  </v-app>    -->
+  <div>
+    <v-container fluid class="fill-height">
+     <v-layout wrap>
+       
+       <v-flex xs12 md6 lg7 class="mx-3">
+         <Notifications></Notifications>
+         
+       </v-flex>
+       
+       <v-flex xs12 md5 lg4 class="ml-5 mb-3" :class="{'c-form': $vuetify.breakpoint.smAndUp}">
+         
+        <v-card class="elevation-12">
+
+          <v-toolbar
+            color="primary"
+            dark
+            flat
+          >
+            <v-toolbar-title>
+              <v-icon>fa-sign-in</v-icon> 
+                <span class="ml-2">Keeper Login form</span>
+              </v-toolbar-title>
+          </v-toolbar>
+          <v-card-text>
+            <v-form v-on:submit.prevent="login">
+              <v-text-field
+                label="Phone Number"
+                prepend-icon="fa-phone"
+                type="number"
+                v-model="username"
+                :error-messages="username_errors"
+              />
+
+              <v-text-field
+                id="password"
+                label="Password"
+                prepend-icon="fa-lock"
+                type="password"
+                v-model="password"
+                :error-messages="password_errors"
+              />
+              <v-card-actions>
+
+                  <div 
+                    v-for="error in non_field_errors" 
+                    :key="error"
+                    class="red--text caption"
+                  >
+                      <v-icon 
+                        small 
+                        class="red--text"
+                      >
+                        fa-warning
+                      </v-icon> {{ error }}
+                  </div>
+
+                  
+                <v-spacer />
+                    <v-btn 
+                        color="primary white--text text-capitalize"
+                        :loading="loading"
+                        type="submit"
+                    >
+                        <v-icon small>fa-sign-in</v-icon> 
+                        <span class="ml-2">Login</span>
+                    </v-btn>
+            </v-card-actions>
+            </v-form>
+          </v-card-text>
+        </v-card>  
+       </v-flex>
+
+     </v-layout>
+    </v-container>
+  </div>
 </template>
 
 <script>
+import CustomSocket from "../../../ws";
+import Notifications from "../components/Notifications";
+
 export default {
     name: "login",
-    
+    components: { 
+      Notifications
+     },
+
     data() {
         return {
             loading: false,
@@ -109,6 +204,9 @@ export default {
                     password: this.password
                 })
             .then((response) => {
+
+                CustomSocket.close();
+                CustomSocket.start("notification");
                 this.loading = false;
                 if(response.user_type === 'Regular') {
                   this.$router.push({ name: "equipments" });
@@ -148,5 +246,12 @@ export default {
 </script>
 
 <style scoped>
+
+.fill-height {
+  height: 100vh;
+}
+.c-form {
+  margin-top: 33vh;
+}
 
 </style>

@@ -10,5 +10,8 @@ export default {
         state.token = null;
         state.user = null;
         state.loggedIn = false;
+    },
+    SET_NOTIFICATIONS: (state, data) => {
+        state.notifications = data;
     }
 };

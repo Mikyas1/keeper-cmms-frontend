@@ -15,6 +15,20 @@ export default {
         });
     },
 
+    get_report_detail: ({ commit }, id) => {
+        return new Promise((resolve, reject) => {
+            apiClient.reports.get_report_detail(id)
+            .then(response => {
+                commit("account/GODARK", null, { root: true });
+                resolve( response.data );
+            })
+            .catch(e => {
+                reject(e);
+            })
+        });
+    },
+
+
     get_reports_with_url: ({commit}, url) => {
         return new Promise((resolve, reject) => {
             apiClient.reports.get_reports_with_url(url)

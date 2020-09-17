@@ -6,6 +6,10 @@ export default {
         login(payload) {
             return http.post(urls.login, payload);
         },
+
+        logout() {
+            return http.post(urls.logout);
+        }
     },
     account: {
 
@@ -101,6 +105,10 @@ export default {
 
         get_reports() {
             return http.get(urls.get_reports);
+        },
+
+        get_report_detail(id) {
+            return http.get(urls.report_detail + id);
         },
         
         get_reports_with_url(url) {
@@ -252,6 +260,10 @@ export default {
 
         reject_workorder_review(payload) {
             return http.post(urls.reject_workorder_review, payload, { headers: { 'Content-Type': 'multipart/form-data' } });
+        },
+
+        get_notifications() {
+            return http.get(urls.get_notifications);
         }
 
     },
@@ -272,6 +284,10 @@ export default {
 
         report_workorder(id) {
             return http.get(urls.report_workorder + id);
+        },
+
+        monthly_and_annualy_report(payload) {
+            return http.post(urls.monthly_and_annualy_report, payload);
         }
 
     },

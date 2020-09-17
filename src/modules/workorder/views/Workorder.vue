@@ -520,13 +520,14 @@ export default {
         goSearch() {
             this.searchLoading = true;
 
-            this.due_date = null;
+            // this.due_date = null;
             this.assigned_to = null;
             this.priority = null;
             this.workorder_status = null;
             this.over_due = null;
             this.workorder_type = null;
-            this.rejected = null;
+            // this.rejected = null;
+            this.closed = null;
 
             this.$store
             .dispatch("workorder/search_workorders", this.search)
@@ -639,9 +640,8 @@ export default {
             this.detailDialog = !this.detailDialog;
             if(this.setWorkorderId) {
                 this.setWorkorderId(val.id);
-            } else {
-                this.detailDialogWorkorder = val.id;
             }
+            this.detailDialogWorkorder = val.id;
         },
 
         get_filter_query_here(val) {

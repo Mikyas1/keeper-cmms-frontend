@@ -377,6 +377,7 @@ export default {
             scheduler_headers: [
                 { text: "Name", value: "name" },
                 { text: "Scheduler Type", value: "scheduler_type.name" },
+                { text: "Scheduled At", value: "scheduled_time" },
                 { text: "Action", value: "action" },
             ],
             schedulers: [],
@@ -681,6 +682,7 @@ export default {
                     }
                 }
                 formData.append("scheduler["+ index +"]scheduler_type", scheduler[index].scheduler_type.id);
+                formData.append("scheduler["+ index +"]time", scheduler[index].scheduled_time);
                 
                 if(scheduler[index].scheduler_type.id == 'IN') {
                     formData.append("scheduler["+ index +"]interval_start_date", this.start_date);
@@ -691,6 +693,7 @@ export default {
                         formData.append("scheduler["+ index +"]months["+ indexx +"]", scheduler[index].month[indexx].id);
                     }
                 }
+
             }
             return formData;
         },

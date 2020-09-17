@@ -10,6 +10,7 @@ export default {
       borderWidth: "10px",
       hoverBackgroundColor: "red",
       hoverBorderWidth: "10px",
+      maintainAspectRatio: true,
       title: {
                 display: true,
                 text: this.title

@@ -6,7 +6,9 @@
 </template>
 
 <script>
+import CustomSocket from "./ws";
 import Snackbar from "@/components/Snackbar";
+
 export default {
   components: {
     Snackbar,
@@ -16,5 +18,8 @@ export default {
       data: null,
     }
   },
+  created() {
+    CustomSocket.start("notification");
+  }
 }
 </script>

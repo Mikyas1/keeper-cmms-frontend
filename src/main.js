@@ -4,7 +4,6 @@ import router from "./resources/router";
 import store from "./resources/store";
 import http from "./resources/http";
 import vuetify from './plugins/vuetify';
-
 Vue.config.productionTip = false;
 
 // eliminate the error rasid by vuetify.
@@ -13,6 +12,7 @@ Vue.config.warnHandler = function (msg, vm, trace) {
   // `trace` is the component hierarchy trace
   { if (msg !== ignoreWarnMessage) { console.error("[Vue warn]: " + msg + trace); } }
 };
+
 
 new Vue({
   router,

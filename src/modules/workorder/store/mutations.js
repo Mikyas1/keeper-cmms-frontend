@@ -1,3 +1,5 @@
+import Vue from "vue";
+
 export default {
     SET_WORKORDER_CHOICE: (state, data) => {
         state.workorder_choice = data;
@@ -15,10 +17,28 @@ export default {
         state.pending_review = data;
     },
     ADD_OPEN_WORKORDERS: (state, data) => {
-        state.open_workorders.unshift(data);
+        let index = state.open_workorders.findIndex(x => x.id == data.id);
+        if (index == -1) {
+            state.open_workorders.unshift(data);
+        }
+    },
+    UPDATE_OPEN_WORKORDERS: (state, data) => {
+        let index = state.open_workorders.findIndex(x => x.id == data.id);
+        if (index !== -1) {
+            Vue.set(state.open_workorders, index, data);
+        }
     },
     REMOVE_OPEN_WORKORDERS: (state, id) => {
         state.open_workorders = state.open_workorders.filter(x => x.id !== id);
+    },
+    ADD_PENDING_REVIEW: (state, data) => {
+        let index = state.pending_review.findIndex(x => x.id == data.id);
+        if (index == -1) {
+            state.pending_review.unshift(data);
+        }
+    },
+    REMOVE_PENDING_REVIEW: (state, id) => {
+        state.pending_review = state.pending_review.filter(x => x.id !== id);
     },
     SET_COMPANIES: (state, data) => {
         state.companies = data;

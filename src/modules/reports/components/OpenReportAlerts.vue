@@ -101,7 +101,11 @@
     <v-dialog v-model="detailDialog" width="750">
       <template v-slot:activator="{}"></template>
       <v-card>
-        <ReportDetailPopUp :item="detailReport" @closeDialog="detailDialog=!detailDialog"></ReportDetailPopUp>
+        <ReportDetailPopUp
+          :id="report_id" 
+          @closeDialog="detailDialog=!detailDialog"
+          @detail_ready="set_detail_ready"          
+        ></ReportDetailPopUp>
       </v-card>
     </v-dialog>
 
@@ -131,10 +135,11 @@ export default {
       show: false,
 
       detailDialog: false,
-      detailReport: null,
+      report_id: null,
 
       // moment
-      moment: moment
+      moment: moment,
+      set_detail_ready_func: null,
     };
   },
   computed: {
@@ -150,13 +155,19 @@ export default {
     },
     openReport(report) {
       this.detailDialog = true;
-      this.detailReport = report;
+      if (this.set_detail_ready_func) {
+        this.set_detail_ready_func(report.id);
+      }
+      this.report_id = report.id;
     },
     expand() {
       this.show = !this.show;
     },
     getPrimaryHere() {
       return getPrimary(this);
+    },
+    set_detail_ready(func) {
+      this.set_detail_ready_func = func;
     }
   },
   created() {

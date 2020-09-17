@@ -191,6 +191,12 @@ xxx add final equipment status and condition to workorder model.
 
 xxx fix pm workorders (upcoming calander)
 xxx fix rejecting workorer rescheduling
+
+xxx add schedule time for pm wokrorders
+
+xxx make every time computation on the backend zone aware
+
+xxx add reat time communication
 //
 
 xxx change equipment report to workorder request.
@@ -213,12 +219,16 @@ x approving and rejecting workorder review should be done on the same popup (no 
 
 xxx for printing workorder add total time spent on the workdone. (workorder start time should be first workorder seen time)
 
-Reporting make the table first and make it to sort by employee and equipment at the bottom of the table add rows for total and avarage ((make relavent data.))
+xxx Reporting make the table first and make it to sort by employee and equipment at the bottom of the table add rows for total and avarage ((make relavent data.))
 
-Annual, monthly reports (with divations from last year of month).
+xx Annual, monthly reports (with divations from last year or month).
 
-manager report (simple concise and chowable reports for managers).
+xx manager report (simple concise and chowable reports for managers).
 
 Remember to add somekind of communication (like chat if possible).
 
-add system info in the login page
+x add system info in the login page
+
+
+for tmr
+finish annual and monthly reports

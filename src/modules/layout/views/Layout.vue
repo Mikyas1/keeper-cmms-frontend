@@ -145,7 +145,7 @@ export default {
   },
   created() {
     if (this.enterprise == null) {
-      this.$store.dispatch("enterprise/get_enterprise")
+      this.$store.dispatch("enterprise/get_enterprise");
     }
     var data = document.getElementById("app_info") ? JSON.parse(document.getElementById("app_info").textContent) : null;
     if (data && data.warning) {

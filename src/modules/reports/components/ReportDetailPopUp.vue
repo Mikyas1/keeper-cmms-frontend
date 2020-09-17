@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card>
+    <v-card v-if="pageLoad">
       <v-toolbar color="primary" dark flat>
         <v-toolbar-title>
           <div
@@ -133,7 +133,7 @@
               <v-row v-if="item.breakdown_time" no-gutters>
                 <v-col>BreackDown time:</v-col>
                 <v-col>
-                  <strong class="primary--text">{{ moment(item.breakdown_time).format('MM/DD/YYYY HH:mm:ss') }}</strong>
+                  <strong class="primary--text">{{ moment(item.breakdown_time).fromNow() }}</strong>
                 </v-col>
               </v-row>
               <div class="small-divider"></div>
@@ -380,6 +380,17 @@
       </v-dialog>
     
     </v-card>
+
+    <div class="loading-card" v-if="!pageLoad">
+        <v-main>
+            <v-container class="fill-height" fluid>
+            <v-row justify="center" align="center">
+                <v-progress-circular :size="50" color="primary" indeterminate></v-progress-circular>
+            </v-row>
+            </v-container>
+        </v-main>
+    </div>
+
   </div>
 </template>
 
@@ -409,8 +420,8 @@ export default {
   },
 
   props: {
-    item: {
-      type: Object,
+    id: {
+      type: Number,
       required: true
     }
   },
@@ -426,6 +437,9 @@ export default {
       init_equipment_detail: null,
       get_equipment_detail: null,
       detailDialog: false,
+
+      pageLoad: false,
+      item: null,
     };
   },
   methods: {
@@ -485,12 +499,33 @@ export default {
     },
     setupGetEquipmentDetail(func) {
       this.get_equipment_detail = func;
+    },
+
+    get_report_data(id) {
+      this.pageLoad = false;
+      this.$store
+        .dispatch("reports/get_report_detail", id)
+        .then(response => {
+          this.item = response;
+          this.pageLoad = true;
+        })
+        .catch(() => {
+          this.pageLoad = false;
+        })
     }
+  },
+  created() {
+    this.get_report_data(this.id);
+    this.$emit("detail_ready", this.get_report_data);
   }
 };
 </script>
 
 <style scoped>
+.loading-card {
+    height: 600px;
+}
+
 .small-circle {
   height: 20px;
   border-radius: 50%;

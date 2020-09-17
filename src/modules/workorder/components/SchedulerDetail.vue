@@ -33,6 +33,12 @@
                             </v-row>
                             <div class="small-divider"></div>
 
+                            <v-row no-gutters>
+                                <v-col>Scheduled At:</v-col>
+                                <v-col ><strong class="primary--text">{{scheduler.time}}</strong></v-col>
+                            </v-row>
+                            <div class="small-divider"></div>
+
                             <div v-if="scheduler.scheduler_type == 'IN'">
                                 <v-row no-gutters>
                                     <v-col>Interval:</v-col>

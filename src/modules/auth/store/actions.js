@@ -1,15 +1,26 @@
 // import http from "@/resources/http";
+import apiClient from "@/resources/apiClient";
 import axios from "axios";
 
 export default {
 
     logout: ({ commit }) => {
-        commit("RESET");
-        commit("account/RESET", null, { root: true });
-        commit("reports/RESET", null, { root: true });
-        commit("equipments/RESET", null, { root: true });
-        commit("workorder/RESET", null, { root: true });
-        commit("enterprise/RESET", null, { root: true });
+
+        return new Promise((resolve, reject) => {
+            apiClient.auth.logout()
+            .then(response => {
+                commit("RESET");
+                commit("account/RESET", null, { root: true });
+                commit("reports/RESET", null, { root: true });
+                commit("equipments/RESET", null, { root: true });
+                commit("workorder/RESET", null, { root: true });
+                commit("enterprise/RESET", null, { root: true });
+                resolve( response.data );
+            })
+            .catch(e => {
+                reject(e);
+            })
+        });
     },
 
     login: ({ commit }, data) => {
@@ -20,6 +31,19 @@ export default {
                 commit("SET_TOKEN", response.data.token);
                 commit("SET_USER", response.data.user);
                 resolve( response.data.user );
+            })
+            .catch(e => {
+                reject(e);
+            })
+        });
+    },
+
+    get_notifications: ({commit} ) => {
+        return new Promise((resolve, reject) => {
+            apiClient.workorder.get_notifications()
+            .then(response => {
+                commit("SET_NOTIFICATIONS", response.data);
+                resolve( response.data );
             })
             .catch(e => {
                 reject(e);

@@ -61,8 +61,11 @@ export default new Vuex.Store({
             store.snackbar.multiline = false;
             store.snackbar.timeout = 7000;
             store.snackbar.message = null;
-            store.snackbar.status = null;
+            // store.snackbar.status = null;
         }
     },
-    plugins: [vuexLocalStorage.plugin]
+    plugins: [
+        vuexLocalStorage.plugin,
+        // ws(notification_url, "")
+    ]
 });

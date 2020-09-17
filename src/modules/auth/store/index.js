@@ -9,6 +9,7 @@ export default {
         user: null,
         token: null,
         loggedIn: false,
+        notifications: null,
     },
     getters,
     actions,

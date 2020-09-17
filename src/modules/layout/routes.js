@@ -12,10 +12,11 @@ import Workorder from "../workorder/views/Workorder";
 import Calendar from "../workorder/views/Calendar";
 import ScheduledWorkorder from "../workorder/views/ScheduledWorkorder";
 import SystemReport from "../system_report/views/SystemReport";
-import SummaryReport from "../system_report/views/SummaryReport";
+// import SummaryReport from "../system_report/views/SummaryReport";
 import InventoryReport from "../system_report/views/InventoryReport";
 import WorkorderPrint from "../system_report/views/WorkorderPrint";
-import History from "../system_report/components/History";
+import ManagerialReport from "../system_report/components/ManagerialReport";
+// import History from "../system_report/components/History";
 // import Buildings from "../facility_admin/views/Buildings";
 // import Departments from "../facility_admin/views/Departments";
 // import Locations from "../facility_admin/views/Locations";
@@ -228,28 +229,34 @@ export default [
             }
         ],
     },
-    {
-        path: "/system-report/open-workorders-summary",
-        name: 'open_workorders_summary',
-        component: SummaryReport,
-        beforeEnter: AdministratorRequired,
-    },
+    // {
+    //     path: "/system-report/open-workorders-summary",
+    //     name: 'open_workorders_summary',
+    //     component: SummaryReport,
+    //     beforeEnter: AdministratorRequired,
+    // },
     {
         path: "/system-report/inventory-summary",
         name: 'inventory_summary',
         component: InventoryReport,
         beforeEnter: AdministratorRequired,
     },
-    {
-        path: "/system-report/workorder-history-summary/:start/:end",
-        name: 'workorder_history_summary',
-        component: History,
-        beforeEnter: AdministratorRequired,
-    },
+    // {
+    //     path: "/system-report/workorder-history-summary/:start/:end",
+    //     name: 'workorder_history_summary',
+    //     component: History,
+    //     beforeEnter: AdministratorRequired,
+    // },
     {
         path: "/system-report/workorder/:id",
         name: 'workorder_report',
         component: WorkorderPrint,
+        beforeEnter: AdministratorRequired,
+    },
+    {
+        path: "/system-report/managerial-report/:year/:month",
+        name: 'managerial_report',
+        component: ManagerialReport,
         beforeEnter: AdministratorRequired,
     },
 

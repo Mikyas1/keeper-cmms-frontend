@@ -1,3 +1,5 @@
+var moment = require('moment');
+
 const getColor = function(val) {
   if (val) {
     if (val === "GR") {
@@ -81,26 +83,29 @@ const getEmployeeName = function(val) {
 }
 
 // a function to substract 3 hours from selected time.
-/**
- * 
- * USED A GODDAMN MOMENT TO DO THIS SHIT
- * 
- */
-// try to find a better solution.
 const prepareTime = function(date, time) {
-  var houre = Number(time.slice(0,-3)) - 3;
-  if (houre < 0) {
-    houre = 24 + houre;
-    var day = Number(date.substring(8,10)) - 1;
-    if (day < 1) {
-      // 3 Houre error is better than day error.
-      return String(date) + ' ' + String(time);
-    }
-    var new_date = date.substring(8,0) + day;
-  }
-  var new_time = String(houre) + ':' + String(time.substring(3,5));
+  var momtime = moment(date + ' ' + time, "YYYY-MM-DD hh:mm")
+  return momtime.format();
+}
 
-  return (new_date ? new_date : date) + ' ' + new_time;
+const openWindowWithPost = function(url, data) {
+  var form = document.createElement("form");
+  form.target = "_blank";
+  form.method = "POST";
+  form.action = url;
+  form.style.display = "none";
+
+  for (var key in data) {
+    var input = document.createElement("input");
+    input.type = "hidden";
+    input.name = key;
+    input.value = data[key];
+    form.appendChild(input);
+  }
+
+  document.body.appendChild(form);
+  form.submit();
+  document.body.removeChild(form);
 }
 
 export { getColor, 
@@ -110,4 +115,5 @@ export { getColor,
         getPrimary, 
         getEmployeeName, 
         prepareTime,
+        openWindowWithPost,
       };

@@ -28,7 +28,7 @@
           <v-icon>fa-calendar-check-o</v-icon>
         </v-list-item-action>
         <v-list-item-content>
-          <v-list-item-title>Scheduled Work-orders</v-list-item-title>
+          <v-list-item-title>Scheduled Work Orders</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
 
@@ -37,7 +37,7 @@
           <v-icon>fa-bell-o</v-icon>
         </v-list-item-action>
         <v-list-item-content>
-          <v-list-item-title>Work-order Requests</v-list-item-title>
+          <v-list-item-title>Work Order Requests</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
       

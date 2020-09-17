@@ -78,7 +78,6 @@
                                             </v-date-picker>
                                             <v-time-picker 
                                                 v-model="status_changed_since_time"
-                                                format="24hr"
                                                 flat
                                                 scrollable
                                             ></v-time-picker>

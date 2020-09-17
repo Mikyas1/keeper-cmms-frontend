@@ -35,139 +35,223 @@
                         
                         <div class="mt-4" v-else>
                         
-                            <v-layout v-if="selected_type.id == 'OT'" row wrap>
-                                <v-flex>
-                                    <h2 class="mb-2">
-                                        <v-icon class="mb-1 mr-2">
-                                            fa-cogs
-                                        </v-icon> One Time Scheduler
-                                    </h2>
+                            <div v-if="selected_type.id == 'OT'">
+                                <v-layout row>
+                                    <v-flex sm12>
 
-                                    <v-menu
-                                        ref="menu_one_time_day"
-                                        v-model="menu_one_time_day"
-                                        :close-on-content-click="false"
-                                        :return-value.sync="one_time_day"
-                                        transition="scale-transition"
-                                        offset-y
-                                        min-width="290px"
-                                        >
-                                        <template v-slot:activator="{ on }">
-                                            <v-text-field
-                                            v-model="one_time_day"
-                                            label="* One Time Date"
-                                            class="month-day-selector"
-                                            prepend-icon="fa-calendar-check-o"
-                                            readonly
-                                            v-on="on"
-                                            :error-messages="errors_one_time_day"
-                                            ></v-text-field>
-                                        </template>
-                                        <v-date-picker v-model="one_time_day" no-title scrollable>
-                                            <v-spacer></v-spacer>
-                                            <v-btn text color="primary" @click="menu_one_time_day = false">Cancel</v-btn>
-                                            <v-btn text color="primary" @click="$refs.menu_one_time_day.save(one_time_day)">OK</v-btn>
-                                        </v-date-picker>
-                                    </v-menu>
+                                        <h2 class="mb-2">
+                                            <v-icon class="mb-1 mr-2">
+                                                fa-cogs
+                                            </v-icon> One Time Scheduler
+                                        </h2>
 
-                                </v-flex>
-                            </v-layout>
-                        
-                            <v-layout v-if="selected_type.id == 'DY'" row wrap>
-                                <v-flex>
-                                    <h2 class="mb-2">
-                                        <v-icon class="mb-1 mr-2">
-                                            fa-cogs
-                                        </v-icon> Daily Scheduler
-                                    </h2>
-                                    <p class="ml-2">
-                                        <v-icon color="blue" small>fa fa-info</v-icon>
-                                        Schedule daily starting from the start date to end data (if provided).
-                                    </p>
-                                </v-flex>
-                            </v-layout>
-                        
-                            <v-layout v-if="selected_type.id == 'WK'" row wrap>
-                                <v-flex>
-                                    <h2 class="mb-2">
-                                        <v-icon class="mb-1 mr-2">
-                                            fa-cogs
-                                        </v-icon> Weekly Scheduler
-                                    </h2>
-                                    <v-select
-                                        prepend-icon="fa-calendar-check-o"
-                                        label="* Day of the week"
-                                        :items="get_week_days"
-                                        class="month-day-selector"
-                                        v-model="day_of_the_week"
-                                        :error-messages="errors_day_of_the_week"
-                                    ></v-select>
-                                </v-flex>
-                            </v-layout>
-                        
-                            <v-layout v-if="selected_type.id == 'MN'" row wrap>
-                                <v-flex>
-                                    <h2 class="mb-2">
-                                        <v-icon class="mb-1 mr-2">
-                                            fa-cogs
-                                        </v-icon> Monthly Scheduler
-                                    </h2>
-                                    <v-select
-                                        prepend-icon="fa-calendar-check-o"
-                                        label="* Day of the month"
-                                        :items="get_month_days"
-                                        class="month-day-selector"
-                                        v-model="day_of_the_month"
-                                        :error-messages="errors_day_of_the_month"
-                                    ></v-select>
-                                </v-flex>
-                            
-                                <v-card class="pa-4 mr-5" flat>
+                                    </v-flex>
+                                    
+                                </v-layout>
 
-                                    <h3 class="primary--text">Select Months</h3>
+                                <v-layout row>
 
-                                    <v-btn
-                                        small
-                                        color="green white--text text-capitalize mt-3 ml-1"
-                                        v-on:click="select_all_months"
-                                    >
-                                            <v-icon small>fa-check-square-o</v-icon>
-                                            <span class="ml-2">All</span>
-                                    </v-btn>
+                                    <v-flex sm6> 
 
-                                    <v-layout row wrap>
-                                        <v-flex sm4 md3
-                                            v-for="month in get_months" 
-                                            :key="month.id"
+                                        <v-menu
+                                            ref="menu_one_time_day"
+                                            v-model="menu_one_time_day"
+                                            :close-on-content-click="false"
+                                            :return-value.sync="one_time_day"
+                                            transition="scale-transition"
+                                            offset-y
+                                            min-width="290px"
                                             >
-                                            <v-checkbox
-                                                v-model="selected_months" 
-                                                :label="month.name" 
-                                                :value="month"
-                                            ></v-checkbox>
-                                        </v-flex>
-                                    </v-layout>
-                                </v-card>
+                                                <template v-slot:activator="{ on }">
+                                                    <v-text-field
+                                                        v-model="one_time_day"
+                                                        label="* One Time Date"
+                                                        class="month-day-selector"
+                                                        prepend-icon="fa-calendar-check-o"
+                                                        readonly
+                                                        v-on="on"
+                                                        :error-messages="errors_one_time_day"
+                                                    ></v-text-field>
+                                                </template>
+                                                <v-date-picker v-model="one_time_day" no-title scrollable>
+                                                    <v-spacer></v-spacer>
+                                                    <v-btn text color="primary" @click="menu_one_time_day = false">Cancel</v-btn>
+                                                    <v-btn text color="primary" @click="$refs.menu_one_time_day.save(one_time_day)">OK</v-btn>
+                                                </v-date-picker>
+                                        </v-menu>
 
-                            </v-layout>
+                                    </v-flex>
+                                    <v-flex sm6>
+                                        <TimePicker
+                                            title="Scheduler Time"
+                                            :errors="at_time_error"
+                                            @updated="acceptTime"
+                                            @created="setUpTimePicker"
+                                        >
+                                        </TimePicker>
+                                    </v-flex>
+
+                                </v-layout>
+                            </div>
                         
-                            <v-layout v-if="selected_type.id == 'IN'" row wrap>
-                                <v-flex>
-                                    <h2 class="mb-2">
-                                        <v-icon class="mb-1 mr-2">
-                                            fa-cogs
-                                        </v-icon> Interval Scheduler
-                                    </h2>
-                                    <v-text-field
-                                        label="* Day Interval"
-                                        prepend-icon="fa-cogs"
-                                        type="number"
-                                        class="month-day-selector"
-                                        v-model="interval"
-                                        :error-messages="errors_interval"
-                                    />
-                                </v-flex>
-                            </v-layout>
+                            <div v-if="selected_type.id == 'DY'">
+                                <v-layout row>
+                                    <v-flex>
+                                        <h2 class="mb-2">
+                                            <v-icon class="mb-1 mr-2">
+                                                fa-cogs
+                                            </v-icon> Daily Scheduler
+                                        </h2>
+                                        <p class="ml-2">
+                                            <v-icon color="blue" small>fa fa-info</v-icon>
+                                            Schedule daily starting from the start date to end data (if provided).
+                                        </p>
+                                    </v-flex>
+                                </v-layout>
+                                <v-layout row>
+
+                                    <v-flex sm6>
+                                        <TimePicker
+                                            title="Scheduler Time"
+                                            :errors="at_time_error"
+                                            @updated="acceptTime"
+                                            @created="setUpTimePicker"
+                                        >
+                                        </TimePicker>
+                                    </v-flex>
+
+                                </v-layout>
+                            </div>
+                        
+                            <div v-if="selected_type.id == 'WK'">
+                                <v-layout row>
+                                    <v-flex>
+                                        <h2 class="mb-2">
+                                            <v-icon class="mb-1 mr-2">
+                                                fa-cogs
+                                            </v-icon> Weekly Scheduler
+                                        </h2>
+                                    </v-flex>
+                                </v-layout>
+                                <v-layout row>
+                                    <v-flex sm6>
+                                        <v-select
+                                            prepend-icon="fa-calendar-check-o"
+                                            label="* Day of the week"
+                                            :items="get_week_days"
+                                            class="month-day-selector"
+                                            v-model="day_of_the_week"
+                                            :error-messages="errors_day_of_the_week"
+                                        ></v-select>
+                                    </v-flex>
+                                    <v-flex sm6>
+                                        <TimePicker
+                                            title="Scheduler Time"
+                                            :errors="at_time_error"
+                                            @updated="acceptTime"
+                                            @created="setUpTimePicker"
+                                        >
+                                        </TimePicker>
+                                    </v-flex>
+                                </v-layout>
+                            </div>
+                        
+                            <div v-if="selected_type.id == 'MN'">
+                                <v-layout row>
+                                    <v-flex>
+                                        <h2 class="mb-2">
+                                            <v-icon class="mb-1 mr-2">
+                                                fa-cogs
+                                            </v-icon> Monthly Scheduler
+                                        </h2>
+                                    </v-flex>
+                                </v-layout>
+                                <v-layout row>
+                                    <v-flex sm6>
+                                        <v-select
+                                            prepend-icon="fa-calendar-check-o"
+                                            label="* Day of the month"
+                                            :items="get_month_days"
+                                            class="month-day-selector"
+                                            v-model="day_of_the_month"
+                                            :error-messages="errors_day_of_the_month"
+                                        ></v-select>
+                                    </v-flex>
+                                    <v-flex sm6>
+                                        <TimePicker
+                                            title="Scheduler Time"
+                                            :errors="at_time_error"
+                                            @updated="acceptTime"
+                                            @created="setUpTimePicker"
+                                        >
+                                        </TimePicker>
+                                    </v-flex>
+                                </v-layout>
+
+                                <v-layout row>
+                                
+                                    <v-card class="pa-4 mr-5" flat>
+
+                                        <h3 class="primary--text">Select Months</h3>
+
+                                        <v-btn
+                                            small
+                                            color="green white--text text-capitalize mt-3 ml-1"
+                                            v-on:click="select_all_months"
+                                        >
+                                                <v-icon small>fa-check-square-o</v-icon>
+                                                <span class="ml-2">All</span>
+                                        </v-btn>
+
+                                        <v-layout row wrap>
+                                            <v-flex sm4 md3
+                                                v-for="month in get_months" 
+                                                :key="month.id"
+                                                >
+                                                <v-checkbox
+                                                    v-model="selected_months" 
+                                                    :label="month.name" 
+                                                    :value="month"
+                                                ></v-checkbox>
+                                            </v-flex>
+                                        </v-layout>
+                                    </v-card>
+
+                                </v-layout>
+                            </div>
+                        
+                            <div v-if="selected_type.id == 'IN'">
+                                <v-layout row>
+                                    <v-flex>
+                                        <h2 class="mb-2">
+                                            <v-icon class="mb-1 mr-2">
+                                                fa-cogs
+                                            </v-icon> Interval Scheduler
+                                        </h2>
+                                    </v-flex>
+                                </v-layout>
+                                <v-layout row>
+                                    <v-flex sm6>
+                                        <v-text-field
+                                            label="* Day Interval"
+                                            prepend-icon="fa-cogs"
+                                            type="number"
+                                            class="month-day-selector"
+                                            v-model="interval"
+                                            :error-messages="errors_interval"
+                                        />
+                                    </v-flex>
+                                    <v-flex sm6>
+                                            <TimePicker
+                                                title="Scheduler Time"
+                                                :errors="at_time_error"
+                                                @updated="acceptTime"
+                                                @created="setUpTimePicker"
+                                            >
+                                            </TimePicker>
+                                        </v-flex>
+                                </v-layout>
+                            </div>
                         
                         </div>
                     </v-flex>
@@ -204,6 +288,7 @@
 </template>
 
 <script>
+import TimePicker from "./TimePicker";
 
 import { scheduler_type } from "@/resources/data";
 import { month_days } from "@/resources/data";
@@ -214,6 +299,10 @@ import { getPrimary } from "@/resources/helper";
 
 export default {
     name: 'Scheduler',
+
+    components: {
+        TimePicker,
+    },
 
     computed: {
         get_scheduler_type() {
@@ -242,10 +331,15 @@ export default {
             day_of_the_week: null,
             interval: null,
 
+            at_time: null,
+
             errors_one_time_day: null,
             errors_day_of_the_month: null,
             errors_day_of_the_week: null,
             errors_interval: null,
+            at_time_error: null,
+
+            time_picker_reset_func: null,
         }
     },
 
@@ -262,11 +356,17 @@ export default {
             this.one_time_day = null;
             this.day_of_the_week = null;
             this.interval = null;
+            this.at_time = null;
 
             this.errors_day_of_the_month = null;
             this.errors_one_time_day = null;
             this.errors_day_of_the_week = null;
             this.errors_interval = null;
+            this.at_time_error = null;
+
+            if (this.time_picker_reset_func != null) {
+                this.time_picker_reset_func();
+            }
         },
         
         select_all_months() {
@@ -282,6 +382,15 @@ export default {
         },
 
         add_scheduler() {
+            if (this.at_time == null) {
+                this.$store.commit("SET_SNACKBAR", {
+                    message: "Select Scheduler Time.",
+                    value: true,
+                    status: "error"
+                });
+                this.at_time_error = "Select Scheduler Time.";
+                return;
+            }
             if (this.selected_type.id === 'MN') {
                 this.schedule_monthly();
                 return;
@@ -339,6 +448,7 @@ export default {
                                             month: this.selected_months, 
                                             day_of_the_month: this.day_of_the_month,
                                             scheduler_type: this.selected_type,
+                                            scheduled_time: this.at_time,
                                         });
             this.close();
         },
@@ -359,6 +469,7 @@ export default {
             this.$emit('add_scheduler', {name: name,
                                             one_time_date: this.one_time_day,
                                             scheduler_type: this.selected_type,
+                                            scheduled_time: this.at_time,
                                         });
             this.close();
         },
@@ -367,6 +478,7 @@ export default {
             var name = 'Every Day'
             this.$emit('add_scheduler', {name: name,
                                             scheduler_type: this.selected_type,
+                                            scheduled_time: this.at_time,
                                         });
             this.close();
         },
@@ -386,6 +498,7 @@ export default {
             this.$emit('add_scheduler', {name: name,
                                             week_day: this.day_of_the_week,
                                             scheduler_type: this.selected_type,
+                                            scheduled_time: this.at_time,
                                         });
             this.close();
         },
@@ -405,12 +518,22 @@ export default {
             this.$emit('add_scheduler', {name: name,
                                             interval: this.interval,
                                             scheduler_type: this.selected_type,
+                                            scheduled_time: this.at_time,
                                         });
             this.close();
         },
 
         getPrimaryHere() {
             return getPrimary(this);
+        },
+
+        acceptTime(val) {
+            this.at_time = val;
+            this.at_time_error = null;
+        },
+
+        setUpTimePicker(func) {
+            this.time_picker_reset_func = func;
         }
 
     },
@@ -426,7 +549,7 @@ export default {
 .btns {
   width: 100%;
 }
-.month-day-selector {
+/* .month-day-selector {
     width: 50%;
-}
+} */
 </style>

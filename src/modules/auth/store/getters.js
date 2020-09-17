@@ -2,6 +2,7 @@ export default {
     user: state => state.user,
     loggedIn: state => state.loggedIn,
     token: state => state.token,
+    notifications: state => state.notifications,
     isAdministrator: state => {
         if (state.loggedIn) {
             if (state.user.user_type == 'administrator') {

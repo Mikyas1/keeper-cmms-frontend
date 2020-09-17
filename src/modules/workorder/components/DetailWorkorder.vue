@@ -187,7 +187,7 @@
                             <div class="small-divider"></div>
                             <v-row v-if="workorder.closed" no-gutters>
                                 <v-col>Closed Date:</v-col>
-                                <v-col><strong class="primary--text">{{ workorder.closed_date }}</strong></v-col>
+                                <v-col><strong class="primary--text">{{ moment(workorder.closed_date).format('MM/DD/YYYY HH:mm:ss') }}</strong></v-col>
                             </v-row>
                             <div v-if="workorder.closed" class="small-divider"></div>
                             <v-row no-gutters>
@@ -375,7 +375,7 @@
                                 <v-row v-if="workorder.report.breakdown_time" no-gutters>
                                     <v-col>BreackDown time:</v-col>
                                     <v-col>
-                                    <strong class="primary--text">{{ moment(workorder.report.breakdown_time).format('MM/DD/YYYY HH:mm:ss') }}</strong>
+                                    <strong class="primary--text">{{ moment(workorder.report.breakdown_time).fromNow() }}</strong>
                                     </v-col>
                                 </v-row>
                                 <div class="small-divider"></div>
@@ -440,6 +440,13 @@
                                 <v-row no-gutters>
                                     <v-col>Type:</v-col>
                                     <v-col ><strong class="primary--text">{{ p_sheduler_type[workorder.scheduler.scheduler_type] }}</strong></v-col>
+                                </v-row>
+                                <div class="small-divider"></div>
+
+                                <div class="small-divider"></div>
+                                <v-row no-gutters>
+                                    <v-col>Scheduled At:</v-col>
+                                    <v-col ><strong class="primary--text">{{ workorder.scheduler.time }}</strong></v-col>
                                 </v-row>
                                 <div class="small-divider"></div>
 
@@ -872,6 +879,8 @@ export default {
             review: null,
             review_detail: null,
             open_review: false,
+
+            url: null,
         }
     },
 
@@ -1025,9 +1034,8 @@ export default {
             return month_days.filter(x => val == x.id)[0];
         },
 
-        print() {
-            let routeData = this.$router.resolve({name: 'workorder_report', params: {id: this.workorder.id}});            
-            window.open(routeData.href, '_blank');
+        print() {        
+            window.open(this.url + 'workorder_print&workorder_id=' + this.workorder.id, '_blank');
         }
     },
     
@@ -1035,6 +1043,11 @@ export default {
         this.$emit('detailWorkorderCreated', this.setWorkorder);
         this.setWorkorder(this.workorder_id);
         this.propers_sheduler_type();
+
+        // url for printing page
+        var url = process.env.VUE_APP_API_URL;
+        let routeData = url.substring(0, url.length - 5);
+        this.url = routeData + '/mvc/system-report/?report_type=';
     }
 }
 </script>

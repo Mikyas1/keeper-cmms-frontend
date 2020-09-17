@@ -227,7 +227,7 @@
                         <template v-slot:item.scheduler_type="{ item }">
                             <div >{{ get_scheduler_type(item.scheduler_type)[0].name }}</div>
                         </template>
-
+                        
                     </v-data-table>
 
                     <h1 class="title mb-3 mt-5">TASKS</h1>
@@ -370,6 +370,7 @@ export default {
             scheduler_headers: [
                 { text: "NAME", value: "name" },
                 { text: "SCHEDULER TYPE", value: "scheduler_type" },
+                { text: "Scheduled At", value: "time" },
             ],
             tasks_headers: [
                 { text: "Task Name", value: "name" },

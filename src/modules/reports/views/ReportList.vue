@@ -243,7 +243,11 @@
     <v-dialog v-model="detailDialog" width="750">
       <template v-slot:activator="{}"></template>
       <v-card>
-        <ReportDetailPopUp :item="detailReport" @closeDialog="detailDialog=!detailDialog"></ReportDetailPopUp>
+        <ReportDetailPopUp 
+          :id="report_id" 
+          @closeDialog="detailDialog=!detailDialog"
+          @detail_ready="set_detail_ready"
+        ></ReportDetailPopUp>
       </v-card>
     </v-dialog>
 
@@ -299,7 +303,7 @@ export default {
       previous_btn: false,
 
       detailDialog: false,
-      detailReport: null,
+      report_id: null,
 
       // filters
       filter_btn: false,
@@ -314,7 +318,9 @@ export default {
       ],
 
       // moment
-      moment: moment,   
+      moment: moment,
+
+      set_detail_ready_func: null,
     };
   },
   methods: {
@@ -379,7 +385,11 @@ export default {
     },
     openDetail(item) {
       this.detailDialog = true;
-      this.detailReport = item;
+      if (this.set_detail_ready_func) {
+        this.set_detail_ready_func(item.id);
+      }
+      this.report_id = item.id;
+
     },
     getColorHere(val) {
       return getColor(val);
@@ -451,6 +461,9 @@ export default {
     },
     getPrimaryHere() {
       return getPrimary(this);
+    },
+    set_detail_ready(func) {
+      this.set_detail_ready_func = func;
     }
   },
   computed: {

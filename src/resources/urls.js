@@ -1,4 +1,7 @@
 const urls = {
+    // auth
+    logout: 'account/logout',
+    
     // account app (django) provided apis
     user_registration_data: 'account/user-registration-data',
     update_profile: 'account/update-profile',
@@ -28,6 +31,7 @@ const urls = {
 
     // report apis
     get_reports: 'reports/reports/',
+    report_detail: 'reports/report-detail/',
     search_reports: 'reports/reports/?search=',
     report_equipment: 'reports/create-reports',
     ignore_report: 'reports/ignore-report/',
@@ -59,12 +63,14 @@ const urls = {
     workorder_review_detail: 'workorder/workorder-review-detail/',
     approve_workorder_review: 'workorder/approve-workorder-review',
     reject_workorder_review: "workorder/reject-workorder-review",
+    get_notifications: "workorder/notifications",
 
     // system report
     report_current_workorders: 'system-report/report-current-workorders',
     report_workorder_history: 'system-report/report-workorder-history',
     get_parts: '/system-report/report-inventory',
     report_workorder: '/system-report/report-workorder/',
+    monthly_and_annualy_report: '/system-report/monthly-and-annualy-report',
 
     // facility admin
     get_buildings: '/enterprise/building/',

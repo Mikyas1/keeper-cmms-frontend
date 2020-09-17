@@ -210,7 +210,7 @@ export default {
             ],
 
             // moment
-            moment: moment, 
+            moment: moment,
 
             detailDialog: false,
             detailDialogWorkorder: null,
