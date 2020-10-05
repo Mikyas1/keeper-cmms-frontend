@@ -208,11 +208,14 @@
                     :mobile-breakpoint="0"
                 >
 
+                        <template v-slot:item.used_returned="{ item }">
+                            <span>{{ item.used_returned ? 'YES' : 'NO' }}</span>
+                        </template>
+
                 </v-data-table>
 
 
             <div class="divider"></div>
-
 
             </v-container>
             </v-card-text>
@@ -286,11 +289,11 @@ export default {
             ],
 
             part_headers: [
-                { text: "Part", value: "part.name" },
-                { text: "Part Number", value: "part.part_number" },
-                { text: "Quantity On Hand", value: "part.quantity_on_hand" },
+                { text: "Part", value: "part_storage.part.name" },
+                { text: "Quantity On Hand", value: "part_storage.quantity_on_hand" },
                 { text: "Quantity Used", value: "quantity_used" },
-                { text: "Price", value: "part.price" },
+                { text: "Price", value: "part_storage.part.price" },
+                { text: "Old Returned", value: "used_returned" },
             ],
         }
     },
@@ -318,7 +321,7 @@ export default {
         this.$emit('created', this.get_workdone);
         this.get_workdone(this.work_done_id);
         var url = process.env.VUE_APP_API_URL;
-        this.media_url = url.substring(0, url.length - 4);
+        this.media_url = url.substring(0, url.length - 5);
     }
 }
 </script>

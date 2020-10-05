@@ -3,6 +3,7 @@
         <div class="spacer"></div>
         <OpenReportAlerts/>
         <OpenWorkorders v-if="!isSupervisor"/>
+        <OpenPurchaseRequests/>
     </div>    
 </template>
 
@@ -11,6 +12,7 @@ import { mapGetters } from "vuex";
 
 import OpenReportAlerts from '../../reports/components/OpenReportAlerts'
 import OpenWorkorders from '../../workorder/components/OpenWorkorders'
+import OpenPurchaseRequests from '../../facility_admin/components/OpenPurchaseRequests'
 
 export default {
     name: 'RightSide',
@@ -18,6 +20,7 @@ export default {
     components: {
         OpenReportAlerts,
         OpenWorkorders,
+        OpenPurchaseRequests,
     },
 
     computed: {

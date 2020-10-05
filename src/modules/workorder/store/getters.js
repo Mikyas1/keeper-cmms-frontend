@@ -10,5 +10,6 @@ export default {
     },
     pending_review: state => {
         return state.pending_review;
-    }
+    },
+    purchase_request: state => state.purchase_request,
 };

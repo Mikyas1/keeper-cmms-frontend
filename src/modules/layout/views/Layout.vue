@@ -23,6 +23,10 @@
         <v-icon class="mr-1">fa-calendar-check-o</v-icon><span>{{open_pm_workorders.length}}</span>
       </div>
 
+      <div class="ml-5 mt-1" v-if="purchase_request > 0 && $vuetify.breakpoint.smAndUp">
+        <v-icon class="mr-1">fa-shopping-cart</v-icon><span>{{purchase_request}}</span>
+      </div>
+
       <v-spacer />
 
       <router-link v-if="$vuetify.breakpoint.smAndUp" class="mr-3 user-info" router v-bind:to="{'name': 'account_detail'}">
@@ -130,7 +134,8 @@ export default {
         open_workorders: "workorder/open_workorders",
         open_dm_workorders: "workorder/open_dm_workorders",
         open_pm_workorders: "workorder/open_pm_workorders",
-        enterprise: "enterprise/enterprise"
+        enterprise: "enterprise/enterprise",
+        purchase_request: "workorder/purchase_request",
       }),
   },
   methods: {

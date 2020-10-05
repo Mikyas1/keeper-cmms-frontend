@@ -37,6 +37,6 @@ export default {
         }
     },
     canAssignOperator: state => {
-        return state.user.user_type == 'supervisor' || state.user.user_type == 'administrator' ? true : false;
+        return state.user.user_type == 'supervisor';
     }
 };

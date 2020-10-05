@@ -48,26 +48,26 @@
                         <v-flex xs12 md3 class="mb-3">
                             <v-spacer></v-spacer>
                             <v-btn
-                            small
-                            class="mt-5 mr-3"
-                            color="primary white--text text-capitalize"
-                            :disabled="!getBoolean(workorders.previous)"
-                            :loading="previous_btn"
-                            v-on:click="get_workorders_with_url(workorders.previous, 'p')"
-                            >
-                            <v-icon small>fa-caret-left</v-icon>
-                            <span class="ml-1">Previous</span>
+                                small
+                                class="mt-5 mr-3"
+                                color="primary white--text text-capitalize"
+                                :disabled="!getBoolean(workorders.previous)"
+                                :loading="previous_btn"
+                                v-on:click="get_workorders_with_url(workorders.previous, 'p')"
+                                >
+                                <v-icon small>fa-caret-left</v-icon>
+                                <span class="ml-1">Previous</span>
                             </v-btn>
                             <v-btn
-                            small
-                            class="mt-5"
-                            color="primary white--text text-capitalize"
-                            :loading="next_btn"
-                            :disabled="!getBoolean(workorders.next)"
-                            v-on:click="get_workorders_with_url(workorders.next, 'n')"
-                            >
-                            <span class="mr-1">Next</span>
-                            <v-icon small>fa-caret-right</v-icon>
+                                small
+                                class="mt-5"
+                                color="primary white--text text-capitalize"
+                                :loading="next_btn"
+                                :disabled="!getBoolean(workorders.next)"
+                                v-on:click="get_workorders_with_url(workorders.next, 'n')"
+                                >
+                                <span class="mr-1">Next</span>
+                                <v-icon small>fa-caret-right</v-icon>
                             </v-btn>
                         </v-flex>
                         </v-layout>

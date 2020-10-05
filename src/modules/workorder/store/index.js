@@ -9,6 +9,7 @@ export default {
         open_workorders: null,
         pending_review: null,
         companies: null,
+        purchase_request: 0,
     },
     getters,
     actions,

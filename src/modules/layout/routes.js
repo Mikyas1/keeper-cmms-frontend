@@ -21,6 +21,7 @@ import ManagerialReport from "../system_report/components/ManagerialReport";
 // import Departments from "../facility_admin/views/Departments";
 // import Locations from "../facility_admin/views/Locations";
 import Parts from "../facility_admin/views/Parts";
+import PurchaseOrderForm from "../facility_admin/components/PurchaseOrderForm"
 
 // import { NonAuthRequired } from '@/resources/auth';
 import { AuthRequired } from '@/resources/auth';
@@ -309,7 +310,7 @@ export default [
     {
         path: "/parts",
         component: Layout,
-        beforeEnter: AdministratorRequired,
+        beforeEnter: NonRegularUserRequired,
         children: [
             {
                 path: "",
@@ -319,6 +320,13 @@ export default [
                 }
             }
         ],
+    },
+
+    {
+        path: "/parts/purchase-order-form/:id",
+        name: 'purchase_order_form',
+        component: PurchaseOrderForm,
+        beforeEnter: AdministratorRequired,
     },
 
 ];

@@ -5,16 +5,17 @@ import axios from "axios";
 export default {
 
     logout: ({ commit }) => {
+        
+        commit("RESET");
+        commit("account/RESET", null, { root: true });
+        commit("reports/RESET", null, { root: true });
+        commit("equipments/RESET", null, { root: true });
+        commit("workorder/RESET", null, { root: true });
+        commit("enterprise/RESET", null, { root: true });
 
         return new Promise((resolve, reject) => {
             apiClient.auth.logout()
             .then(response => {
-                commit("RESET");
-                commit("account/RESET", null, { root: true });
-                commit("reports/RESET", null, { root: true });
-                commit("equipments/RESET", null, { root: true });
-                commit("workorder/RESET", null, { root: true });
-                commit("enterprise/RESET", null, { root: true });
                 resolve( response.data );
             })
             .catch(e => {
@@ -43,6 +44,7 @@ export default {
             apiClient.workorder.get_notifications()
             .then(response => {
                 commit("SET_NOTIFICATIONS", response.data);
+                // commit("SET_WORKORDER_REQUESTE", response.data.workorder_requests)
                 resolve( response.data );
             })
             .catch(e => {

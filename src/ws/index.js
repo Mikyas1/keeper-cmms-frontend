@@ -21,8 +21,8 @@ class CustomSocket {
     this.create_connection(link);
 
 
-    this.connection.onopen = (e) => {
-      console.log("message", e)
+    this.connection.onopen = () => {
+      console.log("message", this.link)
     };
 
     // return store => {
@@ -70,10 +70,11 @@ class CustomSocket {
     let data_parsed = JSON.parse(data.data);
     if (data_parsed.notification.event){
       
-      // remove workorder-request or report
+      // remove workorder-request or report - fixed
       if (data_parsed.notification.event == "RM" && data_parsed.notification.type == "RQ") {
         let ignored = data_parsed.notification.ignored ? " ignored and " : " approved and ";
         this.store.commit("reports/REMOVE_OPEN_REPORT", data_parsed.notification.id);
+        this.store.commit("auth/REMOVE_WORKORDER_REQUESTE_NOTIFICATION", data_parsed.notification.id)
         this.store.commit("SET_SNACKBAR", {
             message: "Request with id: " + data_parsed.notification.id + " is" + ignored + "closed!",
             value: true,
@@ -81,9 +82,10 @@ class CustomSocket {
           });
       }
 
-      // add workorder-request or report
+      // add workorder-request or report - fixed
       if (data_parsed.notification.event == "AD" && data_parsed.notification.type == "RQ") {
         this.store.commit("reports/ADD_OPEN_REPORTS", data_parsed.notification.report);
+        this.store.commit("auth/ADD_WORKORDER_REQUESTE_NOTIFICATION", data_parsed.notification.report);
         this.store.commit("SET_SNACKBAR", {
             message: "New workorder Request Add!",
             value: true,
@@ -91,7 +93,7 @@ class CustomSocket {
           });
       }
 
-      // add open workorder
+      // add open workorder - fixed
       if (data_parsed.notification.event == "AD" && data_parsed.notification.type == "WO") {
         this.store.commit("workorder/ADD_OPEN_WORKORDERS", data_parsed.notification.workorder);
         this.store.commit("SET_SNACKBAR", {
@@ -101,7 +103,7 @@ class CustomSocket {
           });
       }
 
-      // remove open workorder
+      // remove open workorder - fixed
       if (data_parsed.notification.event == "RM" && data_parsed.notification.type == "WO") {
         this.store.commit("workorder/REMOVE_OPEN_WORKORDERS", data_parsed.notification.id);
         this.store.commit("SET_SNACKBAR", {
@@ -111,7 +113,7 @@ class CustomSocket {
           });
       }
 
-      // update open workorder
+      // update open workorder - fixed
       if (data_parsed.notification.event == "UP" && data_parsed.notification.type == "WO") {
         this.store.commit("workorder/UPDATE_OPEN_WORKORDERS", data_parsed.notification.workorder);
         this.store.commit("SET_SNACKBAR", {
@@ -121,7 +123,7 @@ class CustomSocket {
           });
       }
 
-      // add workorder review
+      // add workorder review - fixed
       if (data_parsed.notification.event == "AD" && data_parsed.notification.type == "WR") {
         this.store.commit("workorder/ADD_PENDING_REVIEW", data_parsed.notification.workorder_review);
         this.store.commit("SET_SNACKBAR", {
@@ -131,7 +133,7 @@ class CustomSocket {
           });
       }
 
-      // remove workorder review
+      // remove workorder review - fixed
       if (data_parsed.notification.event == "RM" && data_parsed.notification.type == "WR") {
         this.store.commit("workorder/REMOVE_PENDING_REVIEW", data_parsed.notification.id);
         this.store.commit("SET_SNACKBAR", {
@@ -140,6 +142,87 @@ class CustomSocket {
             status: "success"
           });
       }
+
+      // add anonymous workorder review - fixed
+      if (data_parsed.notification.event == "A-AD" && data_parsed.notification.type == "WR" && store.getters['auth/loggedIn'] == false) {
+        this.store.commit("auth/ADD_WORKORDER_REVIEW_NOTIFICATION", data_parsed.notification.workorder_review);
+        this.store.commit("SET_SNACKBAR", {
+            message: "New workorder is pending review!",
+            value: true,
+            status: "success"
+          });
+      }
+
+      // remove anonymous workorder review - fixed
+      if (data_parsed.notification.event == "A-RM" && data_parsed.notification.type == "WR" && store.getters['auth/loggedIn'] == false) {
+        this.store.commit("auth/REMOVE_WORKORDER_REVIEW_NOTIFICATION", data_parsed.notification.id);
+        this.store.commit("SET_SNACKBAR", {
+            message: "Workorder review with id: " + data_parsed.notification.id + " is closed!",
+            value: true,
+            status: "success"
+          });
+      }
+
+      // add anonymous not seen workorder - fixed
+      if (data_parsed.notification.event == "A-AD" && data_parsed.notification.type == "NW" && store.getters['auth/loggedIn'] == false) {
+        this.store.commit("auth/ADD_NEW_WORKORDERS_NOTIFICATION", data_parsed.notification.workorder);
+        this.store.commit("SET_SNACKBAR", {
+            message: "New workorder `" + data_parsed.notification.workorder.name + "` Added!",
+            value: true,
+            status: "success"
+          });
+      }
+
+      // remove anonymous not seen workorder - fixed
+      if (data_parsed.notification.event == "A-RM" && data_parsed.notification.type == "NW" && store.getters['auth/loggedIn'] == false) {
+        this.store.commit("auth/REMOVE_NEW_WORKORDERS_NOTIFICATION", data_parsed.notification.id);
+        this.store.commit("SET_SNACKBAR", {
+            message: "Workorder with id: " + data_parsed.notification.id + " is seen!",
+            value: true,
+            status: "success"
+          });
+      }
+
+      // add anonymous overdue workorder - fixed
+      if (data_parsed.notification.event == "A-AD" && data_parsed.notification.type == "OW" && store.getters['auth/loggedIn'] == false) {
+        this.store.commit("auth/ADD_OVERDUE_WORKORDERS_NOTIFICATION", data_parsed.notification.workorder);
+        this.store.commit("SET_SNACKBAR", {
+            message: "Workorder `" + data_parsed.notification.workorder.name + "` is Overdued!",
+            value: true,
+            status: "success"
+          });
+      }
+
+      // remove anonymous overdue workorder - fixed
+      if (data_parsed.notification.event == "A-RM" && data_parsed.notification.type == "OW" && store.getters['auth/loggedIn'] == false) {
+        this.store.commit("auth/REMOVE_OVERDUE_WORKORDERS_NOTIFICATION", data_parsed.notification.id);
+        this.store.commit("SET_SNACKBAR", {
+            message: "Workorder with id: " + data_parsed.notification.id + " is closed!",
+            value: true,
+            status: "success"
+          });
+      }
+
+      // add purchase request
+      if (data_parsed.notification.event == "AD" && data_parsed.notification.type == "PR") {
+        this.store.commit("workorder/ADD_PERCHASE_REQUEST", data_parsed.notification.amount);
+        this.store.commit("SET_SNACKBAR", {
+            message: "Part/Supply '" + data_parsed.notification.part_name + "' Purchase Request Added.",
+            value: true,
+            status: "success"
+          });
+      }
+
+      // remove purchase request
+      if (data_parsed.notification.event == "RM" && data_parsed.notification.type == "PR") {
+        this.store.commit("workorder/SUBSTRUCT_PERCHASE_REQUEST", data_parsed.notification.amount);
+        this.store.commit("SET_SNACKBAR", {
+            message: "Part/Supply '" + data_parsed.notification.part_name + "' Purchase Request Closed.",
+            value: true,
+            status: "success"
+          });
+      }
+
     }
   }
 }

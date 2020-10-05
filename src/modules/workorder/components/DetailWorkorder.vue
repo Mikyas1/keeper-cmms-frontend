@@ -442,8 +442,6 @@
                                     <v-col ><strong class="primary--text">{{ p_sheduler_type[workorder.scheduler.scheduler_type] }}</strong></v-col>
                                 </v-row>
                                 <div class="small-divider"></div>
-
-                                <div class="small-divider"></div>
                                 <v-row no-gutters>
                                     <v-col>Scheduled At:</v-col>
                                     <v-col ><strong class="primary--text">{{ workorder.scheduler.time }}</strong></v-col>

@@ -200,6 +200,10 @@
                     :mobile-breakpoint="0"
                 >
 
+                        <template v-slot:item.used_returned="{ item }">
+                            <span>{{ item.used_returned ? 'YES' : 'NO' }}</span>
+                        </template>
+
                         <!-- action -->
                         <template v-slot:item.part.created="{ item }">
                             <v-btn
@@ -223,7 +227,12 @@
                         class="mb-4 primary white--text text-capitalize"
                      >
                       <v-icon small class="mr-2">fa fa-gears</v-icon>
-                        Add Parts
+                        <span v-if="parts.length == 0">
+                            Add Parts/Supplies
+                        </span>
+                        <span v-else>
+                            Change Parts/Supplies
+                        </span>
                      </v-btn>
 
                 </v-container>
@@ -299,7 +308,7 @@
 
         <!-- Parts dialog -->
         <!-- ADD DIALOG -->
-        <v-dialog v-model="parts_dialog" width="650">
+        <v-dialog v-model="parts_dialog" width="85%">
         <template v-slot:activator="{}"></template>
             <v-card>
                 <Parts
@@ -321,7 +330,7 @@ import { mapGetters } from "vuex";
 import { get_options } from "@/resources/helper";
 import { getPrimary } from "@/resources/helper";
 
-import Parts from "./Parts";
+import Parts from "./ConsumeParts";
 import Resources from "./Resources";
 import Invoice from "./Invoices";
 
@@ -365,11 +374,11 @@ export default {
             invoice_dialog: false,
 
             part_headers: [
-                { text: "Part", value: "part.name" },
-                { text: "Part Number", value: "part.part_number" },
-                { text: "Quantity On Hand", value: "part.quantity_on_hand" },
+                { text: "Part", value: "part_store.part.name" },
+                // { text: "Part Number", value: "part.part_number" },
+                { text: "Quantity On Hand", value: "part_store.quantity_on_hand" },
                 { text: "Quantity Used", value: "quantity_used" },
-                { text: "Price", value: "part.price" },
+                { text: "Price", value: "part_store.part.price" },
                 { text: "Old Returned", value: "used_returned" },
                 { text: "Action", value: "part.created" },
             ],
@@ -557,7 +566,8 @@ export default {
 
         preparePartsUsed(formData, parts) {
             for (var index in parts) {
-                formData.append("parts_used[" + index + "]part", parts[index].part.id);
+                formData.append("parts_used[" + index + "]part", parts[index].part_store.part.id);
+                formData.append("parts_used[" + index + "]part_storage", parts[index].part_store.id);
                 formData.append("parts_used[" + index + "]quantity_used", parts[index].quantity_used);
                 formData.append("parts_used[" + index + "]created_by", this.user.id);
                 formData.append("parts_used[" + index + "]workorder", this.workorder.id);
@@ -640,7 +650,7 @@ export default {
         },
 
         parts_added(data) {
-            this.parts.push(data);
+            this.parts = data;
         },
 
         remove_part(obj) {

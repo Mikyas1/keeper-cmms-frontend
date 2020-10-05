@@ -156,6 +156,7 @@ export default {
             .then(response => {
                 commit("SET_OPEN_WORKORDERS", response.data.workorders);
                 commit("SET_PENDING_REVIEW", response.data.pending_review);
+                commit("SET_PERCHASE_REQUEST", response.data.part_requests);
                 resolve( response.data );
             })
             .catch(e => {

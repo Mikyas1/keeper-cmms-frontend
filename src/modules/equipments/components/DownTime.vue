@@ -31,7 +31,7 @@
             <!-- created -->
             <template v-slot:item.created="{ item }">
                 <div class="c-td-date-time">
-                    <span v-if="item.created">{{ moment(item.created).format('MM/DD/YYYY') }}</span>
+                    <span v-if="item.created" >{{ moment(item.created).format('MM/DD/YYYY HH:mm:ss') }}</span>
                 </div>
             </template>
 

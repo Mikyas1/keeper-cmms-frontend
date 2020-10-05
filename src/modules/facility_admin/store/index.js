@@ -4,7 +4,10 @@ import mutations from "./mutations";
 
 export default {
     namespaced: true,
-    state: {},
+    state: {
+        parts: [],
+        parts_filter: null,
+    },
     getters,
     actions,
     mutations,

@@ -179,14 +179,14 @@
                                     v-model="job_hazard"
                                 ></v-select>
 
-                                <v-select
+                                <v-autocomplete
                                     prepend-icon="fa-user-plus"
                                     label="* Resources"
                                     :items="resources"
                                     v-model="assigned_to"
                                     multiple
                                     :error-messages="assigned_to_errors"
-                                ></v-select>
+                                ></v-autocomplete>
 
                                 <v-select
                                     label="Priority"
@@ -250,7 +250,7 @@
                 <!-- buttons -->
                 <div class="btns" :style="'border-top: 1px solid ' + getPrimaryHere()">
                     <v-layout>
-                        <v-flex md9>
+                        <v-flex md8>
                         </v-flex>
                         <v-flex>
                             <v-btn color="green white--text text-capitalize mb-4 mr-4 mt-4"

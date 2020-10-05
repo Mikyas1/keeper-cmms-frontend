@@ -25,6 +25,7 @@ const urls = {
     assign_operator: 'equipment/assign-operator/',
     remove_operator: 'equipment/remove-operator/',
     equipment_operators: 'equipment/equipment-operators/',
+    get_equipment_models: 'equipment/get-equipment-models',
 
     get_open_reports: 'enterprise/open-reports',
     get_equipment_parts: 'equipment/equipment-parts/',
@@ -73,9 +74,25 @@ const urls = {
     monthly_and_annualy_report: '/system-report/monthly-and-annualy-report',
 
     // facility admin
-    get_buildings: '/enterprise/building/',
-    get_departments: '/enterprise/department/',
-    get_locations: '/enterprise/location/'
+    get_buildings: 'enterprise/building/',
+    get_departments: 'enterprise/department/',
+    get_locations: 'enterprise/location/',
+
+    // facility admin - parts api
+    get_parts_storage: 'parts/part-storage/',
+    get_part_filter: 'parts/part-filter-data',
+    search_parts: 'parts/part-storage/?search=',
+    add_part_category: 'parts/part-category/',
+    get_all_simple_parts: 'parts/get-parts',
+    get_parts_n: 'parts/parts/',
+    add_part_storage: 'parts/create-part-storage/',
+    create_part_purchase_request: 'parts/create-part-purchase-request',
+    get_parts_storage_detail: 'parts/get-part-storage-detail/',
+    get_parts_purchase_request: 'parts/get-parts-purchase-request/',
+    reject_purchase_request: 'parts/reject-purchase-request/',
+    approve_purchase_request: 'parts/approve-purchase-request',
+    get_part_storages: 'parts/get-part-storages',
+    get_purchase_requests: 'parts/get-purchase-requests',
 };
 
 

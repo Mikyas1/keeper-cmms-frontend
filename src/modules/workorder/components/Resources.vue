@@ -14,12 +14,12 @@
                     <v-layout row wrap class="mb-5">
                         <v-flex xs12 md6 class="px-5">
 
-                            <v-select
+                            <v-autocomplete 
                                 label="* Technician"
                                 prepend-icon="fa-male"
                                 :items="resources"
                                 v-model="employee"
-                            ></v-select>
+                            ></v-autocomplete>
 
                             <v-text-field
                                 label="OT1 Hours"

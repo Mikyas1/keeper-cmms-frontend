@@ -196,7 +196,27 @@ xxx add schedule time for pm wokrorders
 
 xxx make every time computation on the backend zone aware
 
-xxx add reat time communication
+xxx add real time communication
+
+xxx add part models
+
+xxx add part list page
+
+xxx add part adding mechanizem
+
+xxx add part detail
+
+edit part storage (aisle, row, bin, part info)
+
+--- for add part storage make min quantity required for parts with alert on low.
+
+xxx fix logout error (continus sending of logout request)
+xxx add resing exception when part is reduced bellow 0.. in the backend 
+
+
+add part purchase request right side notification for admins, restrict non-admins form approving purchases (add real time).
+xxx add reason for purchase part request.
+add record part history (init, add, consumed)
 //
 
 xxx change equipment report to workorder request.
@@ -205,9 +225,9 @@ xxx in approving report quick access to equipment detail page.
 
 xxx on workorder duedate should be with time not date. (this changes many things).
 
-add part management adding updating for the technic head (and also part requesting).
+xxx add part management adding updating for the technic head (and also part requesting).
 
-parts parts parts by that i mean part management should be done properly no negative quantity of parts.
+xxx parts parts parts by that i mean part management should be done properly no negative quantity of parts.
 
 x comment of operetor should be by technician.
 
@@ -227,7 +247,7 @@ xx manager report (simple concise and chowable reports for managers).
 
 Remember to add somekind of communication (like chat if possible).
 
-x add system info in the login page
+xxx add system info in the login page
 
 
 for tmr

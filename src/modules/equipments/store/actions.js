@@ -131,5 +131,18 @@ export default {
             })
         });
     },
+
+    get_equipment_models: ({commit},) => {
+        return new Promise((resolve, reject) => {
+            apiClient.equipment.get_equipment_models()
+            .then(response => {
+                commit("account/GODARK", null, { root: true });                
+                resolve( response.data );
+            })
+            .catch(e => {
+                reject(e);
+            })
+        });
+    },
     
 };

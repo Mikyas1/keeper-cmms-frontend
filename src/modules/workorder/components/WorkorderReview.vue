@@ -145,15 +145,15 @@
                                 <v-col cols="4">Parts Used:</v-col>
                                 <v-col cols="8"><strong class="primary--text">
                                     <span v-for="part in parts" :key="part.id">
-                                        - Name: {{part.part.name}}
+                                        - Name: {{part.part_storage.part.name}}
                                         <br>
-                                        - Code: {{part.part.part_number}}
+                                        - Code: {{part.part_storage.part.code}}
                                         <br>
                                         - Quantity: {{part.quantity_used}}
                                         <br>
                                         - Old Returned: {{part.used_returned ? 'Yes' : 'No'}}
                                         <br>
-                                        - Price: {{part.part.price}} ETB
+                                        - Price: {{part.part_storage.part.price}} ETB
                                         <br>
                                         <br>
                                     </span>

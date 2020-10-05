@@ -140,14 +140,14 @@
                                 v-model="priority"
                             ></v-select>
 
-                            <v-select
+                            <v-autocomplete
                                 prepend-icon="fa-user-plus"
                                 label="* Resources"
                                 multiple
                                 :items="resources"
                                 v-model="assigned_to"
                                 :error-messages="assigned_to_errors"
-                            ></v-select>
+                            ></v-autocomplete>
 
                             <!-- <v-text-field
                                 label="* Days To Complete"

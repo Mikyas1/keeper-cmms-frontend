@@ -98,6 +98,10 @@ export default {
 
         equipment_operators(id) {
             return http.get(urls.equipment_operators + id);
+        },
+
+        get_equipment_models() {
+            return http.get(urls.get_equipment_models);
         }
     },
 
@@ -304,6 +308,70 @@ export default {
 
         get_locations()  {
             return http.get(urls.get_locations);
+        },
+
+        get_parts() {
+            return http.get(urls.get_parts_storage);
+        },
+
+        get_parts_with_url(url) {
+            return http.get(url);
+        },
+
+        get_part_filter() {
+            return http.get(urls.get_part_filter);
+        },
+
+        filter_parts(url) {
+            return http.get(urls.get_parts_storage + url);
+        },
+
+        search_parts(payload) {
+            return http.get(urls.search_parts + payload);
+        },
+
+        add_part_category(payload) {
+            return http.post(urls.add_part_category, payload);
+        },
+
+        get_all_simple_parts() {
+            return http.get(urls.get_all_simple_parts);
+        },
+
+        add_part(payload) {
+            return http.post(urls.get_parts_n, payload);
+        },
+
+        add_storage_part(payload) {
+            return http.post(urls.add_part_storage, payload);
+        },
+
+        get_part_storage(id) {
+            return http.get(urls.get_parts_storage_detail + id);
+        },
+
+        create_part_purchase_request(data) {
+            return http.post(urls.create_part_purchase_request, data);
+        },
+
+        get_parts_purchase_request(id) {
+            return http.get(urls.get_parts_purchase_request + id);
+        },
+
+        reject_purchase_request(id) {
+            return http.get(urls.reject_purchase_request + id);
+        },
+
+        approve_purchase_request(payload) {
+            return http.post(urls.approve_purchase_request, payload);
+        },
+
+        get_part_storages() {
+            return http.get(urls.get_part_storages);
+        },
+
+        get_purchase_requests() {
+            return http.get(urls.get_purchase_requests);
         },
     }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="left-side">
     <v-list dense>
 
       <v-list-item
@@ -59,7 +59,16 @@
         </v-list-item-content>
       </v-list-item>
 
-      <v-list-group v-if="isAdministrator" prepend-icon="fa-check-square-o" :value="false" no-action>
+      <v-list-item class="py-1" v-if="isTechnician || isAdministrator" router v-bind:to="{'name': 'parts'}">
+        <v-list-item-action>
+          <v-icon small>fa-microchip</v-icon>
+        </v-list-item-action>
+        <v-list-item-content>
+          <v-list-item-title>Parts & Supplies</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+
+      <!-- <v-list-group v-if="isAdministrator" prepend-icon="fa-check-square-o" :value="false" no-action>
         <template v-slot:activator>
           <v-list-item-title>Facility Admin</v-list-item-title>
         </template>
@@ -70,7 +79,7 @@
             {{link.text}}
           </v-list-item-title>
         </v-list-item>
-      </v-list-group>
+      </v-list-group> -->
 
     </v-list>
 
@@ -186,7 +195,7 @@ export default {
       {
         url: { name: "parts" },
         icon: "fa-microchip",
-        text: "Parts"
+        text: "Parts & Supplies"
       },
       // {
       //   url: {'name': 'scheduled_workorder'},
@@ -209,4 +218,9 @@ export default {
 </script>
 
 <style scoped>
+.left-side {
+  /* background-color: red !important; */
+  height: 88%;
+  overflow-y: auto;
+}
 </style>
