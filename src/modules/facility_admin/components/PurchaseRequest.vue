@@ -96,7 +96,7 @@
                             class="pr-2"
                         >
                             <v-text-field
-                                label="Amount"
+                                label="* Amount"
                                 prepend-icon="fa-calculator"
                                 type="number"
                                 v-model="amount"
@@ -109,7 +109,7 @@
                             class="mt-5 pl-4"
                         >
                             <span v-if="amount != null">
-                                = {{ amount * part_storage.part.price }} ETB
+                                = {{ round_num(amount * part_storage.part.price) }} ETB
                             </span>
                         </v-col>
                     </v-row>
@@ -215,7 +215,7 @@ export default {
             })
         },
 
-         getPrimaryHere() {
+        getPrimaryHere() {
             return getPrimary(this);
         },
 
@@ -223,7 +223,11 @@ export default {
             this.amount = null;
             this.amount_errors = null;
             this.reason = null;
-        }
+        },
+
+        round_num(val) {
+           return Math.round(val * 100) / 100; 
+        },
     },
     created() {
         this.$emit('ready', this.reset);

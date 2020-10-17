@@ -61,12 +61,12 @@
                 ></v-select>
               </v-flex>
               <v-flex sm5 class="ml-5">
-                <v-select
+                <!-- <v-select
                     label="Month"
                     prepend-icon="fa-calendar"
                     :items="get_months"
                     v-model="month"
-                ></v-select>
+                ></v-select> -->
               </v-flex>
             </v-layout>
             <v-btn v-on:click="generate_managerila_report" class="primary dark ma-4 text-capitalize">Generate</v-btn>

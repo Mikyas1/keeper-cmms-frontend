@@ -146,6 +146,7 @@
                 <!-- {{equipment_models}} -->
 
             </v-card-text>
+           
             <!-- buttons -->
             <div class="btns" :style="'border-top: 1px solid ' + getPrimaryHere()">
                 <v-layout>

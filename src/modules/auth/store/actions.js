@@ -12,6 +12,7 @@ export default {
         commit("equipments/RESET", null, { root: true });
         commit("workorder/RESET", null, { root: true });
         commit("enterprise/RESET", null, { root: true });
+        commit("facility_admin/RESET", null, { root: true });
 
         return new Promise((resolve, reject) => {
             apiClient.auth.logout()

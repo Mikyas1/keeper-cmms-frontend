@@ -319,7 +319,6 @@
                 :purchase_order_id="selected_purchase_request"
                 @close="purchaseRequestDialog = !purchaseRequestDialog"
                 @detailReady="purchase_detail_ready"
-                @reload_deep="reload_page_deep"
                 @reload="reload_page"
             ></PurchaseRequestDetail>
         </v-card>
@@ -425,11 +424,6 @@ export default {
 
         reload_page() {
             this.get_part_storage(this.part_storage_id);
-        },
-
-        reload_page_deep() {
-            this.get_part_storage(this.part_storage_id);
-            this.$emit("reload_page");
         },
 
         open_purchase_form(id) {

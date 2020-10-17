@@ -111,7 +111,7 @@
                         </v-layout>
                     </v-flex>
                     
-                    <v-flex xs2 class="mt-2 ml-5">
+                    <v-flex xs1 class="mt-2 mx-3">
                         <v-btn
                             small
                             class="mt-4 ml-5"
@@ -121,7 +121,7 @@
                         >Go</v-btn>
                     </v-flex>
 
-                    <v-flex xs1 class="mt-5 ml-1" v-if="isAdministrator">
+                    <v-flex xs1 class="mt-5 ml-4" v-if="isAdministrator">
                         <v-btn 
                             depressed 
                             outlined
@@ -133,6 +133,23 @@
                             v-on:click="add_part"
                             >
                             <v-icon>fa fa-plus</v-icon>
+                        </v-btn>
+                    </v-flex>
+
+                    <v-flex xs1 v-else></v-flex>
+
+                    <v-flex xs1 class="mt-5 ml-1" v-if="isTechnician || isAdministrator">
+                        <v-btn 
+                            depressed 
+                            outlined
+                            fab
+                            small
+                            icon 
+                            color="primary"
+                            :class="{'mb-4': $vuetify.breakpoint.smAndDown}"
+                            v-on:click="add_new_part_request"
+                            >
+                            <v-icon>fa fa-shopping-cart</v-icon>
                         </v-btn>
                     </v-flex>
 
@@ -222,7 +239,6 @@
                 <AddStoragePart
                     @close="add_part_dialog = !add_part_dialog"
                     @ready="add_store_part_ready"
-                    @reload_page="reload"
                 ></AddStoragePart>
             </v-card>
         </v-dialog>
@@ -236,9 +252,20 @@
                 :part_storage_id="selected_part_storage_id"
                 @ready="detail_storage_part_ready"
                 @close_detail="detailDialog = !detailDialog"
-                @reload_page="reload"
             ></DetailStoragePart>
         </v-card>
+        </v-dialog>
+
+        <!-- Dynamic dialog -->
+        <!-- ADD NEW PART DIALOG -->
+        <v-dialog v-model="add_new_part_dialog" width="700">
+        <template v-slot:activator="{}"></template>
+            <v-card>
+                <RequestNewPart
+                    @close="add_new_part_dialog = !add_new_part_dialog"
+                    @ready="set_up_request_new_part"
+                ></RequestNewPart>
+            </v-card>
         </v-dialog>
 
     </div>
@@ -249,10 +276,13 @@ import { getPrimary } from "@/resources/helper";
 import { get_complex_options } from "@/resources/helper";
 import { get_filter_query } from "@/resources/helper";
 
+import RequestNewPart from "../components/RequestNewPart";
 import BodyNav from "@/components/BodyNav";
 import DetailStoragePart from "../components/DetailStoragePart";
 import AddStoragePart from "../components/AddStoragePart";
 import { mapGetters } from "vuex";
+
+import { set_parts_reload_fun } from "../store/functions";
 
 export default {
     name: 'PartsPage',
@@ -260,7 +290,8 @@ export default {
     components: {
         BodyNav,
         DetailStoragePart,
-        AddStoragePart
+        AddStoragePart,
+        RequestNewPart,
     },
 
     data() {
@@ -297,6 +328,9 @@ export default {
             detailDialog: false,
             selected_part_storage_id: null,
             detail_storage_part_func: null,
+
+            add_new_part_dialog: false,
+            request_new_part_func: null,
         }
     },
 
@@ -304,6 +338,7 @@ export default {
         ...mapGetters({
             parts_filter: "facility_admin/parts_filter",
             isAdministrator: "auth/isAdministrator",
+            isTechnician: "auth/isTechnician",
         }),
         getQuery() {
             if (this.query === "") {
@@ -446,10 +481,6 @@ export default {
                 });
         },
 
-        reload() {
-            this.get_parts();
-        },
-
         openDetail(item) {
             this.selected_part_storage_id = item.id;
             if(this.detail_storage_part_func) {
@@ -462,10 +493,22 @@ export default {
             this.detail_storage_part_func = func;
         },
 
+        add_new_part_request() {
+            if (this.request_new_part_func) {
+                this.request_new_part_func();
+            }
+            this.add_new_part_dialog = true;
+        },
+
+        set_up_request_new_part(func) {
+            this.request_new_part_func = func;
+        }
+
     },
 
     created() {
         this.get_parts();
+        set_parts_reload_fun(this.get_parts);
     }
     
 }

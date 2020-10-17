@@ -1,4 +1,5 @@
 import apiClient from "@/resources/apiClient";
+import { funs } from "../store/functions";
 
 export default {
     
@@ -154,6 +155,11 @@ export default {
             apiClient.facility_admin.add_storage_part(data)
             .then(response => {
                 commit("account/GODARK", null, { root: true });
+                
+                if (funs.parts_reload_fun) {
+                    funs.parts_reload_fun();
+                }
+                
                 resolve( response.data );
             })
             .catch(e => {
@@ -178,6 +184,19 @@ export default {
     create_part_purchase_request: ({ commit }, data) => {
         return new Promise((resolve, reject) => {
             apiClient.facility_admin.create_part_purchase_request(data)
+            .then(response => {
+                commit("account/GODARK", null, { root: true });
+                resolve( response.data );
+            })
+            .catch(e => {
+                reject(e);
+            })
+        });
+    },
+
+    create_new_part_purchase_request: ({ commit }, data) => {
+        return new Promise((resolve, reject) => {
+            apiClient.facility_admin.create_new_part_purchase_request(data)
             .then(response => {
                 commit("account/GODARK", null, { root: true });
                 resolve( response.data );
@@ -219,6 +238,29 @@ export default {
             apiClient.facility_admin.approve_purchase_request(data)
             .then(response => {
                 commit("account/GODARK", null, { root: true });
+                
+                if (funs.parts_reload_fun) {
+                    funs.parts_reload_fun();
+                }
+
+                resolve( response.data );
+            })
+            .catch(e => {
+                reject(e);
+            })
+        });
+    },
+
+    approve_new_part_purchase_request: ({ commit }, data) => {
+        return new Promise((resolve, reject) => {
+            apiClient.facility_admin.approve_new_part_purchase_request(data)
+            .then(response => {
+                commit("account/GODARK", null, { root: true });
+
+                if (funs.parts_reload_fun) {
+                    funs.parts_reload_fun();
+                }
+                
                 resolve( response.data );
             })
             .catch(e => {

@@ -7,4 +7,8 @@ export default {
             state.parts_filter.part_categories.unshift(data);        
         }
     },
+    RESET: (state) => {
+        state.parts = [];
+        state.parts_filter = null;
+    }
 };

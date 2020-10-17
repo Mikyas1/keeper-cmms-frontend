@@ -28,7 +28,10 @@
                                         {{props.item.id}}
                                     </td>
                                     <td v-on:click="openDetail(props.item)">
-                                        {{ props.item.part_storage.part.name}}
+                                        <span 
+                                            v-if="props.item.part.avaliable == false"
+                                            class="caption red--text c-alert">new</span>
+                                        {{ props.item.part.name}}
                                     </td>
                                     <td v-on:click="openDetail(props.item)">
                                         {{ props.item.created_by.first_name }} - {{props.item.created_by.employee_id}}
@@ -126,7 +129,7 @@ export default {
             let data = [
                 { text: "Stat", value: "closed" },
                 { text: "Id", value: "id" },
-                { text: "PAET/SUPPLY", value: "created_by.first_name" },
+                { text: "PAET/SUPPLY", value: "part.name" },
                 { text: "CREATED BY", value: "created_by.first_name" },
                 { text: "AMOUNT", value: "amount" },
                 { text: "DATE", value: "created" },
@@ -198,5 +201,18 @@ export default {
 .c-content {
     overflow-y: auto;
     height: 55vh;
+}
+
+.c-tr:hover {
+    cursor: pointer;
+}
+
+.c-alert {
+    border: 1px solid red;
+    border-radius: 3px;
+    padding-left: 2px;
+    padding-right: 2px;
+    padding-bottom: 2px;
+    margin-right: 2px;
 }
 </style>

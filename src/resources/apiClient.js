@@ -354,6 +354,10 @@ export default {
             return http.post(urls.create_part_purchase_request, data);
         },
 
+        create_new_part_purchase_request(data) {
+            return http.post(urls.create_new_part_purchase_request, data);
+        },
+
         get_parts_purchase_request(id) {
             return http.get(urls.get_parts_purchase_request + id);
         },
@@ -364,6 +368,10 @@ export default {
 
         approve_purchase_request(payload) {
             return http.post(urls.approve_purchase_request, payload);
+        },
+
+        approve_new_part_purchase_request(payload) {
+            return http.post(urls.approve_new_part_purchase_request, payload);
         },
 
         get_part_storages() {

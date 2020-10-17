@@ -14,9 +14,9 @@
                         <v-flex xs12 md8 class="part-listing" :style="'border: 2px solid ' + getPrimaryHere()">
 
                             <v-layout style="width: 100%">
-                                <v-flex sm7 class="pt-5 pl-5">
+                                <v-flex sm6 class="pt-5 pl-5">
                                     <span>
-                                        <!-- {{part_list.length}} records. -->
+                                        {{part_list.length}} records.
                                     </span>
                                 </v-flex>
                                 <v-flex>
@@ -28,6 +28,20 @@
                                         class="rounded-0 search-field mb-3 pb-3"
                                         hide-details
                                     ></v-text-field>
+                                </v-flex>
+                                <v-flex>
+                                    <v-btn 
+                                        depressed 
+                                        outlined
+                                        fab
+                                        small
+                                        icon 
+                                        color="primary"
+                                        class="mt-3"
+                                        v-on:click="add_new_part_request"
+                                        >
+                                        <v-icon>fa fa-shopping-cart</v-icon>
+                                    </v-btn>
                                 </v-flex>
                             </v-layout>
 
@@ -208,6 +222,19 @@
             ></DetailStoragePart>
         </v-card>
         </v-dialog>
+
+        <!-- Dynamic dialog -->
+        <!-- ADD NEW PART DIALOG -->
+        <v-dialog v-model="add_part_dialog" width="700">
+        <template v-slot:activator="{}"></template>
+            <v-card>
+                <RequestNewPart
+                    @close="add_part_dialog = !add_part_dialog"
+                    :equipment_model = "equipment_model_id"
+                    @ready="set_up_request_new_part"
+                ></RequestNewPart>
+            </v-card>
+        </v-dialog>
         
     </div>
 </template>
@@ -215,6 +242,7 @@
 <script>
 import { getPrimary } from "@/resources/helper";
 import DetailStoragePart from "../../facility_admin/components/DetailStoragePart";
+import RequestNewPart from "../../facility_admin/components/RequestNewPart";
 
 export default {
     name: 'Parts',
@@ -227,6 +255,7 @@ export default {
 
     components: {
         DetailStoragePart,
+        RequestNewPart,
     },
 
     data() {
@@ -251,6 +280,9 @@ export default {
             detail_storage_part_func: null,
 
             rerender: false,
+
+            add_part_dialog: false,
+            request_new_part_func: null,
         }
     },
     computed: {
@@ -415,6 +447,17 @@ export default {
                 item.error_message = null;             
             }
             this.rerender = false;
+        },
+
+        add_new_part_request() {
+            if (this.request_new_part_func) {
+                this.request_new_part_func();
+            }
+            this.add_part_dialog = true;
+        },
+
+        set_up_request_new_part(func) {
+            this.request_new_part_func = func;
         },
 
     },

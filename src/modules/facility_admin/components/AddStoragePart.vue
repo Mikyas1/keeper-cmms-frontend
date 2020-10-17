@@ -82,7 +82,7 @@
                             />
 
                             <v-text-field
-                                label="Colum"
+                                label="Column"
                                 prepend-icon="fa-table"
                                 type="text"
                                 v-model="colum"
@@ -271,7 +271,6 @@ export default {
                 minimum_quantity: this.minimum_quantity,
             })
             .then(() => {
-                this.$emit('reload_page')
                 this.close();
             })
             .catch(error => {

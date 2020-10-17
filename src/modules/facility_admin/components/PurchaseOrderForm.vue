@@ -47,20 +47,20 @@
                             <tr>
                                 <td class="caption c-wide">Part/Supply Name</td>
                                 <td class="caption">
-                                    {{purchase_order.part_storage.part.name}}
+                                    {{purchase_order.part.name}}
                                 </td>
                             </tr>
                             <tr>
                                 <td class="caption c-wide">Part/Supply Category</td>
                                 <td class="caption">
-                                    <span v-if="purchase_order.part_storage.part.part_category">
-                                        {{purchase_order.part_storage.part.part_category.name}}
+                                    <span v-if="purchase_order.part.part_category">
+                                        {{purchase_order.part.part_category.name}}
                                     </span>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="caption c-wide">Part/Supply Model</td>
-                                <td class="caption">{{purchase_order.part_storage.part.model}}</td>
+                                <td class="caption">{{purchase_order.part.model}}</td>
                             </tr>
                             <tr>
                                 <td class="caption c-wide">Amount</td>
@@ -68,11 +68,11 @@
                             </tr>
                             <tr>
                                 <td class="caption c-wide">Estimated Part Price</td>
-                                <td class="caption">{{purchase_order.part_storage.part.price}} ETB</td>
+                                <td class="caption">{{purchase_order.part.price}} ETB</td>
                             </tr>
                             <tr>
                                 <td class="caption c-wide">Estimated Total</td>
-                                <td class="caption">{{purchase_order.amount * purchase_order.part_storage.part.price}} ETB</td>
+                                <td class="caption">{{round_num(purchase_order.amount * purchase_order.part.price)}} ETB</td>
                             </tr>
                             <tr>
                                 <td class="caption c-wide">Requested By</td>
@@ -190,6 +190,10 @@ export default {
                 this.show_btn = true;
                 document.title = "KEEPER ENTERPRISE CMMS DASHBOARD";
             }, 1);
+        },
+
+        round_num(val) {
+           return Math.round(val * 100) / 100; 
         },
     },
 

@@ -252,3 +252,9 @@ xxx add system info in the login page
 
 for tmr
 finish annual and monthly reports
+
+inventor record model
+    user
+    partstorage
+    part
+    date

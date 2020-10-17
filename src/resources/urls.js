@@ -87,10 +87,12 @@ const urls = {
     get_parts_n: 'parts/parts/',
     add_part_storage: 'parts/create-part-storage/',
     create_part_purchase_request: 'parts/create-part-purchase-request',
+    create_new_part_purchase_request: 'parts/create-new-part-purchase-request',
     get_parts_storage_detail: 'parts/get-part-storage-detail/',
     get_parts_purchase_request: 'parts/get-parts-purchase-request/',
     reject_purchase_request: 'parts/reject-purchase-request/',
     approve_purchase_request: 'parts/approve-purchase-request',
+    approve_new_part_purchase_request: 'parts/approve-new-part-purchase-request',
     get_part_storages: 'parts/get-part-storages',
     get_purchase_requests: 'parts/get-purchase-requests',
 };
